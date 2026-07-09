@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo Mode Pro — One Prefab. Every Pipeline. AAA Photo Mode for Unity</title>
+<meta name="description" content="Drop a AAA-style photo mode into your Unity game in 15 minutes — pause, fly, grade, capture. URP, HDRP and Built-in. Gamepad-ready, zero per-frame GC.">
+<meta property="og:title" content="Photo Mode Pro — AAA Photo Mode for Unity">
+<meta property="og:description" content="Pause, fly, grade, capture. URP, HDRP and Built-in from one prefab. Gamepad-ready, zero per-frame GC.">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../"><img src="../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../photo-mode-pro/" aria-current="page">Photo Mode Pro</a></li>
+      <li><a href="../docs/">Docs</a></li>
+      <li><a href="../roadmap/">Roadmap</a></li>
+      <li><a href="../support/">Support</a></li>
+      <li><a href="../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="hero" style="padding-bottom:0">
+  <div class="hero-bg" style="background-image:url('../assets/img/hero-backdrop.webp')"></div>
+  <div class="hero-veil"></div>
+  <div class="wrap center">
+    <p class="eyebrow" style="justify-content:center">Photo Mode Pro · v1.4.0</p>
+    <h1>One prefab. <em>Every pipeline.</em><br>The photo mode your players expect.</h1>
+    <p class="lead" style="margin-inline:auto">Press one button: the game pauses, a free
+    camera takes over, a clean dark UI slides in, and a supersampled PNG lands on disk.
+    Exit, and your game is exactly as you left it.</p>
+    <div class="actions" style="justify-content:center">
+      <a class="btn btn-primary" href="#get" data-store-link>Coming soon to the Asset Store</a>
+      <a class="btn btn-ghost" href="../docs/quick-start/">Quick Start guide</a>
+    </div>
+    <p class="meta-note">Unity 2021.3 LTS → Unity 6 · URP, HDRP &amp; Built-in · Mono &amp; IL2CPP · desktop standalone</p>
+    <figure class="shot reveal" style="margin-top:48px">
+      <div class="frame glow">
+        <img src="../assets/img/shots/ui_overlay.webp" alt="Photo Mode Pro in the demo scene: camera panel with fly/orbit toggle, FOV, roll and speed sliders, capture dock and hotkey hint chips" data-lightbox data-caption="The photo mode UI — every pixel captured from the real product.">
+      </div>
+      <figcaption>Actual in-game capture — the UI you ship, not a mockup.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Why it wins</p>
+      <h2>Press one button. Ship one feature players actually ask for.</h2>
+    </div>
+    <div class="grid grid-3 reveal-stagger">
+      <div class="card hoverable">
+        <h3>A real free camera</h3>
+        <p>Fly and orbit modes, sprint, smoothing, FOV zoom, roll, optional collision
+        and a distance clamp. The AAA control split: sticks always fly the camera,
+        D-pad drives the UI; on desktop, hold RMB to look.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>Grade in real units</h3>
+        <p>Exposure (EV), contrast, saturation, temperature, vignette, film grain and
+        bokeh depth of field with focus distance and a perceptual log f-stop slider.
+        Six presets — add your own as ScriptableObjects.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>Capture done right</h3>
+        <p>1×/2×/4× supersampling, async readback where possible, transparent
+        background for key art, collision-safe file names, capture flash + thumbnail
+        toast, and an <code>OnPhotoCaptured(path, thumbnail)</code> event.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>Your frame rate won't notice</h3>
+        <p>Zero per-frame GC allocations while open — slider drags included — asserted
+        by allocation gates in the test suite that ships in the package. While closed,
+        nothing runs but a toggle poll.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>Exit restores everything, exactly</h3>
+        <p>Time scale, audio, cursor, camera, hidden HUD canvases, hidden player.
+        Renderers are hidden, not GameObjects, so physics never pops. Scene loads
+        auto-close it cleanly. Works with or without an EventSystem.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>Integrated before your coffee cools</h3>
+        <p>The Setup Wizard checks your project with green/yellow/red lights and
+        one-click fixes, then adds the configured prefab to your scene. About two
+        minutes in most projects.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Six looks, one click</p>
+      <h2>Presets players actually use</h2>
+      <p class="lead">Clean, Noir, Vivid, Warm, Cool, Vintage — graded in natural units,
+      applied through your pipeline's own post-processing. Every image below is a real
+      capture from the shipping demo scene.</p>
+    </div>
+    <div data-preset-gallery class="reveal">
+      <div class="preset-tabs" role="tablist" aria-label="Preset looks">
+        <button role="tab" aria-selected="true" data-src="../assets/img/shots/preset_clean.webp">Clean</button>
+        <button role="tab" aria-selected="false" data-src="../assets/img/shots/preset_noir.webp">Noir</button>
+        <button role="tab" aria-selected="false" data-src="../assets/img/shots/preset_vivid.webp">Vivid</button>
+        <button role="tab" aria-selected="false" data-src="../assets/img/shots/preset_warm.webp">Warm</button>
+        <button role="tab" aria-selected="false" data-src="../assets/img/shots/preset_cool.webp">Cool</button>
+        <button role="tab" aria-selected="false" data-src="../assets/img/shots/preset_vintage.webp">Vintage</button>
+      </div>
+      <div class="preset-stage">
+        <img src="../assets/img/shots/preset_clean.webp" alt="Photo Mode Pro preset applied to the demo campfire scene" width="1400" height="787">
+      </div>
+    </div>
+    <div style="margin-top:44px" class="reveal">
+      <h3 style="margin-bottom:14px">Drag to compare — Clean vs. Noir</h3>
+      <div class="compare" data-compare>
+        <img src="../assets/img/shots/preset_clean.webp" alt="Demo scene with the Clean preset">
+        <div class="after"><img src="../assets/img/shots/preset_noir.webp" alt="Demo scene with the Noir preset"></div>
+        <div class="handle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18-6-6 6-6"/><path d="m15 6 6 6-6 6"/></svg></div>
+        <span class="tag left">CLEAN</span>
+        <span class="tag right">NOIR</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="grid grid-2" style="align-items:center;gap:44px">
+      <div class="reveal">
+        <p class="eyebrow">Depth of field</p>
+        <h2>Bokeh with a real f-stop</h2>
+        <p class="lead" style="margin-bottom:18px">Focus distance plus an aperture slider
+        that walks true log stops from f/0.7 to f/16 — equal slider travel, equal stops,
+        like a camera. Because your players' thumbs deserve better than a linear blur
+        knob.</p>
+        <p style="color:var(--muted)">Shot at f/1.4, focused on the adventurer. The
+        depth of field runs through your pipeline's own DoF — URP, HDRP or PPv2 — so it
+        matches the rest of your game.</p>
+      </div>
+      <figure class="shot reveal">
+        <div class="frame">
+          <img src="../assets/img/shots/dof_bokeh.webp" alt="Close-up of the demo adventurer with creamy background bokeh at f/1.4" data-lightbox data-caption="Depth of field at f/1.4 — real capture." loading="lazy">
+        </div>
+      </figure>
+    </div>
+    <div class="grid grid-2" style="align-items:center;gap:44px;margin-top:72px">
+      <figure class="shot reveal" style="order:0">
+        <div class="frame checkerboard">
+          <img src="../assets/img/shots/cutout_transparent.webp" alt="Transparent-background capture of the adventurer character shown over a checkerboard" data-lightbox data-caption="Transparent capture — alpha straight out of the photo mode." loading="lazy">
+        </div>
+      </figure>
+      <div class="reveal">
+        <p class="eyebrow">Transparent capture</p>
+        <h2>Your photo mode is also your key-art rig</h2>
+        <p class="lead" style="margin-bottom:18px">Flip one toggle and captures come out
+        with a clean alpha channel — characters and props cut straight out of the world,
+        ready for store capsules, thumbnails and marketing.</p>
+        <p style="color:var(--muted)">The checkerboard you see is this website; the
+        transparency is the PNG. Supported on URP and Built-in; HDRP hides the toggle
+        (it can't produce clean alpha without changing your HDRP asset — and we'd rather
+        tell you that here than in your bug tracker).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">No dead sliders</p>
+      <h2>The honest matrix</h2>
+      <p class="lead">One prefab, three pipelines, and a published capability matrix that
+      includes what each pipeline <strong>can't</strong> do. Controls a pipeline can't
+      honor hide themselves — players never see a dead slider, and
+      <code>PhotoModeController.ActiveCapabilities</code> reports it to your code.</p>
+    </div>
+    <div class="table-scroll reveal">
+      <table class="matrix">
+        <thead>
+          <tr><th>Effect</th><th>URP</th><th>HDRP</th><th>Built-in (PPv2)</th><th>Built-in (fallback)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Exposure</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td></tr>
+          <tr><td>Contrast</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td></tr>
+          <tr><td>Saturation</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td></tr>
+          <tr><td>Temperature</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td><td class="n">—</td></tr>
+          <tr><td>Vignette</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td></tr>
+          <tr><td>Film grain</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td><td class="n">—</td></tr>
+          <tr><td>Depth of field</td><td class="y">✔</td><td class="y">✔</td><td class="y">✔</td><td class="n">—</td></tr>
+          <tr><td>Transparent capture</td><td class="y">✔</td><td class="n">—</td><td class="y">✔</td><td class="y">✔</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--muted-2);font-size:.88rem;margin-top:12px">Details and per-version notes in the
+    <a href="../docs/pipelines/">per-pipeline documentation</a>.</p>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Gallery</p>
+      <h2>Straight out of the demo scene</h2>
+      <p class="lead">Every shot below was captured through Photo Mode Pro's own capture
+      pipeline — supersampled, graded in-product, saved as PNG. Click to enlarge.</p>
+    </div>
+    <div class="grid grid-2 reveal-stagger">
+      <figure class="shot"><div class="frame"><img src="../assets/img/shots/hero_vista.webp" alt="Golden-hour campfire clearing in the demo forest" data-lightbox data-caption="Demo scene, Clean — the forest clearing at golden hour." loading="lazy"></div></figure>
+      <figure class="shot"><div class="frame"><img src="../assets/img/shots/cinematic_grade.webp" alt="Warm cinematic grade with vignette and film grain over the campfire" data-lightbox data-caption="Custom grade: EV −0.3, contrast +25, temperature +35, vignette, grain." loading="lazy"></div></figure>
+      <figure class="shot"><div class="frame"><img src="../assets/img/shots/low_angle_forest.webp" alt="Low-angle shot of the adventurer against the sky" data-lightbox data-caption="Low-angle framing with the free camera — no collision complaints." loading="lazy"></div></figure>
+      <figure class="shot"><div class="frame"><img src="../assets/img/shots/preset_vintage.webp" alt="Vintage preset over the campfire scene" data-lightbox data-caption="Vintage preset — one click." loading="lazy"></div></figure>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:44px">
+      <div>
+        <p class="eyebrow">Engineering</p>
+        <h2>Built like a system,<br>not a script</h2>
+        <ul style="list-style:none;display:grid;gap:14px;margin-top:22px">
+          <li class="card" style="padding:16px 20px"><strong>Zero per-frame GC</strong><span style="color:var(--muted)"> while open and idle, and while dragging sliders — enforced by allocation gates in the shipped test suite.</span></li>
+          <li class="card" style="padding:16px 20px"><strong>Exact state restoration</strong><span style="color:var(--muted)"> of time scale, audio, cursor and camera; auto-close on scene loads.</span></li>
+          <li class="card" style="padding:16px 20px"><strong>Plays nice</strong><span style="color:var(--muted)"> with Cinemachine and URP camera stacking — it never moves your gameplay camera; it spawns its own.</span></li>
+          <li class="card" style="padding:16px 20px"><strong>IL2CPP + high stripping verified</strong><span style="color:var(--muted)"> on Unity 2021.3, 2022.3 and Unity 6.</span></li>
+          <li class="card" style="padding:16px 20px"><strong>Both input systems</strong><span style="color:var(--muted)"> — new Input System, legacy Input Manager, or Both. Hint chips update when you remap.</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Integration</p>
+        <h2>Three lines, or none</h2>
+        <p class="lead" style="margin:14px 0 18px">Drop the prefab and you're done — or
+        script it. The public API is small, XML-documented and stable.</p>
+        <pre><code>using PhotoModePro;
+
+// Open and close from your pause menu:
+PhotoModeController.Instance.EnterPhotoMode();
+PhotoModeController.Instance.ExitPhotoMode();
+
+// Ship photos to your share sheet / gallery:
+PhotoModeController.Instance.OnPhotoCaptured += (path, thumb) =>
+{
+    ShareSheet.Open(path, thumb);
+};</code></pre>
+        <p style="color:var(--muted)">More in <a href="../docs/events-and-api/">Events &amp;
+        Scripting</a> — events, UnityEvent mirrors, capability checks, pause-menu
+        patterns.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Due diligence</p>
+      <h2>Questions a careful buyer asks</h2>
+    </div>
+    <details class="qa">
+      <summary>Will it work with my render pipeline?</summary>
+      <div class="qa-body"><p>URP (12+), HDRP (12+) and Built-in are all supported from the
+      same prefab. The backend is detected at runtime; on Built-in you get the full set
+      with Post Processing Stack v2 installed, or a fallback
+      (exposure/contrast/saturation/vignette) without it. The matrix above is the
+      complete, honest picture.</p></div>
+    </details>
+    <details class="qa">
+      <summary>Will it fight my input setup or Cinemachine?</summary>
+      <div class="qa-body"><p>Both the new Input System and the legacy Input Manager are
+      supported (and Active Input Handling = Both). It plays nice with Cinemachine and
+      URP camera stacking, and it never moves your gameplay camera: it spawns its own
+      and restores the view exactly on exit.</p></div>
+    </details>
+    <details class="qa">
+      <summary>Is it safe to add this late in production?</summary>
+      <div class="qa-body"><p>That's the design brief. Zero per-frame GC while open, nothing
+      but a toggle poll while closed, exact state restoration, auto-close on scene loads,
+      and an EditMode + PlayMode test suite ships in the package so you can verify in
+      <em>your</em> project. IL2CPP with high managed stripping is verified.</p></div>
+    </details>
+    <details class="qa">
+      <summary>What platforms are supported?</summary>
+      <div class="qa-body"><p>Windows, macOS and Linux standalone (Mono + IL2CPP), Unity
+      2021.3 LTS through Unity 6. WebGL capture-to-disk is not supported; mobile touch UI
+      and consoles are untested and not claimed. We'd rather you know now.</p></div>
+    </details>
+    <details class="qa">
+      <summary>Can players use it with a gamepad only?</summary>
+      <div class="qa-body"><p>Yes, fully. Sticks fly the camera, D-pad navigates the UI,
+      focus rings and auto-scroll keep the selection visible, and hint chips show the
+      real bindings (they update if you remap keys).</p></div>
+    </details>
+    <details class="qa">
+      <summary>Can I reskin the UI to match my game?</summary>
+      <div class="qa-body"><p>Colors, font, sprites, motion and UI sounds all live on a
+      single theme asset. The panel is standard UGUI underneath. See
+      <a href="../docs/theming/">Theming the UI</a>.</p></div>
+    </details>
+    <details class="qa">
+      <summary>What's in the demo scene, and can I delete it?</summary>
+      <div class="qa-body"><p>A forest clearing at golden hour with a playable adventurer,
+      campfire and wandering critters — all CC0 art (Quaternius, Kenney, Poly Haven,
+      ambientCG, OpenGameArt) with full attributions shipped in the package. The Demo
+      folder is safe to delete; the product is the photo mode system.</p></div>
+    </details>
+  </div>
+</section>
+
+<section class="tight" id="get">
+  <div class="wrap">
+    <div class="card" style="padding:44px;text-align:center;background:linear-gradient(120deg,var(--bg-2),var(--bg-1));border-color:var(--cyan-line)">
+      <span class="badge badge-orange" style="margin-bottom:16px">Coming soon</span>
+      <h2 style="margin-bottom:10px">Photo Mode Pro is on its way to the Asset Store</h2>
+      <p class="lead" style="margin:0 auto 26px">The package is submitted and in review.
+      Leave your email and you'll get exactly two messages: launch day, and the day the
+      launch discount ends.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-orange" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20Photo%20Mode%20Pro%20launch&amp;body=Hi%20Dan%2C%0A%0APlease%20email%20me%20when%20Photo%20Mode%20Pro%20launches%20on%20the%20Asset%20Store.%0A">Get notified by email</a>
+        <a class="btn btn-ghost" href="../docs/">Read the full manual first</a>
+      </div>
+      <p class="meta-note" style="margin-top:18px">Requirements: Unity 2021.3 LTS or newer ·
+      URP 12+ / HDRP 12+ / Built-in (PPv2 optional) · no dependencies · Input System optional</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../docs/changelog/">Changelog</a></li>
+          <li><a href="../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../docs/faq/">FAQ</a></li>
+          <li><a href="../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>
