@@ -1562,6 +1562,51 @@ pre:hover .copy-btn {
 }
 
 /* --------------------------------------------------------------------------
+   Email copy fallback (mailto CTAs silently no-op without a mail client)
+   -------------------------------------------------------------------------- */
+
+.email-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: var(--muted-2);
+}
+
+.email-fallback code {
+  font-size: 0.85rem;
+  padding: 0.25em 0.6em;
+  white-space: nowrap;
+  user-select: all;
+}
+
+.email-fallback button {
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  border-radius: 7px;
+  padding: 5px 13px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.email-fallback button:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-line);
+}
+
+.email-fallback button.copied {
+  color: var(--ok);
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+/* --------------------------------------------------------------------------
    Misc
    -------------------------------------------------------------------------- */
 

@@ -3,7 +3,7 @@
 Build the complete publisher/support website for **Photo Mode Pro** (first asset of
 **DanMaxPublishing**), publish it to GitHub Pages from this repository.
 
-Live URL target: `https://supportdanmax.github.io/photo-mode-pro-docs/`
+Live URL target: `https://danmaxpublishing.github.io/`
 
 ## Decisions (from interview, 2026-07-09)
 
@@ -58,14 +58,14 @@ Notable decisions made during the build:
 
 ## Published ✅
 
-**Live:** https://supportdanmax.github.io/photo-mode-pro-docs/ (Pages enabled via
+**Live:** https://danmaxpublishing.github.io/ (Pages enabled via
 API on 2026-07-09; deploy from `main`, root; all routes verified 200 including the
 WebGL build files; live homepage screenshot-verified.)
 
 ## Remaining manual steps for the owner
 
 1. **Verify the WebGL demo in a real browser** at
-   https://supportdanmax.github.io/photo-mode-pro-docs/demo/ — headless checks
+   https://danmaxpublishing.github.io/demo/ — headless checks
    confirmed download + engine instantiation, but not the GPU render path.
 2. **Confirm the support inbox** `support.dan.max@gmail.com` exists and is
    monitored (it's on every page, and hardcoded in the shipped package).

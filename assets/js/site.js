@@ -331,6 +331,21 @@ var STORE_URL = "";
     });
   }
 
+  /* ---------------- Email copy fallback ---------------- */
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-copy-email]");
+    if (!btn) return;
+    navigator.clipboard.writeText(btn.getAttribute("data-copy-email")).then(function () {
+      var original = btn.textContent;
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(function () {
+        btn.textContent = original;
+        btn.classList.remove("copied");
+      }, 1600);
+    });
+  });
+
   /* ---------------- Footer year ---------------- */
   var yearEl = document.querySelector("[data-year]");
   if (yearEl) {

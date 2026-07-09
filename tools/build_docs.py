@@ -96,7 +96,7 @@ def site_chrome_top(title: str, description: str, root: str, active: str) -> str
 <meta name="description" content="{html_mod.escape(description)}">
 <meta property="og:title" content="{html_mod.escape(title)}">
 <meta property="og:description" content="{html_mod.escape(description)}">
-<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="{root}assets/img/favicon.png">
 <link rel="stylesheet" href="{root}assets/css/site.css">
@@ -153,7 +153,7 @@ def site_chrome_bottom(root: str) -> str:
         <h4>Support</h4>
         <ul>
           <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
-          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
           <li><a href="{root}support/">How to get help</a></li>
         </ul>
       </div>
