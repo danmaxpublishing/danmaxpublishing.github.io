@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Try Photo Mode Pro in Your Browser — DanMaxPublishing</title>
 <meta name="description" content="Playable WebGL demo of Photo Mode Pro: walk the demo forest, press F, and try the free camera, presets and grading right in your browser.">
+<link rel="canonical" href="https://danmaxpublishing.github.io/demo/">
+<meta property="og:title" content="Try Photo Mode Pro in Your Browser — DanMaxPublishing">
+<meta property="og:description" content="Playable WebGL demo of Photo Mode Pro: walk the demo forest, press F, and try the free camera, presets and grading right in your browser.">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta property="og:url" content="https://danmaxpublishing.github.io/demo/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../assets/img/favicon.png">
 <link rel="stylesheet" href="../assets/css/site.css">
@@ -135,12 +143,12 @@
     </div>
 
     <div class="admonition" style="margin-top:22px">
-      <p class="admonition-title">Honest footnote</p>
-      <p>WebGL is <em>not</em> a supported platform for the shipped asset (captures save to
-      browser storage here, not your disk — see the
-      <a href="../docs/support-matrix/">support matrix</a>). This demo exists so you can
-      feel the camera, the UI and the grading before buying. The full experience —
-      supersampled PNGs landing in a real folder — is desktop.</p>
+      <p class="admonition-title">Before you buy</p>
+      <p>WebGL is <em>not</em> a supported platform for the shipped asset; captures here
+      save to browser storage instead of your disk (see the
+      <a href="../docs/support-matrix/">support matrix</a>). The demo exists so you can
+      try the camera, the UI and the grading before buying. For supersampled PNGs saved
+      to a real folder, you want a desktop build.</p>
     </div>
   </div>
 </section>
@@ -152,9 +160,9 @@
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -186,7 +194,7 @@
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>
@@ -224,7 +232,7 @@
     progress.parentElement.style.display = "none";
     status.className = "demo-error";
     status.textContent = "The demo could not start: " + message +
-      " — try a desktop Chrome/Edge/Firefox with WebGL 2 enabled.";
+      ". Try desktop Chrome, Edge or Firefox with WebGL 2 enabled.";
   });
 })();
 </script>

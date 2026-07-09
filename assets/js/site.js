@@ -1,13 +1,13 @@
-/* DanMaxPublishing site interactions — no dependencies, no external requests. */
+/* DanMaxPublishing site interactions. No dependencies, no external requests. */
 
-/* Once Photo Mode Pro is live, put its Asset Store URL here — every
+/* Once Photo Mode Pro is live, put its Asset Store URL here; every
    [data-store-link] CTA on the site switches to it automatically. */
 var STORE_URL = "";
 
 (function () {
   "use strict";
 
-  // Signals CSS that JS is running — reveal-animation styles only apply then,
+  // Signals CSS that JS is running; reveal-animation styles only apply then,
   // so content is never hidden for no-JS visitors.
   document.documentElement.classList.add("js");
 

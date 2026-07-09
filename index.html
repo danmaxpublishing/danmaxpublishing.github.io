@@ -4,13 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DanMaxPublishing — Production-Grade Unity Tools</title>
-<meta name="description" content="DanMaxPublishing builds production-grade Unity assets: clean code, real documentation, honest support. Home of Photo Mode Pro.">
+<meta name="description" content="DanMaxPublishing makes Unity tools built to survive production. Home of Photo Mode Pro, a AAA-style photo mode for URP, HDRP and Built-in.">
+<link rel="canonical" href="https://danmaxpublishing.github.io/">
 <meta property="og:title" content="DanMaxPublishing — Production-Grade Unity Tools">
-<meta property="og:description" content="Production-grade Unity assets: clean code, real documentation, honest support. Home of Photo Mode Pro.">
+<meta property="og:description" content="Unity tools built to survive production. Home of Photo Mode Pro, a AAA-style photo mode for URP, HDRP and Built-in.">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta property="og:url" content="https://danmaxpublishing.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="./assets/img/favicon.png">
 <link rel="stylesheet" href="./assets/css/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "DanMaxPublishing",
+  "url": "https://danmaxpublishing.github.io/",
+  "logo": "https://danmaxpublishing.github.io/assets/img/logo-mark.png",
+  "email": "support.dan.max@gmail.com",
+  "founder": {"@type": "Person", "name": "Dan Max"}
+}
+</script>
 </head>
 <body data-root="./">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -38,15 +54,14 @@
     <p class="eyebrow">Unity Asset Store publisher</p>
     <h1>Tools built like they have to <br><em>survive production.</em></h1>
     <p class="lead">DanMaxPublishing is one senior Unity developer with 10+ years of
-    shipped commercial projects — XR, multiplayer, AI — publishing the editor tools
-    and systems he always wished existed. Clean code, real documentation, zero
-    surprises.</p>
+    shipped commercial projects across XR, multiplayer and AI. He publishes the editor
+    tools he kept wishing someone else had built, and documents them properly.</p>
     <div class="actions">
       <a class="btn btn-primary" href="./photo-mode-pro/">Explore Photo Mode Pro</a>
       <a class="btn btn-orange" href="./demo/">▶ Try the live demo</a>
       <a class="btn btn-ghost" href="./docs/">Read the documentation</a>
     </div>
-    <p class="meta-note">No trackers, no cookies, no external scripts — this site is as clean as the code.</p>
+    <p class="meta-note">The site itself sets no cookies and loads no external scripts.</p>
   </div>
 </header>
 
@@ -66,8 +81,8 @@
     <div class="section-head">
       <p class="eyebrow">Assets</p>
       <h2>The catalog</h2>
-      <p class="lead">One asset shipped so far — built and documented to a standard,
-      not a deadline. More are in development.</p>
+      <p class="lead">One asset is out so far and more are in the works. Each one ships
+      when it's finished, not when a deadline says so.</p>
     </div>
     <div class="grid grid-2 reveal-stagger">
       <article class="card hoverable" style="padding:0;overflow:hidden">
@@ -102,9 +117,9 @@
             <span class="badge badge-cyan">In development</span>
           </div>
           <h3>The next tool</h3>
-          <p>Unannounced. It follows the same rules as everything here: production-grade
-          engineering, full documentation, honest store page. Watch the
-          <a href="./roadmap/">roadmap</a> — it's announced there first.</p>
+          <p>Unannounced. It follows the same rules as everything else here: full tests,
+          full docs, and a store page that doesn't oversell. New tools show up on the
+          <a href="./roadmap/">roadmap</a> first.</p>
         </div>
       </article>
     </div>
@@ -121,23 +136,23 @@
       <div class="card hoverable">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
         <h3>Real documentation</h3>
-        <p>A full hosted manual — quick start, concepts, how-tos, per-pipeline notes,
-        troubleshooting seeded from the actual bug history — plus an XML-documented
-        API. <a href="./docs/">Check it before you buy</a>; it's the same manual you
-        get after.</p>
+        <p>The full manual is hosted here: quick start, concepts, how-tos, per-pipeline
+        notes, and troubleshooting seeded from the real bug history. Every public API
+        member carries XML docs. <a href="./docs/">Check it before you buy</a>; it's
+        the same manual you get after.</p>
       </div>
       <div class="card hoverable">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
         <h3>Tested like production code</h3>
-        <p>EditMode and PlayMode test suites ship in the package. GC allocation gates,
-        state-restoration asserts, leak gates, IL2CPP with high stripping — verified on
-        Unity 2021.3, 2022.3 and Unity 6 before release.</p>
+        <p>Every release has to pass EditMode and PlayMode suites first: GC allocation
+        gates, state-restoration asserts, leak gates. Releases are tested on Unity
+        2021.3, 2022.3 and Unity 6, including an IL2CPP build with high stripping.</p>
       </div>
       <div class="card hoverable">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
         <h3>Support from the developer</h3>
-        <p>Questions land with the person who wrote every line — not a ticket queue.
-        Email, GitHub issues, and a built-in self-test that writes a report you can
+        <p>Questions go to the person who wrote the code, not a ticket queue. Email or
+        GitHub issues both work, and a built-in self-test writes a report you can
         attach. <a href="./support/">How to get help</a>.</p>
       </div>
     </div>
@@ -169,9 +184,9 @@
       </div>
       <div class="card">
         <span class="badge badge-cyan">v1.2.0 · 2026-06-12</span>
-        <h3 style="margin-top:14px">Every pipeline, honestly</h3>
+        <h3 style="margin-top:14px">HDRP and Built-in support</h3>
         <p>HDRP and Built-in (PPv2 + fallback) backends joined URP, with a public
-        capability system — controls a pipeline can't honor hide themselves, and
+        capability system. Controls a pipeline can't honor hide themselves, and
         <code>ActiveCapabilities</code> reports it to your code.</p>
         <p style="margin-top:10px"><a href="./docs/pipelines/">Per-pipeline notes →</a></p>
       </div>
@@ -183,14 +198,14 @@
   <div class="wrap">
     <div class="card" style="padding:44px;text-align:center;background:linear-gradient(120deg,var(--bg-2),var(--bg-1));border-color:var(--cyan-line)">
       <h2 style="margin-bottom:10px">Photo Mode Pro is coming to the Asset Store</h2>
-      <p class="lead" style="margin:0 auto 26px">Want one email when it goes live — and one
-      when the launch discount window closes? That's the whole list.</p>
+      <p class="lead" style="margin:0 auto 26px">Leave your email and you'll get two
+      messages: one when it goes live, one before the launch discount ends. That's it.</p>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
         <a class="btn btn-orange" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20Photo%20Mode%20Pro%20launch&amp;body=Hi%20Dan%2C%0A%0APlease%20email%20me%20when%20Photo%20Mode%20Pro%20launches%20on%20the%20Asset%20Store.%0A">Get notified by email</a>
         <a class="btn btn-ghost" href="./photo-mode-pro/">See the feature tour</a>
       </div>
       <div class="email-fallback">
-        <span>The button opens your mail app &mdash; no mail app? Copy the address:</span>
+        <span>The button opens your mail app. No mail app? Copy the address:</span>
         <code>support.dan.max@gmail.com</code>
         <button type="button" data-copy-email="support.dan.max@gmail.com">Copy</button>
       </div>
@@ -205,9 +220,9 @@
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -239,7 +254,7 @@
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>
