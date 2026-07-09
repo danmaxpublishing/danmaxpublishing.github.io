@@ -101,8 +101,12 @@
     window.addEventListener("resize", syncAfterImg);
 
     el.addEventListener("pointerdown", function (e) {
-      el.setPointerCapture(e.pointerId);
       setPos(e.clientX);
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch (err) {
+        /* capture is an enhancement; dragging still works via pointermove */
+      }
     });
     el.addEventListener("pointermove", function (e) {
       if (e.buttons) setPos(e.clientX);
