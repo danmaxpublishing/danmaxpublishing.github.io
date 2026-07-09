@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — DanMaxPublishing</title>
+<meta name="description" content="How to get help with Photo Mode Pro: self-serve docs, the in-editor self-test, email support and GitHub issues — answered by the developer.">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../"><img src="../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../docs/">Docs</a></li>
+      <li><a href="../roadmap/">Roadmap</a></li>
+      <li><a href="../support/" aria-current="page">Support</a></li>
+      <li><a href="../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="hero" style="padding:84px 0 56px">
+  <div class="hero-veil"></div>
+  <div class="wrap">
+    <p class="eyebrow">Support</p>
+    <h1>Help that comes from the<br><em>person who wrote the code</em></h1>
+    <p class="lead">No ticket queue, no tier-one script. Most answers are already in the
+    documentation — and when they aren't, you talk to the developer.</p>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Step 1 — 60 seconds of self-serve</p>
+      <h2>Check here first</h2>
+      <p class="lead">These two pages resolve the vast majority of questions, and they're
+      searchable.</p>
+    </div>
+    <div class="grid grid-2 reveal-stagger">
+      <a class="card hoverable" href="../docs/troubleshooting/" style="text-decoration:none;color:inherit">
+        <h3>Troubleshooting</h3>
+        <p>35 symptom-driven entries — pink demo materials, dead gamepad navigation,
+        missing transparent captures, HDRP slider quirks — each with the cause and the
+        fix. Seeded from the real bug history, not hypotheticals.</p>
+      </a>
+      <a class="card hoverable" href="../docs/faq/" style="text-decoration:none;color:inherit">
+        <h3>FAQ</h3>
+        <p>The questions buyers and integrators actually ask: compatibility, capture
+        formats, UI and input, demo assets and licensing, upgrade safety.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="tight" style="background:var(--bg-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Step 2 — built-in diagnostics</p>
+      <h2>Let the asset diagnose itself</h2>
+    </div>
+    <div class="grid grid-2 reveal-stagger">
+      <div class="card">
+        <h3>Run Self-Test</h3>
+        <p><strong>Tools → Photo Mode Pro → Run Self-Test</strong> checks your project —
+        pipeline, packages, input handling, prefab wiring — and writes a
+        <code>PhotoModeSelfTest.json</code> report. Attach it to any support request and
+        you've answered the first five questions before they're asked.</p>
+      </div>
+      <div class="card">
+        <h3>Report a Bug</h3>
+        <p><strong>Tools → Photo Mode Pro → Report a Bug</strong> opens a pre-filled email
+        with the product and version already in the subject line. Add your repro steps
+        and the self-test report, hit send.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Step 3 — talk to a human</p>
+      <h2>Contact channels</h2>
+    </div>
+    <div class="grid grid-2 reveal-stagger">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></div>
+        <h3>Email — primary channel</h3>
+        <p><a href="mailto:support.dan.max@gmail.com">support.dan.max@gmail.com</a></p>
+        <p style="margin-top:8px">For anything: bugs, integration questions, feature
+        requests, invoice issues. Replies come from the developer, typically within one
+        to two business days.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.5 1.5M16.9 16.9l1.5 1.5M18.4 5.6l-1.5 1.5M7.1 16.9l-1.5 1.5"/></svg></div>
+        <h3>GitHub Issues — public bug tracker</h3>
+        <p><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">github.com/supportdanmax/photo-mode-pro-docs</a></p>
+        <p style="margin-top:8px">Prefer bugs in the open? File an issue so other users can
+        find it, follow it, and see the fix version when it ships.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>What a great bug report contains</h3>
+      <ul style="color:var(--muted);padding-left:22px;margin-top:10px">
+        <li>Unity version and render pipeline (URP / HDRP / Built-in ± PPv2)</li>
+        <li>Photo Mode Pro version (Tools → Photo Mode Pro → About)</li>
+        <li>The <code>PhotoModeSelfTest.json</code> report</li>
+        <li>Steps to reproduce — ideally starting from the demo scene</li>
+        <li>What you expected, and what happened instead (screenshots welcome)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../docs/changelog/">Changelog</a></li>
+          <li><a href="../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../docs/faq/">FAQ</a></li>
+          <li><a href="../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>
