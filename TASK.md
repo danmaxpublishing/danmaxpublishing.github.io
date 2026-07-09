@@ -100,10 +100,6 @@ mailto fallback.
 5. **When the asset goes live:** put the real store URL into the `STORE_URL`
    constant at the top of `assets/js/site.js` — every "Get Photo Mode Pro" button
    updates from that one spot. Also update the roadmap "Submitted" card.
-6. **Mailing list:** create a free Buttondown account (buttondown.com, suggested
-   username `danmaxpublishing`, sender = the support Gmail), then paste
-   `https://buttondown.com/api/emails/embed-subscribe/<username>` into the
-   `MAILING_LIST_URL` constant in `assets/js/site.js` and push. Every notify CTA
-   switches from the mailto fallback to a real subscribe form. Subscribers from
-   the launch CTAs arrive tagged `photo-mode-pro-launch`; roadmap ones tagged
-   `next-asset`. Test with your own address (double opt-in is on by default).
+6. ~~Mailing list~~ **Done 2026-07-09**: Buttondown account `danmaxpublishing`
+   is live, `MAILING_LIST_URL` is set, all notify CTAs post to it (tags
+   `photo-mode-pro-launch` / `next-asset`), double opt-in confirmed by the owner.
