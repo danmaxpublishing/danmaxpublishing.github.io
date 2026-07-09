@@ -56,21 +56,19 @@ Notable decisions made during the build:
 - WebGL demo: gzip + decompression fallback, ~23 MB, boots and loads to 100% in
   headless checks. Roadmap page frames WebGL honestly as unsupported-for-capture.
 
-## Manual steps for the owner
+## Published ✅
 
-1. **One-time push auth (blocking):** the remote is now
-   `https://supportdanmax@github.com/supportdanmax/photo-mode-pro-docs.git`.
-   Run `git push` in this repo once and complete the browser OAuth as
-   **supportdanmax**. All commits are local until then.
-2. **Enable GitHub Pages** (after the push): repo Settings → Pages → Source:
-   "Deploy from a branch" → Branch `main`, folder `/ (root)`. (I will attempt the
-   API route with the OAuth token once pushing works; if that succeeds this step
-   is already done.)
-3. **Verify the live site** at https://supportdanmax.github.io/photo-mode-pro-docs/
-   — especially the WebGL demo page in a real browser (headless verification
-   could not fully boot the GPU path).
-4. **Confirm the support inbox** `support.dan.max@gmail.com` exists and is
-   monitored (it's on every page, and in the shipped package).
-5. **When the asset goes live:** put the real store URL into the `STORE_URL`
+**Live:** https://supportdanmax.github.io/photo-mode-pro-docs/ (Pages enabled via
+API on 2026-07-09; deploy from `main`, root; all routes verified 200 including the
+WebGL build files; live homepage screenshot-verified.)
+
+## Remaining manual steps for the owner
+
+1. **Verify the WebGL demo in a real browser** at
+   https://supportdanmax.github.io/photo-mode-pro-docs/demo/ — headless checks
+   confirmed download + engine instantiation, but not the GPU render path.
+2. **Confirm the support inbox** `support.dan.max@gmail.com` exists and is
+   monitored (it's on every page, and hardcoded in the shipped package).
+3. **When the asset goes live:** put the real store URL into the `STORE_URL`
    constant at the top of `assets/js/site.js` — every "Get Photo Mode Pro" button
-   updates from that one spot.
+   updates from that one spot. Also update the roadmap "Submitted" card.
