@@ -71,6 +71,7 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 img,
@@ -617,6 +618,15 @@ td.n,
   z-index: -1;
   background: radial-gradient(120% 90% at 50% 0%, transparent 0%, var(--bg-0) 88%),
     linear-gradient(180deg, rgba(6, 11, 20, 0.25), var(--bg-0) 96%);
+}
+
+/* Hard line breaks in hero headlines are a desktop typographic choice —
+   on narrow screens they force overflow, so let the text wrap naturally. */
+@media (max-width: 720px) {
+  .hero h1 br,
+  h1 br {
+    display: none;
+  }
 }
 
 .hero h1 em {
