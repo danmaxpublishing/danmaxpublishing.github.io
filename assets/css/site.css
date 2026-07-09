@@ -1499,24 +1499,26 @@ pre:hover .copy-btn {
    Reveal animations
    -------------------------------------------------------------------------- */
 
-.reveal {
+/* Reveal styles are gated behind the JS-added .js class: without JavaScript
+   nothing is ever hidden. */
+.js .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
 
-.reveal.in {
+.js .reveal.in {
   opacity: 1;
   transform: none;
 }
 
-.reveal-stagger > * {
+.js .reveal-stagger > * {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
 }
 
-.reveal-stagger.in > * {
+.js .reveal-stagger.in > * {
   opacity: 1;
   transform: none;
 }

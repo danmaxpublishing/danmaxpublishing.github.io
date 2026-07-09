@@ -1,8 +1,27 @@
 /* DanMaxPublishing site interactions — no dependencies, no external requests. */
+
+/* Once Photo Mode Pro is live, put its Asset Store URL here — every
+   [data-store-link] CTA on the site switches to it automatically. */
+var STORE_URL = "";
+
 (function () {
   "use strict";
 
+  // Signals CSS that JS is running — reveal-animation styles only apply then,
+  // so content is never hidden for no-JS visitors.
+  document.documentElement.classList.add("js");
+
   var root = document.body.getAttribute("data-root") || "./";
+
+  if (STORE_URL) {
+    document.querySelectorAll("[data-store-link]").forEach(function (a) {
+      a.href = STORE_URL;
+      a.rel = "noopener";
+      if (/coming soon/i.test(a.textContent)) {
+        a.textContent = "Get it on the Asset Store";
+      }
+    });
+  }
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------------- Mobile nav ---------------- */

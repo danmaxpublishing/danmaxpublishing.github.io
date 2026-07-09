@@ -37,6 +37,40 @@ Live URL target: `https://supportdanmax.github.io/photo-mode-pro-docs/`
 6. **Publish** — push to `main`, enable GitHub Pages (API or documented manual
    step), verify the live URL.
 
-## Manual steps for the owner (running list)
+## Status (2026-07-09)
 
-- (filled in as discovered)
+Site complete: 23 pages (home, product tour, WebGL demo, support, about, roadmap,
+17-page manual with search), 12 real Unity captures, brand art, zero external
+resources. Three QA passes done: visual (desktop + true-390px mobile), scripted
+interaction suite (23/23 checks: preset tabs, compare slider incl. keyboard,
+lightbox, accordion, docs search + keyboard nav, copy buttons, scroll spy, mobile
+nav, Unity demo boot, zero console errors), and a content/metadata/no-JS sweep.
+
+Notable decisions made during the build:
+- **Support email is `support.dan.max@gmail.com`** (not supportdanmax@gmail.com as
+  guessed in the interview) — the shipped package hardcodes it in
+  `PhotoModeProductInfo.cs`, README and docs. The site must match the package.
+  → Verify that inbox actually exists.
+- OG share image derived from the key art (the 5th generated image hit persistent
+  Vertex AI quota exhaustion — another session was consuming the project quota).
+- WebGL demo: gzip + decompression fallback, ~23 MB, boots and loads to 100% in
+  headless checks. Roadmap page frames WebGL honestly as unsupported-for-capture.
+
+## Manual steps for the owner
+
+1. **One-time push auth (blocking):** the remote is now
+   `https://supportdanmax@github.com/supportdanmax/photo-mode-pro-docs.git`.
+   Run `git push` in this repo once and complete the browser OAuth as
+   **supportdanmax**. All commits are local until then.
+2. **Enable GitHub Pages** (after the push): repo Settings → Pages → Source:
+   "Deploy from a branch" → Branch `main`, folder `/ (root)`. (I will attempt the
+   API route with the OAuth token once pushing works; if that succeeds this step
+   is already done.)
+3. **Verify the live site** at https://supportdanmax.github.io/photo-mode-pro-docs/
+   — especially the WebGL demo page in a real browser (headless verification
+   could not fully boot the GPU path).
+4. **Confirm the support inbox** `support.dan.max@gmail.com` exists and is
+   monitored (it's on every page, and in the shipped package).
+5. **When the asset goes live:** put the real store URL into the `STORE_URL`
+   constant at the top of `assets/js/site.js` — every "Get Photo Mode Pro" button
+   updates from that one spot.
