@@ -7,7 +7,7 @@ var STORE_URL = "";
 /* Mailing list. Create a Buttondown newsletter, then paste its embed endpoint
    here, e.g. "https://buttondown.com/api/emails/embed-subscribe/danmaxpublishing".
    While this is empty, every notify CTA falls back to the mailto flow. */
-var MAILING_LIST_URL = "";
+var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmaxpublishing";
 
 (function () {
   "use strict";
