@@ -62,13 +62,29 @@ Notable decisions made during the build:
 API on 2026-07-09; deploy from `main`, root; all routes verified 200 including the
 WebGL build files; live homepage screenshot-verified.)
 
+## URL migration (2026-07-09, later the same day)
+
+Account renamed supportdanmax → **danmaxpublishing**, repo renamed to
+**danmaxpublishing.github.io** (GitHub user site) → the site now serves at the apex
+URL https://danmaxpublishing.github.io/ (all routes re-verified 200; old URL 404s
+by design — GitHub Pages does not redirect). The v1.4.0 package was re-exported
+with the new docs URL (`Build/PhotoModePro_v1.4.0.unitypackage`) after updating
+ProductInfo.cs/README/CHANGELOG/QuickStart + regenerating the offline PDF. The
+"Get notified" mailto CTAs gained a copy-address fallback (mailto silently no-ops
+without a configured mail client).
+
 ## Remaining manual steps for the owner
 
-1. **Verify the WebGL demo in a real browser** at
-   https://danmaxpublishing.github.io/demo/ — headless checks
-   confirmed download + engine instantiation, but not the GPU render path.
-2. **Confirm the support inbox** `support.dan.max@gmail.com` exists and is
-   monitored (it's on every page, and hardcoded in the shipped package).
-3. **When the asset goes live:** put the real store URL into the `STORE_URL`
+1. **Re-register `supportdanmax`** as a fresh placeholder GitHub account (squat
+   guard: the freed name is claimable, and the currently-in-review package still
+   prints the old URL until the re-upload is approved).
+2. **Re-upload** `Build/PhotoModePro_v1.4.0.unitypackage` in the Asset Store
+   Publisher Portal (replaces the in-review draft; it contains the new docs URL).
+3. **Verify the WebGL demo in a real browser** at
+   https://danmaxpublishing.github.io/demo/ — headless checks confirmed download +
+   engine instantiation, but not the GPU render path.
+4. **Confirm the support inbox** `support.dan.max@gmail.com` is monitored (it's on
+   every page, in the copy-address CTAs, and hardcoded in the shipped package).
+5. **When the asset goes live:** put the real store URL into the `STORE_URL`
    constant at the top of `assets/js/site.js` — every "Get Photo Mode Pro" button
    updates from that one spot. Also update the roadmap "Submitted" card.
