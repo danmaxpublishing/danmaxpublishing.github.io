@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Try Photo Mode Pro in Your Browser — DanMaxPublishing</title>
+<meta name="description" content="Playable WebGL demo of Photo Mode Pro: walk the demo forest, press F, and try the free camera, presets and grading right in your browser.">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .demo-stage {
+    background: #000;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 16 / 9;
+  }
+
+  #unity-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #060b14;
+  }
+
+  .demo-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    color: var(--muted);
+    background: radial-gradient(90% 90% at 50% 20%, #0f1a2e, #060b14);
+  }
+
+  .demo-loading .bar {
+    width: min(360px, 70%);
+    height: 6px;
+    border-radius: 999px;
+    background: var(--bg-3);
+    overflow: hidden;
+  }
+
+  .demo-loading .fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--cyan), #7dd3fc);
+    transition: width 0.2s ease;
+  }
+
+  .demo-error {
+    color: #fca5a5;
+    max-width: 480px;
+    text-align: center;
+    font-size: 0.92rem;
+  }
+
+  .demo-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .controls-grid .card {
+    padding: 14px 18px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .controls-grid .card strong {
+    color: var(--ink);
+    display: block;
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../"><img src="../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../docs/">Docs</a></li>
+      <li><a href="../roadmap/">Roadmap</a></li>
+      <li><a href="../support/">Support</a></li>
+      <li><a href="../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main">
+
+<section class="tight" style="padding-top:44px">
+  <div class="wrap-wide">
+    <p class="eyebrow">Live demo</p>
+    <h1 style="font-size:clamp(1.7rem,3vw,2.3rem);margin-bottom:10px">Try Photo Mode Pro in your browser</h1>
+    <p class="lead" style="margin-bottom:22px">The real shipping demo scene, built for WebGL.
+    Walk to a nice spot, press <kbd>F</kbd>, and do what your players will do.</p>
+
+    <div class="demo-stage">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div class="demo-loading" id="demo-loading">
+        <img src="../assets/img/logo-mark.png" alt="" width="56" height="56" style="border-radius:14px">
+        <div class="bar"><div class="fill" id="demo-progress"></div></div>
+        <span id="demo-status">Loading the forest… (~23 MB)</span>
+      </div>
+    </div>
+    <div class="demo-toolbar">
+      <button class="btn btn-ghost btn-sm" id="btn-fullscreen" disabled>⛶ Fullscreen</button>
+      <span style="color:var(--muted-2);font-size:.86rem">Desktop browser + keyboard/mouse or gamepad recommended.</span>
+    </div>
+
+    <div class="controls-grid">
+      <div class="card"><strong>Explore</strong><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> walk · mouse look</div>
+      <div class="card"><strong>Photo mode</strong><kbd>F</kbd> enter/exit · <kbd>Q</kbd>/<kbd>E</kbd> switch tabs</div>
+      <div class="card"><strong>Camera</strong>hold <kbd>RMB</kbd> look · <kbd>Space</kbd>/<kbd>Ctrl</kbd> up/down · <kbd>Z</kbd>/<kbd>C</kbd> roll</div>
+      <div class="card"><strong>Shoot</strong><kbd>P</kbd> capture · <kbd>H</kbd> hide UI</div>
+    </div>
+
+    <div class="admonition" style="margin-top:22px">
+      <p class="admonition-title">Honest footnote</p>
+      <p>WebGL is <em>not</em> a supported platform for the shipped asset (captures save to
+      browser storage here, not your disk — see the
+      <a href="../docs/support-matrix/">support matrix</a>). This demo exists so you can
+      feel the camera, the UI and the grading before buying. The full experience —
+      supersampled PNGs landing in a real folder — is desktop.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../demo/">WebGL demo</a></li>
+          <li><a href="../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../docs/changelog/">Changelog</a></li>
+          <li><a href="../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../docs/faq/">FAQ</a></li>
+          <li><a href="../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../assets/js/site.js"></script>
+<script src="./Build/WebGLDemo.loader.js"></script>
+<script>
+(function () {
+  var canvas = document.getElementById("unity-canvas");
+  var loading = document.getElementById("demo-loading");
+  var progress = document.getElementById("demo-progress");
+  var status = document.getElementById("demo-status");
+  var fsBtn = document.getElementById("btn-fullscreen");
+
+  createUnityInstance(canvas, {
+    arguments: [],
+    dataUrl: "./Build/WebGLDemo.data.unityweb",
+    frameworkUrl: "./Build/WebGLDemo.framework.js.unityweb",
+    codeUrl: "./Build/WebGLDemo.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "DanMaxPublishing",
+    productName: "Photo Mode Pro Demo",
+    productVersion: "1.4.0"
+  }, function (p) {
+    progress.style.width = (p * 100) + "%";
+    if (p >= 0.9) {
+      status.textContent = "Warming up the engine…";
+    }
+  }).then(function (instance) {
+    loading.style.display = "none";
+    fsBtn.disabled = false;
+    fsBtn.addEventListener("click", function () {
+      instance.SetFullscreen(1);
+    });
+  }).catch(function (message) {
+    progress.parentElement.style.display = "none";
+    status.className = "demo-error";
+    status.textContent = "The demo could not start: " + message +
+      " — try a desktop Chrome/Edge/Firefox with WebGL 2 enabled.";
+  });
+})();
+</script>
+</body>
+</html>

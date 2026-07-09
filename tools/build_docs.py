@@ -134,6 +134,7 @@ def site_chrome_bottom(root: str) -> str:
         <h4>Product</h4>
         <ul>
           <li><a href="{root}photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="{root}demo/">WebGL demo</a></li>
           <li><a href="{root}photo-mode-pro/#gallery">Screenshots</a></li>
           <li><a href="{root}docs/changelog/">Changelog</a></li>
           <li><a href="{root}roadmap/">Roadmap</a></li>
