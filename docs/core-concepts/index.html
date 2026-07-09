@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Core Concepts — Photo Mode Pro Documentation</title>
+<meta name="description" content="Photo Mode Pro is built around one component, one settings asset and a handful of small, replaceable pieces. This page explains how they fit together so the h">
+<meta property="og:title" content="Core Concepts — Photo Mode Pro Documentation">
+<meta property="og:description" content="Photo Mode Pro is built around one component, one settings asset and a handful of small, replaceable pieces. This page explains how they fit together so the h">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/" aria-current="page">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Getting started</p>
+    <h1>Core Concepts</h1>
+
+<p>Photo Mode Pro is built around one component, one settings asset and a handful of
+small, replaceable pieces. This page explains how they fit together so the
+<a href="../camera/">how-to guides</a> make sense at a glance.</p>
+<h2 id="the-controller">The controller<a class="headerlink" href="#the-controller" title="Permanent link">¶</a></h2>
+<p><code>PhotoModeController</code> (menu: <strong>Photo Mode Pro/Photo Mode Controller</strong>) is the single
+entry point. Add it to any GameObject — or drop in the generated prefab — assign a
+<code>PhotoModeSettings</code> asset, and you are done. The component is marked
+<code>[DisallowMultipleComponent]</code>, and if a second controller appears in the scene it
+disables itself with a warning: there is always at most one active controller.</p>
+<p>Scripts reach it through the null-safe static accessor:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+
+<span class="n">PhotoModeController</span><span class="w"> </span><span class="n">photoMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span><span class="w"> </span><span class="c1">// null when none is enabled</span>
+</code></pre></div>
+<p><code>Instance</code> is set in <code>OnEnable</code> and cleared in <code>OnDisable</code>, so it is safe across
+scene loads. See <a href="../events-and-api/">Events &amp; API</a> for the full scripting surface.</p>
+<h2 id="enter-exit-lifecycle">Enter / exit lifecycle<a class="headerlink" href="#enter-exit-lifecycle" title="Permanent link">¶</a></h2>
+<p><code>EnterPhotoMode()</code> (or the configured toggle binding — <strong>F</strong> / <strong>View</strong> by default) does,
+in order:</p>
+<ol>
+<li>Records the current <code>Time.timeScale</code>, <code>AudioListener.pause</code>, cursor visibility,
+   cursor lock state and the main camera's enabled flag.</li>
+<li>Pauses the game per <code>PhotoModeSettings.pauseMode</code> (<code>TimeScaleZero</code> by default,
+   or <code>Unscaled</code> to keep the game running) and audio per <code>audioPauseMode</code>.</li>
+<li>Clones the camera tagged <code>MainCamera</code> into a free photo camera (carrying over
+   URP/HDRP camera data) and disables the original.</li>
+<li>Creates the effects backend for the active render pipeline and applies the
+   current adjustments.</li>
+<li>Hides your registered game UI canvases and spawns the photo mode UI prefab.</li>
+</ol>
+<p><code>ExitPhotoMode()</code> restores <strong>exactly</strong> what it found: the recorded <code>timeScale</code>,
+audio pause state, cursor state and main-camera enabled flag, destroys the photo
+camera and UI, and re-shows anything the visibility toggles hid. If the scene had
+no <code>EventSystem</code> when the UI opened, photo mode creates a matching one and removes
+it again on exit — the scene is left exactly as found. Cinemachine-driven cameras
+hand off and resume cleanly too; see <a href="../integrations/">Integrations</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Safety nets</p>
+<p>Replacing or unloading a scene while photo mode is open auto-closes it cleanly
+(state restored first, an in-flight capture abandoned). Additive loads —
+streamed chunks — are harmless and do not close the session. If the controller
+itself is destroyed while open, an <code>OnDestroy</code> fallback still restores
+time scale, audio, cursor and everything photo mode spawned.</p>
+</div>
+<p><code>EnterPhotoMode()</code> no-ops when already active or when no main camera exists;
+<code>ExitPhotoMode()</code> no-ops while inactive or while a capture is in flight.</p>
+<h2 id="the-adjustments-model">The adjustments model<a class="headerlink" href="#the-adjustments-model" title="Permanent link">¶</a></h2>
+<p><code>PhotoModeController.Adjustments</code> is a plain <code>PhotoModeAdjustments</code> object holding
+every image tweak in <strong>natural units</strong> — no pipeline types anywhere:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Unit / range</th>
+<th>Neutral</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exposureEv</code></td>
+<td>EV, −3 .. +3</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>contrast</code>, <code>saturation</code>, <code>temperature</code></td>
+<td>−100 .. +100</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>vignette</code>, <code>filmGrain</code></td>
+<td>0 .. 1</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>depthOfFieldEnabled</code></td>
+<td>bool</td>
+<td>off</td>
+</tr>
+<tr>
+<td><code>focusDistance</code></td>
+<td>meters</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>aperture</code></td>
+<td>f-number (applied clamped to f/0.7–f/16)</td>
+<td>f/5.6</td>
+</tr>
+</tbody>
+</table></div>
+<p>Values are <em>sticky for the play session</em>: close and reopen photo mode and your look
+is still there. If you write fields from script, call
+<code>controller.NotifyAdjustmentsEdited()</code> afterwards — details in
+<a href="../effects/">Image adjustments</a>.</p>
+<h2 id="effects-backends-and-capabilities">Effects backends and capabilities<a class="headerlink" href="#effects-backends-and-capabilities" title="Permanent link">¶</a></h2>
+<p>Adjustments are pushed through <code>IPhotoModeEffectsBackend</code>
+(namespace <code>PhotoModePro.Effects</code>), a small render-pipeline abstraction. Four
+implementations ship in the box: URP volume, HDRP volume (physical-camera depth of
+field), Post Processing Stack v2, and a minimal Built-in fallback shader.
+Selection is automatic from the active render pipeline; force one via
+<code>PhotoModeSettings.backendOverride</code> if you must.</p>
+<p>Each backend reports <code>EffectCapabilities</code> flags (<code>Exposure</code>, <code>Contrast</code>,
+<code>Saturation</code>, <code>Temperature</code>, <code>Vignette</code>, <code>Grain</code>, <code>DepthOfField</code>,
+<code>TransparentCapture</code>). <strong>The UI hides any control whose capability is missing</strong>, so
+players never touch a dead slider, and gamepad navigation never lands on one.
+Scripts read the same flags via <code>PhotoModeController.ActiveCapabilities</code> — even
+while photo mode is closed, where it returns a prediction for the backend that
+would be selected right now. Per-pipeline differences are tabulated in
+<a href="../pipelines/">Pipelines</a>.</p>
+<h2 id="the-settings-asset">The settings asset<a class="headerlink" href="#the-settings-asset" title="Permanent link">¶</a></h2>
+<p><code>PhotoModeSettings</code> (<strong>Assets &gt; Create &gt; Photo Mode Pro &gt; Settings</strong>) holds every
+tunable: key/gamepad bindings, pause and audio behavior, free-camera limits
+(speed, sphere clamp, collision, FOV range, roll speed), the effects backend
+override, capture defaults and the save path, and visibility options. Duplicate
+it per configuration and assign it on the controller — or swap it from script via
+the <code>Settings</code> property while photo mode is inactive.</p>
+<h2 id="presets">Presets<a class="headerlink" href="#presets" title="Permanent link">¶</a></h2>
+<p>A <code>PhotoModePreset</code> asset is just a named bundle of adjustment values. Six ship
+built in (Clean, Noir, Vivid, Warm, Cool, Vintage); the controller's <code>Presets</code>
+list decides what the Presets tab offers. <code>ApplyPreset(preset)</code> copies the values
+in; <code>ApplyPreset(null)</code> resets to the neutral "Clean" state. See
+<a href="../presets/">Presets</a>.</p>
+<h2 id="the-ui-prefab-and-theme">The UI prefab and theme<a class="headerlink" href="#the-ui-prefab-and-theme" title="Permanent link">¶</a></h2>
+<p>The photo mode UI is an ordinary UGUI prefab (<code>PhotoModeUIController</code>) that the
+controller instantiates on enter and destroys on exit. It has four categories —
+Camera, Effects, Presets, Capture — cycled with <strong>Q/E</strong> or <strong>LB/RB</strong>, full
+keyboard/gamepad navigation, and a single row of hotkey hint chips along the
+bottom edge of the screen. Every color, sprite, font, motion parameter and UI
+sound comes from one <code>PhotoModeUITheme</code> asset — swap it to reskin everything.
+See <a href="../theming/">Theming</a>.</p>
+<h2 id="capture-pipeline">Capture pipeline<a class="headerlink" href="#capture-pipeline" title="Permanent link">¶</a></h2>
+<p><code>CapturePhoto()</code> (or <strong>P</strong> / the SNAP button) renders the photo camera into a
+RenderTexture at 1×, 2× or 4× the screen resolution (<code>Supersample</code>), with temporal
+anti-aliasing and dynamic resolution disabled for the shot so the output is
+artifact-free and exactly the requested size. The result is read back with
+<code>AsyncGPUReadback</code> where the platform supports it, encoded to PNG with a
+timestamped, collision-safe file name, and saved to
+<code>{persistentDataPath}/Photos</code> (or <code>PhotoModeSettings.customSavePath</code>). A
+thumbnail toast confirms the shot, and <code>OnPhotoCaptured(path, thumbnail)</code> fires
+for your own code. Heavy supersampled captures show a "PROCESSING…" badge that
+never appears in the photo. Full details in <a href="../capture/">Capturing photos</a>;
+timing numbers live in <a href="../performance/">Performance</a>.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/quick-start/"><span class="dir">Previous</span>Quick Start</a><a class="next" href="../../docs/camera/"><span class="dir">Next</span>Camera</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#the-controller">The controller</a></li><li class="h2"><a href="#enter-exit-lifecycle">Enter / exit lifecycle</a></li><li class="h2"><a href="#the-adjustments-model">The adjustments model</a></li><li class="h2"><a href="#effects-backends-and-capabilities">Effects backends and capabilities</a></li><li class="h2"><a href="#the-settings-asset">The settings asset</a></li><li class="h2"><a href="#presets">Presets</a></li><li class="h2"><a href="#the-ui-prefab-and-theme">The UI prefab and theme</a></li><li class="h2"><a href="#capture-pipeline">Capture pipeline</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

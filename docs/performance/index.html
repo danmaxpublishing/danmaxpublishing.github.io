@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performance Notes — Photo Mode Pro Documentation</title>
+<meta name="description" content="Measured in the demo scene (Unity 6000.3, mid-range desktop, 640×480 base render in the automated batch run). Informational, not a contract:">
+<meta property="og:title" content="Performance Notes — Photo Mode Pro Documentation">
+<meta property="og:description" content="Measured in the demo scene (Unity 6000.3, mid-range desktop, 640×480 base render in the automated batch run). Informational, not a contract:">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/" aria-current="page">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Reference</p>
+    <h1>Performance Notes</h1>
+
+<h2 id="steady-state-cost">Steady-state cost<a class="headerlink" href="#steady-state-cost" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Zero per-frame managed (GC) allocations</strong> while photo mode is open and idle
+  and while adjusting sliders (after the first-open warmup frame, which builds
+  caches). These are asserted by allocation gates in the automated test suite,
+  not just measured once.</li>
+<li>While <strong>closed</strong>, the controller only polls the toggle binding — no other
+  per-frame work, no allocations.</li>
+<li>Slider value labels use cached lookups and TextMesh Pro's non-allocating
+  numeric <code>SetText</code>.</li>
+</ul>
+<h2 id="capture-wall-times">Capture wall-times<a class="headerlink" href="#capture-wall-times" title="Permanent link">¶</a></h2>
+<p>Measured in the demo scene (Unity 6000.3, mid-range desktop, 640×480 base render
+in the automated batch run). Informational, not a contract:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Supersample</th>
+<th>Wall time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1×</td>
+<td>≈ 60–250 ms</td>
+</tr>
+<tr>
+<td>2×</td>
+<td>≈ 180–270 ms</td>
+</tr>
+<tr>
+<td>4×</td>
+<td>≈ 700–880 ms</td>
+</tr>
+</tbody>
+</table></div>
+<p>Times scale roughly with output pixel count — a 4× capture of a 1080p view
+renders at 7680×4320 — dominated by the GPU readback and PNG encode; expect
+multiple seconds at 4× from 1080p. A <strong>PROCESSING…</strong> badge appears automatically
+during heavy supersampled captures (and never appears in the captured photo).</p>
+<h2 id="memory">Memory<a class="headerlink" href="#memory" title="Permanent link">¶</a></h2>
+<ul>
+<li>Repeated open/close cycles are leak-gated in the test suite: zero net
+  scene-object growth and zero Unity-object growth over 100 cycles.</li>
+<li>The UI prefab is instantiated on first open and reused afterwards.</li>
+</ul>
+<h2 id="tips">Tips<a class="headerlink" href="#tips" title="Permanent link">¶</a></h2>
+<ul>
+<li>Prefer 2× over 4× for social-media-sized output; 4× exists for print-quality
+  shots.</li>
+<li>Transparent captures render without post-processing (clean alpha), which also
+  makes them slightly cheaper.</li>
+<li>See <a href="../capture/">Capture</a> for the full capture pipeline.</li>
+</ul>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/support-matrix/"><span class="dir">Previous</span>Platform & Pipeline Support</a><a class="next" href="../../docs/faq/"><span class="dir">Next</span>FAQ</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#steady-state-cost">Steady-state cost</a></li><li class="h2"><a href="#capture-wall-times">Capture wall-times</a></li><li class="h2"><a href="#memory">Memory</a></li><li class="h2"><a href="#tips">Tips</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

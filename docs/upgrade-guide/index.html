@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upgrade Guide — Photo Mode Pro Documentation</title>
+<meta name="description" content="How to move an existing project to a newer Photo Mode Pro version, newest first. Each step lists what changed, who is affected, and what (if anything) you mus">
+<meta property="og:title" content="Upgrade Guide — Photo Mode Pro Documentation">
+<meta property="og:description" content="How to move an existing project to a newer Photo Mode Pro version, newest first. Each step lists what changed, who is affected, and what (if anything) you mus">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/" aria-current="page">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Help</p>
+    <h1>Upgrade Guide</h1>
+
+<p>How to move an existing project to a newer Photo Mode Pro version, newest
+first. Each step lists what changed, who is affected, and what (if anything)
+you must do. The full change list lives in the <a href="../changelog/">Changelog</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">After any upgrade</p>
+<ol>
+<li>Let Unity reimport the package fully.</li>
+<li>Run <strong>Tools &gt; Photo Mode Pro &gt; Run Self-Test</strong> — it writes
+   <code>PhotoModeSelfTest.json</code> and verifies your setup end to end.</li>
+<li>If you ship a modified copy of the demo, rebuild it via
+   <strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</strong>.</li>
+</ol>
+</div>
+<h2 id="to-140">To 1.4.0<a class="headerlink" href="#to-140" title="Permanent link">¶</a></h2>
+<p>No breaking API changes. Two behavioral changes and new editor tooling:</p>
+<h3 id="aperture-range-and-mapping">Aperture range and mapping<a class="headerlink" href="#aperture-range-and-mapping" title="Permanent link">¶</a></h3>
+<p>The aperture constants changed: <code>ApertureMin</code>/<code>ApertureMax</code> are now
+<strong>0.7/16</strong> (previously 1/32), and the slider uses a perceptual log-stop
+mapping so its full travel produces visible depth-of-field change.</p>
+<ul>
+<li>The aperture property still accepts any positive value; out-of-range
+  values from old presets, saved settings or scripts <strong>clamp into
+  f/0.7–f/16 when applied</strong>.</li>
+<li>Presets you re-save automatically clamp to the new range.</li>
+<li>Only act if your code or presets relied on apertures outside f/0.7–f/16:
+  values below 0.7 now behave as f/0.7 and values above 16 as f/16.</li>
+</ul>
+<h3 id="ui-layout-hint-chips-and-toolbar">UI layout: hint chips and toolbar<a class="headerlink" href="#ui-layout-hint-chips-and-toolbar" title="Permanent link">¶</a></h3>
+<p>Hotkey hint chips now form a single row along the bottom screen edge
+(wrapping to a second row only on very narrow/portrait windows), and the
+toolbar is raised so the two bands cannot intersect.</p>
+<ul>
+<li><strong>No action</strong> if you use the generated UI prefab as shipped — it updates
+  with the package.</li>
+<li>If you <strong>modified the generated UI prefab</strong>, regenerate it
+  (<strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</strong>) and re-apply your
+  customizations, or merge the layout changes manually.</li>
+</ul>
+<h3 id="new-editor-menus">New editor menus<a class="headerlink" href="#new-editor-menus" title="Permanent link">¶</a></h3>
+<p>Everything now lives under <strong>Tools &gt; Photo Mode Pro</strong>: Setup Wizard, Add
+Photo Mode To Scene, Run Self-Test, Build Demo Assets, Open Documentation,
+Report a Bug, Welcome, and About. The Setup Wizard runs green/yellow/red
+checks (pipeline, effects backend, input handling, Cinemachine, TMP
+essentials, demo materials) with one-click fixes — run it once after
+upgrading.</p>
+<p>The demo is also pipeline-aware now (no longer URP-only): opening the demo
+scene under a mismatched pipeline offers a one-click rebuild. A first-import
+Welcome window appears once per machine and is never re-shown across
+updates.</p>
+<h2 id="to-130">To 1.3.0<a class="headerlink" href="#to-130" title="Permanent link">¶</a></h2>
+<h3 id="pauseaudio-replaced-by-audiopausemode"><code>pauseAudio</code> replaced by <code>audioPauseMode</code><a class="headerlink" href="#pauseaudio-replaced-by-audiopausemode" title="Permanent link">¶</a></h3>
+<p>The <code>pauseAudio</code> bool on <code>PhotoModeSettings</code> was replaced by the
+<code>audioPauseMode</code> enum (<code>AudioPauseMode.AudioListenerPause</code> /
+<code>AudioPauseMode.None</code>).</p>
+<ul>
+<li>Old serialized assets fall back to the default, <code>AudioListenerPause</code> —
+  the same behavior as the old <code>pauseAudio = true</code>. <strong>No action</strong> for most
+  projects.</li>
+<li><strong>Action required</strong> if you had <em>unchecked</em> <code>pauseAudio</code>: select
+  <code>AudioPauseMode.None</code> once on your settings asset. With <code>None</code> the
+  package never touches audio, so drive your own mixer-snapshot transitions
+  from <code>OnEntered</code>/<code>OnExited</code> — see
+  <a href="../events-and-api/">Events and API</a>.</li>
+</ul>
+<h3 id="none-preset-button-removed">NONE preset button removed<a class="headerlink" href="#none-preset-button-removed" title="Permanent link">¶</a></h3>
+<p><strong>Clean</strong> is now the first preset and the active default; the NONE button is
+gone because it was indistinguishable from Clean.</p>
+<ul>
+<li><code>ApplyPreset(null)</code> still works as the programmatic reset and maps to the
+  same state — <strong>no API break</strong>.</li>
+<li>See <a href="../presets/">Presets</a>.</li>
+</ul>
+<h3 id="minimum-unity-version-drops-to-20213">Minimum Unity version drops to 2021.3<a class="headerlink" href="#minimum-unity-version-drops-to-20213" title="Permanent link">¶</a></h3>
+<p>1.3.0 lowers the minimum from Unity 6000.0 to <strong>2021.3 LTS</strong> (verified on
+2021.3, 2022.3 and 6000.3, across URP/HDRP/Built-in and both input
+handlers). Purely additive — nothing to migrate; see the
+<a href="../support-matrix/">Support Matrix</a>.</p>
+<h2 id="to-120">To 1.2.0<a class="headerlink" href="#to-120" title="Permanent link">¶</a></h2>
+<h3 id="breaking-iphotomodeeffectsbackend-custom-backend-implementors-only">Breaking: <code>IPhotoModeEffectsBackend</code> (custom backend implementors only)<a class="headerlink" href="#breaking-iphotomodeeffectsbackend-custom-backend-implementors-only" title="Permanent link">¶</a></h3>
+<p>If you implemented your own effects backend, two interface changes apply:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">interface</span><span class="w"> </span><span class="n">IPhotoModeEffectsBackend</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// New in 1.2.0: report what your backend can do.</span>
+<span class="w">    </span><span class="n">EffectCapabilities</span><span class="w"> </span><span class="n">Capabilities</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Changed in 1.2.0: Initialize() now receives the photo camera.</span>
+<span class="w">    </span><span class="k">void</span><span class="w"> </span><span class="nf">Initialize</span><span class="p">(</span><span class="n">Camera</span><span class="w"> </span><span class="n">photoCamera</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// ...unchanged members...</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>Add the <code>Capabilities</code> property (return the <code>EffectCapabilities</code> flags
+  your backend supports — the UI hides controls for everything else).</li>
+<li>Update <code>Initialize()</code> to <code>Initialize(Camera photoCamera)</code>; backends that
+  do not need the camera can simply discard the argument.</li>
+</ul>
+<p>Projects that only <em>use</em> the built-in backends are unaffected — backend
+selection is automatic, with a manual <code>PhotoModeSettings.backendOverride</code>
+if you need to force one. See <a href="../effects/">Effects</a> and
+<a href="../pipelines/">Pipelines</a>.</p>
+<h2 id="coming-from-10x-or-11x">Coming from 1.0.x or 1.1.x<a class="headerlink" href="#coming-from-10x-or-11x" title="Permanent link">¶</a></h2>
+<p>Apply the steps above in order (1.2.0 → 1.3.0 → 1.4.0). In practice, unless
+you wrote a custom effects backend or unchecked <code>pauseAudio</code>, upgrading is:
+import, reimport, run the Self-Test, and rebuild the demo if you modified
+it. If anything misbehaves afterwards, start with
+<a href="../troubleshooting/">Troubleshooting</a>.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/changelog/"><span class="dir">Previous</span>Changelog</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#to-140">To 1.4.0</a></li><li class="h3"><a href="#aperture-range-and-mapping">Aperture range and mapping</a></li><li class="h3"><a href="#ui-layout-hint-chips-and-toolbar">UI layout: hint chips and toolbar</a></li><li class="h3"><a href="#new-editor-menus">New editor menus</a></li><li class="h2"><a href="#to-130">To 1.3.0</a></li><li class="h3"><a href="#pauseaudio-replaced-by-audiopausemode">pauseAudio replaced by audioPauseMode</a></li><li class="h3"><a href="#none-preset-button-removed">NONE preset button removed</a></li><li class="h3"><a href="#minimum-unity-version-drops-to-20213">Minimum Unity version drops to 2021.3</a></li><li class="h2"><a href="#to-120">To 1.2.0</a></li><li class="h3"><a href="#breaking-iphotomodeeffectsbackend-custom-backend-implementors-only">Breaking: IPhotoModeEffectsBackend (custom backend implementors only)</a></li><li class="h2"><a href="#coming-from-10x-or-11x">Coming from 1.0.x or 1.1.x</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

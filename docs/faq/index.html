@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ — Photo Mode Pro Documentation</title>
+<meta name="description" content="Quick answers to the questions buyers ask most. For symptom-driven help, see Troubleshooting ; for version migrations, see the Upgrade Guide .">
+<meta property="og:title" content="FAQ — Photo Mode Pro Documentation">
+<meta property="og:description" content="Quick answers to the questions buyers ask most. For symptom-driven help, see Troubleshooting ; for version migrations, see the Upgrade Guide .">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/" aria-current="page">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Help</p>
+    <h1>FAQ</h1>
+
+<p>Quick answers to the questions buyers ask most. For symptom-driven help, see
+<a href="../troubleshooting/">Troubleshooting</a>; for version migrations, see the
+<a href="../upgrade-guide/">Upgrade Guide</a>.</p>
+<h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">¶</a></h2>
+<h3 id="how-long-does-it-take-to-add-photo-mode-to-my-game">How long does it take to add photo mode to my game?<a class="headerlink" href="#how-long-does-it-take-to-add-photo-mode-to-my-game" title="Permanent link">¶</a></h3>
+<p>About 15 minutes. Drag the generated <code>PhotoModePro.prefab</code> into your scene,
+add your HUD canvases and player root(s) on the <code>PhotoModeController</code>
+component, and press your toggle key in Play mode. The
+<a href="../quick-start/">Quick Start</a> walks through every step.</p>
+<h3 id="what-does-the-setup-wizard-do">What does the Setup Wizard do?<a class="headerlink" href="#what-does-the-setup-wizard-do" title="Permanent link">¶</a></h3>
+<p><strong>Tools &gt; Photo Mode Pro &gt; Setup Wizard</strong> runs green/yellow/red checks on
+your project — render pipeline, effects backend, input handling, Cinemachine,
+TMP Essential Resources and demo materials — and offers one-click fixes for
+anything yellow or red. Run it first whenever something looks wrong; it
+catches the most common setup problems (wrong-pipeline demo materials,
+missing TMP essentials) before they cost you time.</p>
+<h3 id="do-i-need-to-install-any-other-packages">Do I need to install any other packages?<a class="headerlink" href="#do-i-need-to-install-any-other-packages" title="Permanent link">¶</a></h3>
+<p>No hard dependencies. Recommended/optional:</p>
+<ul>
+<li><strong>Input System package</strong> — recommended; the legacy Input Manager also works
+  with limitations (see below).</li>
+<li><strong>Post Processing Stack v2</strong> (<code>com.unity.postprocessing</code>) — only on the
+  Built-in Render Pipeline, for the full adjustment set. Without it a minimal
+  fallback backend is used (exposure, contrast, saturation, vignette only).</li>
+<li><strong>TMP Essential Resources</strong> — the UI uses TextMeshPro; import them once via
+  <strong>Window &gt; TextMeshPro &gt; Import TMP Essential Resources</strong> (the Setup Wizard
+  checks this and the demo builder imports them automatically).</li>
+</ul>
+<h3 id="can-i-open-photo-mode-from-my-own-code-eg-a-pause-menu">Can I open photo mode from my own code, e.g. a pause menu?<a class="headerlink" href="#can-i-open-photo-mode-from-my-own-code-eg-a-pause-menu" title="Permanent link">¶</a></h3>
+<p>Yes:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+
+<span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">EnterPhotoMode</span><span class="p">();</span>
+<span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">ExitPhotoMode</span><span class="p">();</span>
+
+<span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">OnPhotoCaptured</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">thumbnail</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">    </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Saved {path}&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>All lifecycle events also exist as UnityEvents for Inspector-only wiring. See
+<a href="../events-and-api/">Events and API</a>.</p>
+<h3 id="does-opening-photo-mode-pause-my-game">Does opening photo mode pause my game?<a class="headerlink" href="#does-opening-photo-mode-pause-my-game" title="Permanent link">¶</a></h3>
+<p>By default yes — <code>timeScale = 0</code> with audio paused, and everything restored
+exactly on exit. A non-pausing "unscaled" mode is available on the settings
+asset for games that must keep simulating. Audio pausing is controlled
+separately via <code>PhotoModeSettings.audioPauseMode</code>
+(<code>AudioListenerPause</code> or <code>None</code> for mixer-snapshot-driven games).</p>
+<h2 id="compatibility">Compatibility<a class="headerlink" href="#compatibility" title="Permanent link">¶</a></h2>
+<h3 id="which-unity-versions-and-render-pipelines-are-supported">Which Unity versions and render pipelines are supported?<a class="headerlink" href="#which-unity-versions-and-render-pipelines-are-supported" title="Permanent link">¶</a></h3>
+<p>Unity <strong>2021.3 LTS or newer</strong>, verified on 2021.3, 2022.3 and 6000.3. All
+three render pipelines: <strong>URP (12+)</strong>, <strong>HDRP (12+)</strong> and the <strong>Built-in
+Render Pipeline</strong> (full set with Post Processing Stack v2, minimal fallback
+without it). The right effects backend is detected automatically at runtime.
+See the <a href="../support-matrix/">Support Matrix</a> and <a href="../pipelines/">Pipelines</a>.</p>
+<h3 id="does-it-work-with-both-the-new-input-system-and-the-legacy-input-manager">Does it work with both the new Input System and the legacy Input Manager?<a class="headerlink" href="#does-it-work-with-both-the-new-input-system-and-the-legacy-input-manager" title="Permanent link">¶</a></h3>
+<p>Yes. The Input System package is the recommended path and is fully supported.
+The legacy Input Manager works too, with one documented limitation: gamepad
+right-stick look and triggers are unavailable, because the default
+<code>InputManager.asset</code> defines no axes for them and the package never edits
+your ProjectSettings. Keyboard + mouse is fully supported on legacy. Projects
+with Active Input Handling set to <strong>Both</strong> are also verified.</p>
+<h3 id="does-it-work-with-cinemachine">Does it work with Cinemachine?<a class="headerlink" href="#does-it-work-with-cinemachine" title="Permanent link">¶</a></h3>
+<p>Yes. Photo mode spawns its own free camera (a clone of your main camera) on
+enter and hands control back on exit, so it sits alongside Cinemachine rather
+than fighting it — your virtual cameras keep owning the gameplay camera. The
+Setup Wizard includes a Cinemachine check. See
+<a href="../integrations/">Integrations</a> for details.</p>
+<h3 id="what-about-webgl-mobile-and-consoles">What about WebGL, mobile and consoles?<a class="headerlink" href="#what-about-webgl-mobile-and-consoles" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Windows / macOS / Linux standalone</strong> — fully supported, Mono and IL2CPP
+  (IL2CPP verified with Managed Stripping Level = High).</li>
+<li><strong>WebGL</strong> — not supported in this version (capture-to-disk); a known
+  limitation and roadmap item.</li>
+<li><strong>Mobile</strong> — untested / roadmap; there is no touch UI yet.</li>
+<li><strong>Consoles</strong> — untested / roadmap; the gamepad input layer is
+  console-style, but no platform claims are made.</li>
+</ul>
+<h2 id="capture">Capture<a class="headerlink" href="#capture" title="Permanent link">¶</a></h2>
+<h3 id="where-are-photos-saved">Where are photos saved?<a class="headerlink" href="#where-are-photos-saved" title="Permanent link">¶</a></h3>
+<p><code>{Application.persistentDataPath}/Photos</code> by default, as timestamped,
+collision-safe PNGs. Override the folder via
+<code>PhotoModeSettings.customSavePath</code>. In-game, clicking the capture toast (or
+the save-path row on the CAPTURE tab) opens the folder — on Windows with the
+new photo selected. See <a href="../capture/">Capture</a>.</p>
+<h3 id="why-is-the-transparent-bg-toggle-missing-on-hdrp">Why is the Transparent BG toggle missing on HDRP?<a class="headerlink" href="#why-is-the-transparent-bg-toggle-missing-on-hdrp" title="Permanent link">¶</a></h3>
+<p>HDRP cannot produce clean alpha without an alpha-capable color buffer format
+on the HDRP asset — a project-wide setting the package will not edit, so the
+capability is honestly reported as unsupported and the toggle is hidden. URP
+and both Built-in backends support transparent capture; transparent frames
+render without post-processing so the alpha stays clean. See
+<a href="../pipelines/">Pipelines</a>.</p>
+<h3 id="how-large-can-captures-be">How large can captures be?<a class="headerlink" href="#how-large-can-captures-be" title="Permanent link">¶</a></h3>
+<p>1x, 2x or 4x supersampled — a 4x capture of a 1080p view renders at
+7680×4320. Heavy supersampled captures show a "PROCESSING…" badge
+automatically while the blocking render runs. See
+<a href="../performance/">Performance</a> for measured wall-times.</p>
+<h3 id="does-photo-mode-allocate-gc-garbage-every-frame">Does photo mode allocate GC garbage every frame?<a class="headerlink" href="#does-photo-mode-allocate-gc-garbage-every-frame" title="Permanent link">¶</a></h3>
+<p>No. Photo mode does <strong>zero per-frame managed (GC) allocations</strong> while open
+and idle and while adjusting sliders, after the first-open warmup frame that
+builds caches. While closed, the controller only polls the toggle binding.
+This is asserted by allocation gates in the test suite. See
+<a href="../performance/">Performance</a>.</p>
+<h2 id="ui-input">UI &amp; input<a class="headerlink" href="#ui-input" title="Permanent link">¶</a></h2>
+<h3 id="can-i-rebind-the-keys">Can I rebind the keys?<a class="headerlink" href="#can-i-rebind-the-keys" title="Permanent link">¶</a></h3>
+<p>Yes — the toggle, hide-UI and capture hotkeys (and pause behavior, camera
+limits, save folder and more) live on the <code>PhotoModeSettings</code> asset.
+Duplicate it or create one via <strong>Assets &gt; Create &gt; Photo Mode Pro &gt;
+Settings</strong>. When you change a hotkey in the Inspector, an editor dialog
+offers to update the matching on-screen hint chips for you.</p>
+<h3 id="can-i-restyle-the-ui-to-match-my-game">Can I restyle the UI to match my game?<a class="headerlink" href="#can-i-restyle-the-ui-to-match-my-game" title="Permanent link">¶</a></h3>
+<p>Yes — the whole UI restyles from a single <code>PhotoModeUITheme</code> asset: colors,
+fonts, sprites, motion (hover/press scales, transition durations) and UI
+audio (hover/click/shutter sounds). See <a href="../theming/">Theming</a>.</p>
+<h3 id="is-the-ui-fully-gamepad-navigable">Is the UI fully gamepad-navigable?<a class="headerlink" href="#is-the-ui-fully-gamepad-navigable" title="Permanent link">¶</a></h3>
+<p>Yes — D-pad navigates, sticks stay reserved for the camera (AAA split
+scheme). The first control of the active tab is selected the moment photo
+mode opens, and navigation can never go dead: pressing a navigation input
+while nothing is selected re-selects the first control automatically.</p>
+<h2 id="demo-assets">Demo &amp; assets<a class="headerlink" href="#demo-assets" title="Permanent link">¶</a></h2>
+<h3 id="why-does-the-demo-render-pinkmagenta">Why does the demo render pink/magenta?<a class="headerlink" href="#why-does-the-demo-render-pinkmagenta" title="Permanent link">¶</a></h3>
+<p>The demo materials were generated for a different render pipeline than the
+one your project is using. Since 1.4.0 the demo is pipeline-aware: opening
+the demo scene under a mismatched pipeline offers <strong>"Rebuild demo for current
+pipeline"</strong> — accept it, or run <strong>Tools &gt; Photo Mode Pro &gt; Build Demo
+Assets</strong> manually. See <a href="../troubleshooting/">Troubleshooting</a>.</p>
+<h3 id="can-i-delete-the-demo-folder">Can I delete the Demo folder?<a class="headerlink" href="#can-i-delete-the-demo-folder" title="Permanent link">¶</a></h3>
+<p>Yes — it is safe to delete. Everything demo-related (scene, third-party art
+and audio, demo builders and demo tests) lives under
+<code>Assets/PhotoModePro/Demo/</code>, and nothing outside it references that folder.
+One thing to know: the generated controller/UI prefabs, settings, theme and
+presets live under <code>Demo/Generated/</code>, so if you delete the demo, create your
+own settings asset (<strong>Assets &gt; Create &gt; Photo Mode Pro &gt; Settings</strong>) and add
+the <code>PhotoModeController</code> component to a GameObject directly.</p>
+<h3 id="who-made-the-demo-art-and-can-i-ship-it">Who made the demo art, and can I ship it?<a class="headerlink" href="#who-made-the-demo-art-and-can-i-ship-it" title="Permanent link">¶</a></h3>
+<p>All bundled third-party demo assets are <strong>CC0 (public domain)</strong> — from
+Quaternius, Kenney, Poly Haven, ambientCG and OpenGameArt — with full provenance
+in <code>Demo/ThirdParty/ATTRIBUTIONS.md</code>. You may use them, but remember: the
+product you bought is the photo mode <em>system</em>; the demo art exists to show it
+off, and the same CC0 assets are freely available from their original
+sources.</p>
+<h3 id="a-welcome-window-appeared-after-import-will-it-keep-popping-up">A Welcome window appeared after import — will it keep popping up?<a class="headerlink" href="#a-welcome-window-appeared-after-import-will-it-keep-popping-up" title="Permanent link">¶</a></h3>
+<p>No. It shows once per machine on first import (gated by an EditorPrefs flag)
+and is never re-shown, including across updates. You can reopen it any time
+via <strong>Tools &gt; Photo Mode Pro &gt; Welcome</strong>.</p>
+<h3 id="how-do-i-get-support">How do I get support?<a class="headerlink" href="#how-do-i-get-support" title="Permanent link">¶</a></h3>
+<p>Use <strong>Tools &gt; Photo Mode Pro &gt; Report a Bug</strong>, or email
+<strong>support.dan.max@gmail.com</strong>. Before reporting, run <strong>Tools &gt; Photo Mode
+Pro &gt; Run Self-Test</strong> and attach the generated <code>PhotoModeSelfTest.json</code> — it
+captures the environment details we need. See also
+<a href="../troubleshooting/">Troubleshooting</a>.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/performance/"><span class="dir">Previous</span>Performance</a><a class="next" href="../../docs/troubleshooting/"><span class="dir">Next</span>Troubleshooting</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#getting-started">Getting started</a></li><li class="h3"><a href="#how-long-does-it-take-to-add-photo-mode-to-my-game">How long does it take to add photo mode to my game?</a></li><li class="h3"><a href="#what-does-the-setup-wizard-do">What does the Setup Wizard do?</a></li><li class="h3"><a href="#do-i-need-to-install-any-other-packages">Do I need to install any other packages?</a></li><li class="h3"><a href="#can-i-open-photo-mode-from-my-own-code-eg-a-pause-menu">Can I open photo mode from my own code, e.g. a pause menu?</a></li><li class="h3"><a href="#does-opening-photo-mode-pause-my-game">Does opening photo mode pause my game?</a></li><li class="h2"><a href="#compatibility">Compatibility</a></li><li class="h3"><a href="#which-unity-versions-and-render-pipelines-are-supported">Which Unity versions and render pipelines are supported?</a></li><li class="h3"><a href="#does-it-work-with-both-the-new-input-system-and-the-legacy-input-manager">Does it work with both the new Input System and the legacy Input Manager?</a></li><li class="h3"><a href="#does-it-work-with-cinemachine">Does it work with Cinemachine?</a></li><li class="h3"><a href="#what-about-webgl-mobile-and-consoles">What about WebGL, mobile and consoles?</a></li><li class="h2"><a href="#capture">Capture</a></li><li class="h3"><a href="#where-are-photos-saved">Where are photos saved?</a></li><li class="h3"><a href="#why-is-the-transparent-bg-toggle-missing-on-hdrp">Why is the Transparent BG toggle missing on HDRP?</a></li><li class="h3"><a href="#how-large-can-captures-be">How large can captures be?</a></li><li class="h3"><a href="#does-photo-mode-allocate-gc-garbage-every-frame">Does photo mode allocate GC garbage every frame?</a></li><li class="h2"><a href="#ui-input">UI &amp;amp; input</a></li><li class="h3"><a href="#can-i-rebind-the-keys">Can I rebind the keys?</a></li><li class="h3"><a href="#can-i-restyle-the-ui-to-match-my-game">Can I restyle the UI to match my game?</a></li><li class="h3"><a href="#is-the-ui-fully-gamepad-navigable">Is the UI fully gamepad-navigable?</a></li><li class="h2"><a href="#demo-assets">Demo &amp;amp; assets</a></li><li class="h3"><a href="#why-does-the-demo-render-pinkmagenta">Why does the demo render pink/magenta?</a></li><li class="h3"><a href="#can-i-delete-the-demo-folder">Can I delete the Demo folder?</a></li><li class="h3"><a href="#who-made-the-demo-art-and-can-i-ship-it">Who made the demo art, and can I ship it?</a></li><li class="h3"><a href="#a-welcome-window-appeared-after-import-will-it-keep-popping-up">A Welcome window appeared after import — will it keep popping up?</a></li><li class="h3"><a href="#how-do-i-get-support">How do I get support?</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

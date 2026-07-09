@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events &amp; Scripting — Photo Mode Pro Documentation</title>
+<meta name="description" content="Everything the UI can do, your code can do. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the null-safe static ">
+<meta property="og:title" content="Events &amp; Scripting — Photo Mode Pro Documentation">
+<meta property="og:description" content="Everything the UI can do, your code can do. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the null-safe static ">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/" aria-current="page">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Events &amp; Scripting</h1>
+
+<p>Everything the UI can do, your code can do. The whole public surface lives on
+<code>PhotoModeController</code> (namespace <code>PhotoModePro</code>), reached via the null-safe
+static <code>PhotoModeController.Instance</code>.</p>
+<h2 id="lifecycle-events">Lifecycle events<a class="headerlink" href="#lifecycle-events" title="Permanent link">¶</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>C# event</th>
+<th>Signature</th>
+<th>Fires</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OnEntered</code></td>
+<td><code>Action</code></td>
+<td>Photo mode entered.</td>
+</tr>
+<tr>
+<td><code>OnExited</code></td>
+<td><code>Action</code></td>
+<td>Photo mode exited (state already restored).</td>
+</tr>
+<tr>
+<td><code>OnPhotoCaptured</code></td>
+<td><code>Action&lt;string, Texture2D&gt;</code></td>
+<td>A photo was saved — path and thumbnail.</td>
+</tr>
+<tr>
+<td><code>OnAdjustmentsReplaced</code></td>
+<td><code>Action</code></td>
+<td>The adjustment values were replaced wholesale (preset applied or reset).</td>
+</tr>
+</tbody>
+</table></div>
+<p>Three of these also exist as serialized <strong>UnityEvents</strong> on the component for
+Inspector-only wiring — <code>On Entered</code>, <code>On Exited</code> and <code>On Photo Captured</code> (a
+<code>PhotoCapturedUnityEvent</code>, i.e. <code>UnityEvent&lt;string, Texture2D&gt;</code>). The C# event
+fires first, then the UnityEvent.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+
+<span class="n">controller</span><span class="p">.</span><span class="n">OnEntered</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Photo mode open&quot;</span><span class="p">);</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Photo mode closed&quot;</span><span class="p">);</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">OnPhotoCaptured</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">thumb</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Saved {path}&quot;</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="enter-exit-from-a-pause-menu">Enter / exit from a pause menu<a class="headerlink" href="#enter-exit-from-a-pause-menu" title="Permanent link">¶</a></h2>
+<p><code>EnterPhotoMode()</code>, <code>ExitPhotoMode()</code> and <code>TogglePhotoMode()</code> are plain public
+methods — wire them to a button or call them from your game-state machine:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnPhotoModeButtonClicked</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">pauseMenu</span><span class="p">.</span><span class="n">Hide</span><span class="p">();</span>
+<span class="w">    </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">EnterPhotoMode</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">void</span><span class="w"> </span><span class="nf">Awake</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Reopen the pause menu when the player leaves photo mode.</span>
+<span class="w">    </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">OnExited</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">pauseMenu</span><span class="p">.</span><span class="n">Show</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Both methods are safe to spam: <code>EnterPhotoMode()</code> no-ops when already active (or
+when no main camera exists), <code>ExitPhotoMode()</code> no-ops while inactive or while a
+capture is in progress. <code>IsActive</code> and <code>IsCapturing</code> report the current state.
+See <a href="../integrations/">Integrations</a> for the full pause-menu pattern.</p>
+<h2 id="shared-bindings-exitedthisframe">Shared bindings: <code>ExitedThisFrame</code><a class="headerlink" href="#shared-bindings-exitedthisframe" title="Permanent link">¶</a></h2>
+<p>If a photo mode binding doubles as a gameplay action (the demo's <strong>Space</strong> is
+both fly-up and jump), the closing key press would otherwise bleed into gameplay
+on the exit frame. <code>ExitedThisFrame</code> is true only during that single frame:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">void</span><span class="w"> </span><span class="nf">Update</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">photoMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">photoMode</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">photoMode</span><span class="p">.</span><span class="n">IsActive</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">photoMode</span><span class="p">.</span><span class="n">ExitedThisFrame</span><span class="p">))</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// photo mode owns input this frame</span>
+
+<span class="w">    </span><span class="c1">// ... gameplay input ...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The demo's <code>ThirdPersonCharacter</code> uses exactly this pattern.</p>
+<h2 id="audio-mixer-snapshots-instead-of-audiolistenerpause">Audio: mixer snapshots instead of <code>AudioListener.pause</code><a class="headerlink" href="#audio-mixer-snapshots-instead-of-audiolistenerpause" title="Permanent link">¶</a></h2>
+<p>By default photo mode sets <code>AudioListener.pause</code> on enter and restores the prior
+value exactly on exit. If your game drives audio through mixer snapshots, set
+<code>PhotoModeSettings.audioPauseMode</code> to <code>AudioPauseMode.None</code> — the package then
+never touches audio — and transition in your own handlers:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine.Audio</span><span class="p">;</span>
+
+<span class="na">[SerializeField]</span><span class="w"> </span><span class="n">AudioMixerSnapshot</span><span class="w"> </span><span class="n">pausedSnapshot</span><span class="p">;</span>
+<span class="na">[SerializeField]</span><span class="w"> </span><span class="n">AudioMixerSnapshot</span><span class="w"> </span><span class="n">gameplaySnapshot</span><span class="p">;</span>
+
+<span class="k">void</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+<span class="w">    </span><span class="n">controller</span><span class="p">.</span><span class="n">OnEntered</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pausedSnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
+<span class="w">    </span><span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">gameplaySnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>More audio strategies in <a href="../integrations/">Integrations</a>.</p>
+<h2 id="capability-checks">Capability checks<a class="headerlink" href="#capability-checks" title="Permanent link">¶</a></h2>
+<p><code>ActiveCapabilities</code> returns the <code>EffectCapabilities</code> flags of the active effects
+backend — and while photo mode is closed, a cheap, side-effect-free prediction of
+the backend that would be selected right now:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro.Effects</span><span class="p">;</span>
+
+<span class="n">EffectCapabilities</span><span class="w"> </span><span class="n">caps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">ActiveCapabilities</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">caps</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">EffectCapabilities</span><span class="p">.</span><span class="n">DepthOfField</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// safe to surface DoF in your own UI</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="n">canTransparent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">caps</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">EffectCapabilities</span><span class="p">.</span><span class="n">TransparentCapture</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+<p>Flags: <code>Exposure</code>, <code>Contrast</code>, <code>Saturation</code>, <code>Temperature</code>, <code>Vignette</code>, <code>Grain</code>,
+<code>DepthOfField</code>, <code>TransparentCapture</code>. The matrix per pipeline is on
+<a href="../pipelines/">Pipelines</a>.</p>
+<h2 id="quick-reference">Quick reference<a class="headerlink" href="#quick-reference" title="Permanent link">¶</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Instance</code></td>
+<td>Null-safe static accessor to the active controller.</td>
+</tr>
+<tr>
+<td><code>IsActive</code> / <code>IsCapturing</code> / <code>ExitedThisFrame</code></td>
+<td>State queries.</td>
+</tr>
+<tr>
+<td><code>EnterPhotoMode()</code> / <code>ExitPhotoMode()</code> / <code>TogglePhotoMode()</code></td>
+<td>Lifecycle.</td>
+</tr>
+<tr>
+<td><code>Adjustments</code> + <code>NotifyAdjustmentsEdited()</code></td>
+<td><a href="../effects/">Image adjustments</a>.</td>
+</tr>
+<tr>
+<td><code>ApplyPreset(preset)</code> / <code>Presets</code> / <code>CurrentPresetLabel</code></td>
+<td><a href="../presets/">Presets</a>.</td>
+</tr>
+<tr>
+<td><code>CapturePhoto()</code> / <code>Supersample</code> / <code>TransparentCapture</code> / <code>SaveDirectory</code></td>
+<td><a href="../capture/">Capture</a>.</td>
+</tr>
+<tr>
+<td><code>PhotoCamera</code></td>
+<td>The live <code>FreeCameraController</code> — see <a href="../camera/">Free camera</a>.</td>
+</tr>
+<tr>
+<td><code>Visibility</code></td>
+<td>Hide game UI / player / layers toggles.</td>
+</tr>
+<tr>
+<td><code>Settings</code> / <code>UiPrefab</code> / <code>GameUiCanvases</code> / <code>PlayerObjects</code></td>
+<td>Configuration (assign while inactive).</td>
+</tr>
+<tr>
+<td><code>ActiveCapabilities</code></td>
+<td>Effects backend capability flags.</td>
+</tr>
+</tbody>
+</table></div>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/capture/"><span class="dir">Previous</span>Capture</a><a class="next" href="../../docs/theming/"><span class="dir">Next</span>Theming the UI</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#lifecycle-events">Lifecycle events</a></li><li class="h2"><a href="#enter-exit-from-a-pause-menu">Enter / exit from a pause menu</a></li><li class="h2"><a href="#shared-bindings-exitedthisframe">Shared bindings: ExitedThisFrame</a></li><li class="h2"><a href="#audio-mixer-snapshots-instead-of-audiolistenerpause">Audio: mixer snapshots instead of AudioListener.pause</a></li><li class="h2"><a href="#capability-checks">Capability checks</a></li><li class="h2"><a href="#quick-reference">Quick reference</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

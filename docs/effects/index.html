@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Image Adjustments — Photo Mode Pro Documentation</title>
+<meta name="description" content="The Effects tab exposes the full adjustment set. Every value lives in PhotoModeController.Adjustments (a PhotoModeAdjustments object) in natural, pipeline-agn">
+<meta property="og:title" content="Image Adjustments — Photo Mode Pro Documentation">
+<meta property="og:description" content="The Effects tab exposes the full adjustment set. Every value lives in PhotoModeController.Adjustments (a PhotoModeAdjustments object) in natural, pipeline-agn">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/" aria-current="page">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Image Adjustments</h1>
+
+<p>The <strong>Effects</strong> tab exposes the full adjustment set. Every value lives in
+<code>PhotoModeController.Adjustments</code> (a <code>PhotoModeAdjustments</code> object) in natural,
+pipeline-agnostic units, and is sticky for the play session.</p>
+<h2 id="the-sliders">The sliders<a class="headerlink" href="#the-sliders" title="Permanent link">¶</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Field</th>
+<th>Unit / range</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exposure</td>
+<td><code>exposureEv</code></td>
+<td>EV, −3 .. +3</td>
+<td>Relative exposure compensation; identical semantics on every pipeline (on HDRP it maps to post-exposure, so it never fights auto-exposure).</td>
+</tr>
+<tr>
+<td>Contrast</td>
+<td><code>contrast</code></td>
+<td>−100 .. +100</td>
+<td>0 is neutral.</td>
+</tr>
+<tr>
+<td>Saturation</td>
+<td><code>saturation</code></td>
+<td>−100 .. +100</td>
+<td>−100 is grayscale.</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td><code>temperature</code></td>
+<td>−100 (cool) .. +100 (warm)</td>
+<td>0 is neutral.</td>
+</tr>
+<tr>
+<td>Vignette</td>
+<td><code>vignette</code></td>
+<td>0 .. 1</td>
+<td>Edge softness differs slightly per pipeline.</td>
+</tr>
+<tr>
+<td>Grain</td>
+<td><code>filmGrain</code></td>
+<td>0 .. 1</td>
+<td>Response normalized across pipelines; subtle character differences remain.</td>
+</tr>
+<tr>
+<td>Depth of Field</td>
+<td><code>depthOfFieldEnabled</code></td>
+<td>toggle</td>
+<td>The two rows below hide while this is off.</td>
+</tr>
+<tr>
+<td>Focus Dist</td>
+<td><code>focusDistance</code></td>
+<td>meters, 0.1 .. 100 (slider)</td>
+<td>Logarithmic slider: half the travel covers the visibly focus-pulling 0.1–3 m. The readout stays in meters.</td>
+</tr>
+<tr>
+<td>Aperture</td>
+<td><code>aperture</code></td>
+<td>f-number, f/0.7 .. f/16 (slider)</td>
+<td>See below.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-aperture-slider">The aperture slider<a class="headerlink" href="#the-aperture-slider" title="Permanent link">¶</a></h2>
+<p>The aperture slider spans <strong>f/0.7 – f/16</strong> with a perceptual log-stop mapping:
+each step of slider travel multiplies the f-number by a constant ratio, so a
+nudge near f/1 changes the bokeh about as much as a nudge near f/11 — the way
+photographers think in stops. Lower f-numbers mean a shallower focus plane and
+bigger bokeh; f/0.7 is the widest aperture HDRP's physical camera accepts, and
+beyond ~f/16 the blur is sub-pixel at game scales.</p>
+<div class="admonition note">
+<p class="admonition-title">Clamping</p>
+<p><code>PhotoModeAdjustments.aperture</code> still accepts <strong>any positive value</strong> from
+script, and old presets keep loading unchanged — but the effect backends
+clamp into <code>[PhotoModeAdjustments.ApertureMin, ApertureMax]</code> (0.7–16) when
+applying. A preset saved at f/22 simply renders as f/16.</p>
+</div>
+<h2 id="per-pipeline-availability">Per-pipeline availability<a class="headerlink" href="#per-pipeline-availability" title="Permanent link">¶</a></h2>
+<p>Not every backend supports every effect — the Built-in fallback (no Post
+Processing Stack v2) lacks temperature, grain and depth of field, and HDRP cannot
+do transparent captures. <strong>Unsupported controls hide automatically</strong>, and scripts
+can check the same flags:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro.Effects</span><span class="p">;</span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="n">hasDof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">ActiveCapabilities</span>
+<span class="w">               </span><span class="o">&amp;</span><span class="w"> </span><span class="n">EffectCapabilities</span><span class="p">.</span><span class="n">DepthOfField</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+<p>The full capability matrix and the visual differences between pipelines are on
+the <a href="../pipelines/">Pipelines</a> page.</p>
+<h2 id="scripting-adjustments">Scripting adjustments<a class="headerlink" href="#scripting-adjustments" title="Permanent link">¶</a></h2>
+<p>Write the fields directly, then tell the controller you did — that marks the
+effects dirty (re-applied next frame) and flips the preset label to "Custom":</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">exposureEv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">saturation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">100f</span><span class="p">;</span><span class="w">   </span><span class="c1">// grayscale</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">vignette</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.35f</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">depthOfFieldEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">focusDistance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.5f</span><span class="p">;</span><span class="w"> </span><span class="c1">// meters</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">aperture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.4f</span><span class="p">;</span><span class="w">      </span><span class="c1">// f-stops</span>
+
+<span class="n">controller</span><span class="p">.</span><span class="n">NotifyAdjustmentsEdited</span><span class="p">();</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Without <code>NotifyAdjustmentsEdited()</code> your changes sit in the model but never
+reach the screen until something else (a slider, a preset) triggers a
+re-apply. The UI sliders call it for you; direct field writes must.</p>
+</div>
+<p>To replace the whole set at once, use a preset instead —
+<code>ApplyPreset(...)</code> copies values, re-applies and raises
+<code>OnAdjustmentsReplaced</code> so the UI re-seeds its sliders. See
+<a href="../presets/">Presets</a>.</p>
+<p>Values for capabilities the active backend lacks are simply ignored — never
+clamped or destroyed — so a look authored on URP survives a session on the
+Built-in fallback intact.</p>
+<p>Related: <a href="../core-concepts/">Core Concepts</a> ·
+<a href="../presets/">Presets</a> · <a href="../events-and-api/">Events &amp; API</a></p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/camera/"><span class="dir">Previous</span>Camera</a><a class="next" href="../../docs/presets/"><span class="dir">Next</span>Presets</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#the-sliders">The sliders</a></li><li class="h2"><a href="#the-aperture-slider">The aperture slider</a></li><li class="h2"><a href="#per-pipeline-availability">Per-pipeline availability</a></li><li class="h2"><a href="#scripting-adjustments">Scripting adjustments</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

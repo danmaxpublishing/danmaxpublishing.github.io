@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theming the UI — Photo Mode Pro Documentation</title>
+<meta name="description" content="The entire photo mode UI — every panel, control, label, animation and sound — restyles from a single PhotoModeUITheme asset. Swap the asset, ship a new look.">
+<meta property="og:title" content="Theming the UI — Photo Mode Pro Documentation">
+<meta property="og:description" content="The entire photo mode UI — every panel, control, label, animation and sound — restyles from a single PhotoModeUITheme asset. Swap the asset, ship a new look.">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/" aria-current="page">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Theming the UI</h1>
+
+<p>The entire photo mode UI — every panel, control, label, animation and sound —
+restyles from a single <code>PhotoModeUITheme</code> asset. Swap the asset, ship a new look.</p>
+<h2 id="reskin-in-three-steps">Reskin in three steps<a class="headerlink" href="#reskin-in-three-steps" title="Permanent link">¶</a></h2>
+<ol>
+<li>Duplicate the shipped <code>PhotoModeUITheme.asset</code> (or create a fresh one via
+   <strong>Assets &gt; Create &gt; Photo Mode Pro &gt; UI Theme</strong>).</li>
+<li>Change colors, sprites, fonts, motion and audio on the duplicate.</li>
+<li>Assign it to the <strong>Theme</strong> field on the <code>PhotoModeUIController</code> component of
+   your photo mode UI prefab.</li>
+</ol>
+<p>The theme is applied at bind time — every time the UI spawns — so the next time
+photo mode opens, the whole panel wears your skin. At runtime you can also set
+<code>PhotoModeUIController.Theme</code> and call <code>ApplyTheme()</code> to restyle a live panel.</p>
+<h2 id="what-the-theme-controls">What the theme controls<a class="headerlink" href="#what-the-theme-controls" title="Permanent link">¶</a></h2>
+<h3 id="colors">Colors<a class="headerlink" href="#colors" title="Permanent link">¶</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>panelColor</code></td>
+<td>Main panel background.</td>
+</tr>
+<tr>
+<td><code>controlColor</code></td>
+<td>Slider/button/toggle backgrounds.</td>
+</tr>
+<tr>
+<td><code>accentColor</code></td>
+<td>Fills, highlights, the selected tab.</td>
+</tr>
+<tr>
+<td><code>textColor</code></td>
+<td>Primary labels.</td>
+</tr>
+<tr>
+<td><code>dimTextColor</code></td>
+<td>Hints and value readouts.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sprites-and-icons">Sprites and icons<a class="headerlink" href="#sprites-and-icons" title="Permanent link">¶</a></h3>
+<p><code>panelSprite</code>, <code>controlSprite</code> and <code>handleSprite</code> override the builder defaults
+(null keeps them). The generated 9-sliced sprites (<code>roundedPanelSprite</code>,
+<code>roundedControlSprite</code>, <code>glowSprite</code>, <code>knobSprite</code>, <code>ringSprite</code>) and the
+category icons (<code>cameraIcon</code>, <code>effectsIcon</code>, <code>presetsIcon</code>, <code>captureIcon</code>,
+<code>snapIcon</code>) can each be replaced with your own art.</p>
+<h3 id="typography">Typography<a class="headerlink" href="#typography" title="Permanent link">¶</a></h3>
+<p><code>tmpFont</code> sets the TextMeshPro font asset for all labels (null falls back to the
+TMP default). <code>tmpOutlineMaterial</code> is an optional TMP material with a black
+outline/underlay used by scene-floating text — hint chips, the toast filename —
+so it stays readable over bright surfaces. A legacy <code>font</code> field exists as a
+fallback for non-TMP text.</p>
+<div class="admonition note">
+<p class="admonition-title">TMP Essential Resources</p>
+<p>The UI uses TextMeshPro. Import the essentials once via
+<strong>Window &gt; TextMeshPro &gt; Import TMP Essential Resources</strong> if your project has
+not already (the demo builder and the
+<a href="../core-concepts/">Setup Wizard</a> handle this for you).</p>
+</div>
+<h3 id="motion">Motion<a class="headerlink" href="#motion" title="Permanent link">¶</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enableMotion</code></td>
+<td>true</td>
+<td><strong>Master switch</strong> for all UI motion.</td>
+</tr>
+<tr>
+<td><code>hoverScale</code></td>
+<td>1.05</td>
+<td>Control scale while hovered/selected.</td>
+</tr>
+<tr>
+<td><code>pressScale</code></td>
+<td>0.95</td>
+<td>Control scale while pressed.</td>
+</tr>
+<tr>
+<td><code>punchAmplitude</code></td>
+<td>0.08</td>
+<td>Release punch wobble strength.</td>
+</tr>
+<tr>
+<td><code>transitionDuration</code></td>
+<td>0.25 s</td>
+<td>Master duration for panel/category transitions.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="ui-audio">UI audio<a class="headerlink" href="#ui-audio" title="Permanent link">¶</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enableUiAudio</code></td>
+<td><strong>Master switch</strong> for UI sounds.</td>
+</tr>
+<tr>
+<td><code>uiVolume</code></td>
+<td>0–1 volume for all UI sounds.</td>
+</tr>
+<tr>
+<td><code>hoverClip</code> / <code>clickClip</code> / <code>tabClip</code></td>
+<td>Hover (or gamepad selection), click/submit, category change.</td>
+</tr>
+<tr>
+<td><code>toggleOnClip</code> / <code>toggleOffClip</code></td>
+<td>Toggle switches.</td>
+</tr>
+<tr>
+<td><code>shutterClip</code></td>
+<td>Played with the capture flash.</td>
+</tr>
+<tr>
+<td><code>uiMixerGroup</code></td>
+<td>Optional <code>AudioMixerGroup</code>; null plays straight to the listener.</td>
+</tr>
+</tbody>
+</table></div>
+<div class="admonition tip">
+<p class="admonition-title">Kill switches</p>
+<p>Want a completely static, silent UI? Set <code>enableMotion</code> and <code>enableUiAudio</code>
+to false — no other changes needed. Or keep motion and just drop your own
+recorded sounds into the clip slots to replace the generated ones.</p>
+</div>
+<h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">¶</a></h2>
+<p>The theme restyles the photo mode panel and its floating chrome (toolbar, hint
+chips, toast). It does not touch your game's own UI, and gameplay HUD canvases
+are only ever hidden/shown — never restyled — by photo mode (see
+<a href="../capture/">Capturing photos</a> for the visibility toggles).</p>
+<p>Related: <a href="../core-concepts/">Core Concepts</a> · <a href="../faq/">FAQ</a></p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/events-and-api/"><span class="dir">Previous</span>Events & Scripting</a><a class="next" href="../../docs/integrations/"><span class="dir">Next</span>Integrations</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#reskin-in-three-steps">Reskin in three steps</a></li><li class="h2"><a href="#what-the-theme-controls">What the theme controls</a></li><li class="h3"><a href="#colors">Colors</a></li><li class="h3"><a href="#sprites-and-icons">Sprites and icons</a></li><li class="h3"><a href="#typography">Typography</a></li><li class="h3"><a href="#motion">Motion</a></li><li class="h3"><a href="#ui-audio">UI audio</a></li><li class="h2"><a href="#scope">Scope</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

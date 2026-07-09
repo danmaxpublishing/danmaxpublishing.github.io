@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capturing Photos — Photo Mode Pro Documentation</title>
+<meta name="description" content="Press P (keyboard), X / Square (gamepad) or the SNAP button — or call PhotoModeController.CapturePhoto() from script. The UI hides itself for the shot, the fr">
+<meta property="og:title" content="Capturing Photos — Photo Mode Pro Documentation">
+<meta property="og:description" content="Press P (keyboard), X / Square (gamepad) or the SNAP button — or call PhotoModeController.CapturePhoto() from script. The UI hides itself for the shot, the fr">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/" aria-current="page">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Capturing Photos</h1>
+
+<p>Press <strong>P</strong> (keyboard), <strong>X / Square</strong> (gamepad) or the <strong>SNAP</strong> button — or call
+<code>PhotoModeController.CapturePhoto()</code> from script. The UI hides itself for the
+shot, the frame is rendered offscreen, encoded to PNG and saved to disk, and a
+thumbnail toast confirms it.</p>
+<h2 id="supersampling">Supersampling<a class="headerlink" href="#supersampling" title="Permanent link">¶</a></h2>
+<p>The <strong>Capture</strong> tab offers <strong>1× / 2× / 4×</strong> output resolution
+(<code>PhotoModeController.Supersample</code>, default from
+<code>PhotoModeSettings.defaultSupersample</code>). A 4× capture of a 1080p view renders at
+7680×4320. Temporal anti-aliasing and dynamic resolution are disabled for the
+duration of every capture, so the output is artifact-free and exactly the
+requested size.</p>
+<div class="admonition note">
+<p class="admonition-title">Heavy captures show a badge</p>
+<p>Supersampled captures block the main thread for the render + encode — a
+static <strong>PROCESSING…</strong> badge appears automatically for 2×/4× shots. It lives
+on the overlay canvas and can never end up in the photo. Expect multiple
+seconds at 4× from 1080p; measured timings are on the
+<a href="../performance/">Performance</a> page.</p>
+</div>
+<p>The readback uses <code>AsyncGPUReadback</code> where the platform supports it, with a
+synchronous fallback elsewhere.</p>
+<h2 id="where-photos-go">Where photos go<a class="headerlink" href="#where-photos-go" title="Permanent link">¶</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PhotoModeSettings.customSavePath</code> empty (default)</td>
+<td><code>{Application.persistentDataPath}/Photos</code></td>
+</tr>
+<tr>
+<td><code>customSavePath</code> set</td>
+<td>that directory, used verbatim</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>PhotoModeController.SaveDirectory</code> returns the resolved directory at runtime.
+The save-path row on the Capture tab is clickable and opens the folder; clicking
+the capture toast reveals the new file (Windows Explorer reveal; folder open on
+other platforms).</p>
+<p><strong>File naming:</strong> <code>{ProductName}_{yyyy-MM-dd_HH-mm-ss}.png</code>, with the product name
+sanitized for the file system. Collisions get a counter suffix:
+<code>Game_2026-06-11_12-00-00_001.png</code>.</p>
+<h2 id="transparent-background">Transparent background<a class="headerlink" href="#transparent-background" title="Permanent link">¶</a></h2>
+<p>Toggle <strong>Transparent BG</strong> on the Capture tab (or set
+<code>PhotoModeController.TransparentCapture</code>) to capture with a clean alpha channel —
+ideal for compositing screenshots over other art.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul>
+<li>Transparent frames render <strong>without post-processing</strong> (post effects destroy
+  alpha), so your image adjustments do not appear in transparent shots.</li>
+<li><strong>Not available on HDRP</strong> — the toggle is hidden there and a transparent
+  request is ignored at the backend boundary. URP and both Built-in backends
+  support it. Details on <a href="../pipelines/">Pipelines</a>.</li>
+</ul>
+</div>
+<h2 id="hiding-things-for-the-shot">Hiding things for the shot<a class="headerlink" href="#hiding-things-for-the-shot" title="Permanent link">¶</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Toggle</th>
+<th>Hotkey</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hide UI</td>
+<td><strong>H</strong> / <strong>Y (Triangle)</strong></td>
+<td>Hides the photo mode chrome for a clean preview. Capture feedback (flash, toast) stays visible.</td>
+</tr>
+<tr>
+<td>Hide Game UI</td>
+<td>Capture tab</td>
+<td>Hides the canvases registered on the controller (<code>GameUiCanvases</code> list + <code>gameUiTag</code>). On by default when <code>autoHideGameUi</code> is set.</td>
+</tr>
+<tr>
+<td>Hide Player</td>
+<td>Capture tab</td>
+<td>Disables the renderers of the registered player objects (<code>PlayerObjects</code> list + <code>playerTag</code>) — animator/physics state is untouched, so unhiding never pops.</td>
+</tr>
+<tr>
+<td>Hide Layers</td>
+<td>Capture tab</td>
+<td>Removes <code>PhotoModeSettings.hiddenLayers</code> from the photo camera's culling mask.</td>
+</tr>
+</tbody>
+</table></div>
+<p>All of these are restored exactly on exit. Scripts can drive them through
+<code>PhotoModeController.Visibility</code>
+(<code>SetGameUiHidden</code> / <code>SetPlayerHidden</code> / <code>SetLayersHidden</code>).</p>
+<h2 id="reacting-to-captures">Reacting to captures<a class="headerlink" href="#reacting-to-captures" title="Permanent link">¶</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
+
+<span class="k">void</span><span class="w"> </span><span class="nf">OnEnable</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">OnPhotoCaptured</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">HandlePhoto</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">void</span><span class="w"> </span><span class="nf">HandlePhoto</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">Texture2D</span><span class="w"> </span><span class="n">thumbnail</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Photo saved to {path}&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// e.g. push the thumbnail into your gallery UI, or upload the file.</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The same event exists as a UnityEvent (<code>On Photo Captured</code>) on the controller for
+Inspector wiring. <code>IsCapturing</code> is true while a capture is in flight — note that
+<code>ExitPhotoMode()</code> no-ops during that window, and the toggle key is ignored.</p>
+<p>Related: <a href="../core-concepts/">Core Concepts</a> ·
+<a href="../events-and-api/">Events &amp; API</a> · <a href="../troubleshooting/">Troubleshooting</a></p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/presets/"><span class="dir">Previous</span>Presets</a><a class="next" href="../../docs/events-and-api/"><span class="dir">Next</span>Events & Scripting</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#supersampling">Supersampling</a></li><li class="h2"><a href="#where-photos-go">Where photos go</a></li><li class="h2"><a href="#transparent-background">Transparent background</a></li><li class="h2"><a href="#hiding-things-for-the-shot">Hiding things for the shot</a></li><li class="h2"><a href="#reacting-to-captures">Reacting to captures</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

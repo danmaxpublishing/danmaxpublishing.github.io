@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Per-Pipeline Notes — Photo Mode Pro Documentation</title>
+<meta name="description" content="Photo Mode Pro detects the active render pipeline at runtime and picks the right effects backend automatically. Controls for effects the active backend cannot">
+<meta property="og:title" content="Per-Pipeline Notes — Photo Mode Pro Documentation">
+<meta property="og:description" content="Photo Mode Pro detects the active render pipeline at runtime and picks the right effects backend automatically. Controls for effects the active backend cannot">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/" aria-current="page">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Reference</p>
+    <h1>Per-Pipeline Notes</h1>
+
+<p>Photo Mode Pro detects the active render pipeline at runtime and picks the right
+effects backend automatically. Controls for effects the active backend cannot
+apply hide themselves (<code>PhotoModeController.ActiveCapabilities</code> exposes the same
+flags to scripts).</p>
+<h2 id="effect-availability">Effect availability<a class="headerlink" href="#effect-availability" title="Permanent link">¶</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Effect</th>
+<th>URP</th>
+<th>HDRP</th>
+<th>Built-in (PPv2)</th>
+<th>Built-in (fallback)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exposure</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Contrast</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Saturation</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Vignette</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Film grain</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Depth of field</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Transparent capture</td>
+<td>✓</td>
+<td>—</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="urp">URP<a class="headerlink" href="#urp" title="Permanent link">¶</a></h2>
+<ul>
+<li>Effects run through a code-built global <code>Volume</code> at very high priority — no
+  scene assets are touched, and everything is removed on exit.</li>
+<li>URP's film grain reads weaker than PPv2's at the same intensity, so the URP
+  backend uses a coarse grain lookup (<code>Large01</code>) with a low luminance response to
+  match the PPv2 look.</li>
+<li>URP's own depth-of-field aperture parameter floors at <strong>f/1.0</strong>, so the bottom
+  of the shared f/0.7–f/16 range renders slightly deeper focus on URP than on
+  HDRP (where f/0.7 is the physical camera's true floor).</li>
+<li><strong>Camera stacking is safe.</strong> The photo camera renders as a normal Base camera;
+  your main camera's overlay stack is left untouched while photo mode is open and
+  is intact after exit (asserted by
+  <code>HostileEnvironmentTests.UrpOverlayCameraStack_UnaffectedAfterExit</code> in the
+  shipped test suite).</li>
+</ul>
+<h2 id="hdrp">HDRP<a class="headerlink" href="#hdrp" title="Permanent link">¶</a></h2>
+<ul>
+<li>Depth of field drives the <strong>physical camera</strong> (<code>Camera.aperture</code>,
+  <code>focalLength</code>); the package keeps physical properties enabled while applying
+  adjustments so FOV smoothing can't silently kill DoF.</li>
+<li><strong>Exposure</strong> maps to <code>ColorAdjustments.postExposure</code> (relative EV, same
+  semantics as URP) rather than HDRP's absolute scene <code>Exposure</code> override, so the
+  slider behaves identically across pipelines and never fights auto-exposure.</li>
+<li><strong>Transparent capture is unsupported.</strong> Clean alpha would require an
+  alpha-capable color buffer format on the HDRP asset, which the package does not
+  edit. The <em>Transparent BG</em> toggle hides automatically.</li>
+<li>The demo's panoramic skybox material has no effect on HDRP (HDRP uses volume
+  skies); after a rebuild for HDRP the demo uses HDRP's default sky.</li>
+</ul>
+<h2 id="built-in-with-post-processing-stack-v2">Built-in with Post Processing Stack v2<a class="headerlink" href="#built-in-with-post-processing-stack-v2" title="Permanent link">¶</a></h2>
+<ul>
+<li>The backend creates its own <code>PostProcessVolume</code>, profile and <code>PostProcessLayer</code>
+  on the photo camera, giving the full adjustment set.</li>
+<li>PPv2's vignette reads weaker than URP's at the same intensity, so the slider
+  value is boosted internally toward the URP look; expect subtle character
+  differences between pipelines at identical slider values.</li>
+</ul>
+<h2 id="built-in-fallback-no-ppv2">Built-in fallback (no PPv2)<a class="headerlink" href="#built-in-fallback-no-ppv2" title="Permanent link">¶</a></h2>
+<ul>
+<li>A single internal full-screen shader provides exposure, contrast, saturation
+  and vignette. Temperature, film grain and depth of field are unavailable and
+  their controls hide automatically.</li>
+<li>Install <code>com.unity.postprocessing</code> for the full set — the Setup Wizard's
+  effects-backend check links you straight to the Package Manager.</li>
+</ul>
+<h2 id="aperture-clamping-all-pipelines">Aperture clamping (all pipelines)<a class="headerlink" href="#aperture-clamping-all-pipelines" title="Permanent link">¶</a></h2>
+<p>The aperture property accepts any positive value, but backends clamp it into
+<strong>f/0.7–f/16</strong> when applying (<a href="../effects/">why — see the effects how-to</a>).
+Out-of-range values from old presets or scripts are clamped, never errors.</p>
+<h2 id="demo-materials">Demo materials<a class="headerlink" href="#demo-materials" title="Permanent link">¶</a></h2>
+<p>Demo materials are generated for the <strong>active</strong> pipeline (Standard, URP Lit or
+HDRP Lit). Opening the demo scene under a mismatched pipeline offers
+<strong>Rebuild demo for current pipeline</strong>; the Setup Wizard's demo check offers the
+same rebuild. See <a href="../troubleshooting/">Troubleshooting</a> if the demo ever renders
+pink.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/integrations/"><span class="dir">Previous</span>Integrations</a><a class="next" href="../../docs/support-matrix/"><span class="dir">Next</span>Platform & Pipeline Support</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#effect-availability">Effect availability</a></li><li class="h2"><a href="#urp">URP</a></li><li class="h2"><a href="#hdrp">HDRP</a></li><li class="h2"><a href="#built-in-with-post-processing-stack-v2">Built-in with Post Processing Stack v2</a></li><li class="h2"><a href="#built-in-fallback-no-ppv2">Built-in fallback (no PPv2)</a></li><li class="h2"><a href="#aperture-clamping-all-pipelines">Aperture clamping (all pipelines)</a></li><li class="h2"><a href="#demo-materials">Demo materials</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

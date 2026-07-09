@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo Mode Pro Documentation</title>
+<meta name="description" content="AAA-style, player-facing photo mode for Unity: pause the game, fly a free camera, grade the image, apply filter presets and capture supersampled screenshots —">
+<meta property="og:title" content="Photo Mode Pro Documentation">
+<meta property="og:description" content="AAA-style, player-facing photo mode for Unity: pause the game, fly a free camera, grade the image, apply filter presets and capture supersampled screenshots —">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../"><img src="../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../roadmap/">Roadmap</a></li>
+      <li><a href="../support/">Support</a></li>
+      <li><a href="../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../docs/" aria-current="page">Overview</a></li><li><a href="../docs/quick-start/">Quick Start</a></li><li><a href="../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../docs/camera/">Camera</a></li><li><a href="../docs/effects/">Effects & Depth of Field</a></li><li><a href="../docs/presets/">Presets</a></li><li><a href="../docs/capture/">Capture</a></li><li><a href="../docs/events-and-api/">Events & Scripting</a></li><li><a href="../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../docs/integrations/">Integrations</a></li><li><a href="../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../docs/faq/">FAQ</a></li><li><a href="../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../docs/changelog/">Changelog</a></li><li><a href="../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../">Home</a> / <a href="../docs/">Docs</a> / Getting started</p>
+    <h1>Photo Mode Pro</h1>
+
+<p>AAA-style, player-facing photo mode for Unity: pause the game, fly a free camera,
+grade the image, apply filter presets and capture supersampled screenshots — with a
+reskinnable, gamepad-ready UI.</p>
+<p><strong>Unity 2021.3 LTS or newer · URP, HDRP and the Built-in Render Pipeline.</strong></p>
+<h2 id="what-you-get">What you get<a class="headerlink" href="#what-you-get" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>One-component integration</strong> — drop the configured prefab into a scene (or use
+  the Setup Wizard's <em>Add Photo Mode To Scene</em> button) and press your toggle key.</li>
+<li><strong>Free camera</strong> with fly and orbit modes, sprint, roll, FOV zoom, optional
+  collision and a configurable wander radius.</li>
+<li><strong>Image adjustments in natural units</strong> — exposure (EV), contrast, saturation,
+  temperature, vignette, film grain and bokeh depth of field with a perceptual
+  f-stop slider.</li>
+<li><strong>Six filter presets</strong> (Clean, Noir, Vivid, Warm, Cool, Vintage) plus your own
+  preset assets and an automatic <em>Custom</em> state.</li>
+<li><strong>Supersampled capture</strong> at 1×/2×/4× with async GPU readback, PNG output,
+  optional transparent background, thumbnail toast and a capture event for your
+  own pipelines.</li>
+<li><strong>All three render pipelines</strong> — URP, HDRP and Built-in (Post Processing Stack
+  v2 or a minimal fallback) — through automatic backend detection, with controls
+  hiding themselves when the active pipeline can't apply an effect.</li>
+<li><strong>Both input systems</strong> — the new Input System, the legacy Input Manager, or
+  <em>Both</em> — keyboard + mouse and gamepad, with full UI navigation.</li>
+<li><strong>Zero per-frame GC allocations</strong> while open and idle or dragging sliders, and
+  no per-frame work while closed. IL2CPP + high stripping verified.</li>
+</ul>
+<h2 id="start-here">Start here<a class="headerlink" href="#start-here" title="Permanent link">¶</a></h2>
+<ol>
+<li><a href="quick-start/">Quick Start</a> — the 2-minute wizard path and the manual path.</li>
+<li><a href="core-concepts/">Core Concepts</a> — how the controller, backends and UI fit together.</li>
+<li><a href="troubleshooting/">Troubleshooting</a> — if something looks wrong.</li>
+</ol>
+<h2 id="support">Support<a class="headerlink" href="#support" title="Permanent link">¶</a></h2>
+<ul>
+<li>In the editor: <strong>Tools → Photo Mode Pro → Report a Bug</strong> (pre-filled email), or
+  write to <a href="mailto:support.dan.max@gmail.com">support.dan.max@gmail.com</a>.</li>
+<li><strong>Tools → Photo Mode Pro → Run Self-Test</strong> writes a <code>PhotoModeSelfTest.json</code>
+  you can attach to any report.</li>
+</ul>
+<nav class="docs-pager" aria-label="Docs pages"><a class="next" href="../docs/quick-start/"><span class="dir">Next</span>Quick Start</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#what-you-get">What you get</a></li><li class="h2"><a href="#start-here">Start here</a></li><li class="h2"><a href="#support">Support</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../docs/changelog/">Changelog</a></li>
+          <li><a href="../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../docs/faq/">FAQ</a></li>
+          <li><a href="../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

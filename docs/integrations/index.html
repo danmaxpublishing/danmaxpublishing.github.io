@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integrations — Photo Mode Pro Documentation</title>
+<meta name="description" content="Photo Mode Pro is built to drop into an existing game without taking it over: no required packages beyond Unity itself, no edits to your ProjectSettings, and ">
+<meta property="og:title" content="Integrations — Photo Mode Pro Documentation">
+<meta property="og:description" content="Photo Mode Pro is built to drop into an existing game without taking it over: no required packages beyond Unity itself, no edits to your ProjectSettings, and ">
+<meta property="og:image" content="https://supportdanmax.github.io/photo-mode-pro-docs/assets/img/og-share.jpg">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/" aria-current="page">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Reference</p>
+    <h1>Integrations</h1>
+
+<p>Photo Mode Pro is built to drop into an existing game without taking it over:
+no required packages beyond Unity itself, no edits to your ProjectSettings, and
+exact state restoration on exit. This page covers the common integration points.</p>
+<h2 id="cinemachine">Cinemachine<a class="headerlink" href="#cinemachine" title="Permanent link">¶</a></h2>
+<p>Photo Mode Pro has <strong>no hard dependency</strong> on Cinemachine — the package compiles
+and runs without it — but plays cleanly with it when present (the
+<a href="../core-concepts/">Setup Wizard</a> detects and reports Cinemachine in its checks).</p>
+<p>What happens on enter when a <code>CinemachineBrain</code> drives your main camera:</p>
+<ul>
+<li>The main camera (carrying the brain) is <strong>disabled</strong>, which suspends
+  Cinemachine's hold on the rendered view. The brain component itself is never
+  touched, removed or disabled.</li>
+<li>The photo camera is a clean clone — it carries <strong>no</strong> <code>CinemachineBrain</code>, so
+  virtual cameras cannot pull it around. The free camera owns its transform
+  entirely while photo mode is open.</li>
+</ul>
+<p>On exit, the main camera's enabled state is restored exactly and Cinemachine
+resumes control as if nothing happened — your virtual cameras keep running
+throughout (handy with the <code>Unscaled</code> pause mode, where blends continue).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If your vcams animate on scaled time, the default <code>TimeScaleZero</code> pause
+freezes them along with the rest of the game — which is usually exactly what
+a photo mode should do.</p>
+</div>
+<p>Using <strong>URP camera stacking</strong> alongside (or instead of) Cinemachine? Your
+overlay stack is untouched too — see the
+<a href="../pipelines/">per-pipeline notes</a>.</p>
+<h2 id="input-systems">Input systems<a class="headerlink" href="#input-systems" title="Permanent link">¶</a></h2>
+<p>The input layer is abstracted behind version defines and works with all three
+<strong>Active Input Handling</strong> settings (the Setup Wizard verifies your configuration):</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Project setting</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input System Package (new)</td>
+<td>Recommended. Full keyboard, mouse and gamepad support.</td>
+</tr>
+<tr>
+<td>Input Manager (legacy)</td>
+<td>Supported, with the gamepad limitation below.</td>
+</tr>
+<tr>
+<td>Both</td>
+<td>Supported; the new Input System backend is used.</td>
+</tr>
+</tbody>
+</table></div>
+<div class="admonition warning">
+<p class="admonition-title">Legacy Input Manager gamepad limitation</p>
+<p>On the legacy Input Manager, <strong>gamepad right-stick look and triggers are
+unavailable</strong> — the default <code>InputManager.asset</code> defines no axes for them,
+and the package does not edit your ProjectSettings. Keyboard + mouse is fully
+supported; gamepad UI navigation then uses the default Horizontal/Vertical
+axes, which also drive camera movement. See the
+<a href="../support-matrix/">support matrix</a>.</p>
+</div>
+<p>Key and gamepad bindings live on the <a href="../core-concepts/">settings asset</a>
+(<code>toggleKey</code>/<code>toggleButton</code>, <code>captureKey</code>/<code>captureButton</code>,
+<code>hideUiKey</code>/<code>hideUiButton</code>).</p>
+<h2 id="audio">Audio<a class="headerlink" href="#audio" title="Permanent link">¶</a></h2>
+<p><code>PhotoModeSettings.audioPauseMode</code> picks the strategy:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AudioListenerPause</code> (default)</td>
+<td><code>AudioListener.pause</code> is set on enter; the <strong>prior value</strong> is restored exactly on exit — a game that was already paused stays paused.</td>
+</tr>
+<tr>
+<td><code>None</code></td>
+<td>Photo mode never touches audio. Drive your own transitions from the enter/exit events.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The mixer-snapshot pattern with <code>None</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine.Audio</span><span class="p">;</span>
+
+<span class="na">[SerializeField]</span><span class="w"> </span><span class="n">AudioMixerSnapshot</span><span class="w"> </span><span class="n">pausedSnapshot</span><span class="p">;</span>
+<span class="na">[SerializeField]</span><span class="w"> </span><span class="n">AudioMixerSnapshot</span><span class="w"> </span><span class="n">gameplaySnapshot</span><span class="p">;</span>
+
+<span class="k">void</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+<span class="w">    </span><span class="n">controller</span><span class="p">.</span><span class="n">OnEntered</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pausedSnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
+<span class="w">    </span><span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">gameplaySnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>UI sounds (hover, click, shutter) are separate and can be routed into a mixer
+group of your choice via the theme — see <a href="../theming/">Theming</a>.</p>
+<h2 id="pause-menus-and-game-state-machines">Pause menus and game-state machines<a class="headerlink" href="#pause-menus-and-game-state-machines" title="Permanent link">¶</a></h2>
+<p>Treat photo mode as one more state your game can be in, owned by your state
+machine:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">GameStateMachine</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">MonoBehaviour</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">void</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">photoMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+<span class="w">        </span><span class="n">photoMode</span><span class="p">.</span><span class="n">OnEntered</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">SetState</span><span class="p">(</span><span class="n">GameState</span><span class="p">.</span><span class="n">PhotoMode</span><span class="p">);</span>
+<span class="w">        </span><span class="n">photoMode</span><span class="p">.</span><span class="n">OnExited</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">SetState</span><span class="p">(</span><span class="n">GameState</span><span class="p">.</span><span class="n">Paused</span><span class="p">);</span><span class="w"> </span><span class="c1">// back to the menu</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnPhotoModeButtonClicked</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">HidePauseMenu</span><span class="p">();</span>
+<span class="w">        </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">EnterPhotoMode</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Practical notes:</p>
+<ul>
+<li><strong>Already-paused games:</strong> photo mode records <code>Time.timeScale</code> on enter and
+  restores that exact value on exit — entering from a <code>timeScale = 0</code> pause menu
+  and exiting back to it is fully supported.</li>
+<li><strong>Disable the built-in toggle if you want exclusive control:</strong> the controller
+  polls its toggle binding whenever a settings asset is assigned. Pick a toggle
+  key that does not collide with your menus, or gate entry entirely through your
+  own UI and pick an unused binding.</li>
+<li><strong>Shared bindings:</strong> if any photo mode binding doubles as a gameplay action,
+  use the <code>ExitedThisFrame</code> guard — see
+  <a href="../events-and-api/">Events &amp; API</a>.</li>
+<li><strong>Hide your HUD:</strong> add your HUD canvases to the controller's
+  <strong>Game Ui Canvases</strong> list (or tag them and set <code>gameUiTag</code>) so photo mode can
+  hide them; they are restored exactly on exit.</li>
+<li><strong>Scene changes:</strong> replacing or unloading a scene while photo mode is open
+  auto-closes it cleanly, so loading screens and level transitions need no special
+  handling. Additive loads (streamed chunks) don't interrupt the session.</li>
+</ul>
+<p>Related: <a href="../core-concepts/">Core Concepts</a> ·
+<a href="../pipelines/">Pipelines</a> · <a href="../troubleshooting/">Troubleshooting</a></p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/theming/"><span class="dir">Previous</span>Theming the UI</a><a class="next" href="../../docs/pipelines/"><span class="dir">Next</span>Per-Pipeline Notes</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#cinemachine">Cinemachine</a></li><li class="h2"><a href="#input-systems">Input systems</a></li><li class="h2"><a href="#audio">Audio</a></li><li class="h2"><a href="#pause-menus-and-game-state-machines">Pause menus and game-state machines</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>DanMaxPublishing</h4>
+        <p>Production-grade Unity tools by a solo developer with 10+ years of
+        shipped commercial projects. Built, documented and supported like they
+        have to survive production — because they do.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/supportdanmax/photo-mode-pro-docs/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt) — full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>
