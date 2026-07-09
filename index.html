@@ -51,17 +51,42 @@
   <div class="hero-bg" style="background-image:url('./assets/img/hero-backdrop.webp')"></div>
   <div class="hero-veil"></div>
   <div class="wrap">
-    <p class="eyebrow">Unity Asset Store publisher</p>
-    <h1>Tools built like they have to <br><em>survive production.</em></h1>
-    <p class="lead">DanMaxPublishing is one senior Unity developer with 10+ years of
-    shipped commercial projects across XR, multiplayer and AI. He publishes the editor
-    tools he kept wishing someone else had built, and documents them properly.</p>
-    <div class="actions">
-      <a class="btn btn-primary" href="./photo-mode-pro/">Explore Photo Mode Pro</a>
-      <a class="btn btn-orange" href="./demo/">▶ Try the live demo</a>
-      <a class="btn btn-ghost" href="./docs/">Read the documentation</a>
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Unity Asset Store publisher</p>
+        <h1>Tools built like they have to <em>survive production.</em></h1>
+        <p class="lead">DanMaxPublishing is one senior Unity developer with 10+ years of
+        shipped commercial projects across XR, multiplayer and AI. He publishes the editor
+        tools he kept wishing someone else had built, and documents them properly.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="./photo-mode-pro/">Explore Photo Mode Pro</a>
+          <a class="btn btn-orange" href="./demo/">▶ Try the live demo</a>
+          <a class="btn btn-ghost" href="./docs/">Read the documentation</a>
+        </div>
+        <p class="meta-note">The site itself sets no cookies and loads no external scripts.</p>
+      </div>
+      <div class="hero-show">
+        <div class="frame glow main">
+          <span class="live-chip"><span class="dot"></span>In-engine capture</span>
+          <video autoplay muted loop playsinline preload="metadata" width="1280" height="720"
+            poster="./assets/vid/fly_poster.webp"
+            aria-label="The free camera gliding through the paused demo scene">
+            <source src="./assets/vid/fly.webm" type="video/webm">
+            <source src="./assets/vid/fly.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="frame pip">
+          <video autoplay muted loop playsinline preload="metadata" width="1280" height="720"
+            poster="./assets/vid/grade_poster.webp"
+            aria-label="The six built-in presets cycling on one shot">
+            <source src="./assets/vid/grade.webm" type="video/webm">
+            <source src="./assets/vid/grade.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p class="show-note">Both loops come straight out of the photo mode,
+        recorded in the demo scene it ships with.</p>
+      </div>
     </div>
-    <p class="meta-note">The site itself sets no cookies and loads no external scripts.</p>
   </div>
 </header>
 
@@ -200,14 +225,25 @@
       <h2 style="margin-bottom:10px">Photo Mode Pro is coming to the Asset Store</h2>
       <p class="lead" style="margin:0 auto 26px">Leave your email and you'll get two
       messages: one when it goes live, one before the launch discount ends. That's it.</p>
-      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a class="btn btn-orange" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20Photo%20Mode%20Pro%20launch&amp;body=Hi%20Dan%2C%0A%0APlease%20email%20me%20when%20Photo%20Mode%20Pro%20launches%20on%20the%20Asset%20Store.%0A">Get notified by email</a>
-        <a class="btn btn-ghost" href="./photo-mode-pro/">See the feature tour</a>
-      </div>
-      <div class="email-fallback">
-        <span>The button opens your mail app. No mail app? Copy the address:</span>
-        <code>support.dan.max@gmail.com</code>
-        <button type="button" data-copy-email="support.dan.max@gmail.com">Copy</button>
+      <div class="notify" data-notify>
+        <form class="notify-form" method="post" target="_blank" rel="noopener" hidden>
+          <input type="hidden" name="tag" value="photo-mode-pro-launch">
+          <input type="email" name="email" required placeholder="you@example.com" aria-label="Email address">
+          <button class="btn btn-orange" type="submit">Notify me</button>
+        </form>
+        <div class="notify-fallback">
+          <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+            <a class="btn btn-orange" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20Photo%20Mode%20Pro%20launch&amp;body=Hi%20Dan%2C%0A%0APlease%20email%20me%20when%20Photo%20Mode%20Pro%20launches%20on%20the%20Asset%20Store.%0A">Get notified by email</a>
+            <a class="btn btn-ghost" href="./photo-mode-pro/">See the feature tour</a>
+          </div>
+          <div class="email-fallback">
+            <span>The button opens your mail app. No mail app? Copy the address:</span>
+            <code>support.dan.max@gmail.com</code>
+            <button type="button" data-copy-email="support.dan.max@gmail.com">Copy</button>
+          </div>
+        </div>
+        <p class="notify-note">Two emails total: launch day, and a heads-up before the
+        discount ends. Unsubscribe whenever.</p>
       </div>
     </div>
   </div>

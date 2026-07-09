@@ -4,6 +4,11 @@
    [data-store-link] CTA on the site switches to it automatically. */
 var STORE_URL = "";
 
+/* Mailing list. Create a Buttondown newsletter, then paste its embed endpoint
+   here, e.g. "https://buttondown.com/api/emails/embed-subscribe/danmaxpublishing".
+   While this is empty, every notify CTA falls back to the mailto flow. */
+var MAILING_LIST_URL = "";
+
 (function () {
   "use strict";
 
@@ -345,6 +350,210 @@ var STORE_URL = "";
       }, 1600);
     });
   });
+
+  /* ---------------- Mailing list subscribe forms ---------------- */
+  document.querySelectorAll("[data-notify]").forEach(function (box) {
+    var form = box.querySelector("form.notify-form");
+    var fallback = box.querySelector(".notify-fallback");
+    if (!form) return;
+    if (MAILING_LIST_URL) {
+      form.action = MAILING_LIST_URL;
+      form.hidden = false;
+      if (fallback) fallback.hidden = true;
+    }
+  });
+
+  /* ---------------- Showcase videos ---------------- */
+  var vids = document.querySelectorAll("video[autoplay]");
+  if (vids.length) {
+    if (reducedMotion) {
+      // Reduced motion: nothing moves until the visitor asks it to.
+      vids.forEach(function (v) {
+        v.removeAttribute("autoplay");
+        v.autoplay = false;
+        v.controls = true;
+        try { v.pause(); } catch (err) { /* not started */ }
+      });
+    } else if ("IntersectionObserver" in window) {
+      // Pause offscreen loops; resume when they scroll back in.
+      var vio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var v = en.target;
+          if (en.isIntersecting) {
+            if (v.paused) v.play().catch(function () { /* autoplay blocked */ });
+          } else if (!v.paused) {
+            v.pause();
+          }
+        });
+      }, { threshold: 0.15 });
+      vids.forEach(function (v) { vio.observe(v); });
+    }
+  }
+
+  /* ---------------- Scroll progress ---------------- */
+  (function () {
+    var bar = document.createElement("div");
+    bar.className = "fx-progress";
+    bar.setAttribute("aria-hidden", "true");
+    document.body.appendChild(bar);
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = max > 0 ? (window.scrollY / max) * 100 + "%" : "0";
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+    update();
+  })();
+
+  /* ---------------- Button press ripple ---------------- */
+  if (!reducedMotion) {
+    document.addEventListener("pointerdown", function (e) {
+      var btn = e.target.closest(".btn");
+      if (!btn) return;
+      var rect = btn.getBoundingClientRect();
+      var r = document.createElement("span");
+      r.className = "fx-ripple";
+      r.style.left = (e.clientX - rect.left) + "px";
+      r.style.top = (e.clientY - rect.top) + "px";
+      btn.appendChild(r);
+      r.addEventListener("animationend", function () { r.remove(); });
+    });
+  }
+
+  /* ---------------- Card cursor glow ---------------- */
+  document.addEventListener("pointermove", function (e) {
+    var card = e.target.closest(".card.hoverable");
+    if (!card) return;
+    var rect = card.getBoundingClientRect();
+    card.style.setProperty("--mx", (e.clientX - rect.left) + "px");
+    card.style.setProperty("--my", (e.clientY - rect.top) + "px");
+  }, { passive: true });
+
+  /* ---------------- Ember particles ---------------- */
+  (function () {
+    if (reducedMotion) return;
+    if (navigator.connection && navigator.connection.saveData) return;
+
+    var canvas = document.createElement("canvas");
+    canvas.className = "fx-embers";
+    canvas.setAttribute("aria-hidden", "true");
+    document.body.appendChild(canvas);
+    var ctx = canvas.getContext("2d");
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0;
+
+    function resize() {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    var COUNT = window.matchMedia("(max-width: 800px)").matches ? 20 : 44;
+    var CYAN = "34, 211, 238";
+    var ORANGE = "249, 145, 60";
+    var parts = [];
+    var sparks = [];
+
+    function reset(p, anywhere) {
+      p.x = Math.random() * W;
+      p.y = anywhere ? Math.random() * H : H + 8 + Math.random() * 30;
+      p.vx = (Math.random() - 0.5) * 0.12;
+      p.vy = -(0.16 + Math.random() * 0.38);
+      p.r = 0.8 + Math.random() * 1.7;
+      p.maxA = 0.12 + Math.random() * 0.26;
+      p.a = anywhere ? p.maxA * Math.random() : 0;
+      p.tw = Math.random() * 6.28;
+      p.col = Math.random() < 0.26 ? CYAN : ORANGE;
+      return p;
+    }
+    for (var i = 0; i < COUNT; i++) parts.push(reset({}, true));
+
+    var scrollDrift = 0;
+    var lastScrollY = window.scrollY;
+    window.addEventListener("scroll", function () {
+      var y = window.scrollY;
+      scrollDrift += (y - lastScrollY) * 0.03;
+      scrollDrift = Math.max(-3, Math.min(3, scrollDrift));
+      lastScrollY = y;
+    }, { passive: true });
+
+    var px = -1e4, py = -1e4;
+    window.addEventListener("pointermove", function (e) {
+      px = e.clientX;
+      py = e.clientY;
+    }, { passive: true });
+
+    window.addEventListener("pointerdown", function (e) {
+      // A small ember burst under every press; capped so rapid clicks stay cheap.
+      var n = Math.min(10, 60 - sparks.length);
+      for (var j = 0; j < n; j++) {
+        var ang = Math.random() * 6.28;
+        var speed = 0.6 + Math.random() * 1.8;
+        sparks.push({
+          x: e.clientX, y: e.clientY,
+          vx: Math.cos(ang) * speed,
+          vy: Math.sin(ang) * speed - 0.6,
+          r: 0.9 + Math.random() * 1.4,
+          life: 1,
+          col: Math.random() < 0.4 ? CYAN : ORANGE
+        });
+      }
+    }, { passive: true });
+
+    function tick() {
+      requestAnimationFrame(tick);
+      if (document.hidden) return;
+      ctx.clearRect(0, 0, W, H);
+      scrollDrift *= 0.9;
+
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        p.tw += 0.028;
+        p.x += p.vx + Math.sin(p.tw) * 0.07;
+        p.y += p.vy + scrollDrift;
+        if (p.a < p.maxA) p.a += 0.004;
+
+        // Gentle push away from the pointer.
+        var dx = p.x - px, dy = p.y - py;
+        var d2 = dx * dx + dy * dy;
+        if (d2 < 8100 && d2 > 1) {
+          var f = 0.35 / Math.sqrt(d2);
+          p.x += dx * f;
+          p.y += dy * f;
+        }
+
+        if (p.y < -12 || p.x < -12 || p.x > W + 12) reset(p, false);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, 6.28);
+        ctx.fillStyle = "rgba(" + p.col + "," + p.a.toFixed(3) + ")";
+        ctx.fill();
+      }
+
+      for (var s = sparks.length - 1; s >= 0; s--) {
+        var k = sparks[s];
+        k.life -= 0.025;
+        if (k.life <= 0) { sparks.splice(s, 1); continue; }
+        k.vy += 0.03;
+        k.x += k.vx;
+        k.y += k.vy;
+        ctx.beginPath();
+        ctx.arc(k.x, k.y, k.r * k.life, 0, 6.28);
+        ctx.fillStyle = "rgba(" + k.col + "," + (0.5 * k.life).toFixed(3) + ")";
+        ctx.fill();
+      }
+    }
+    tick();
+  })();
 
   /* ---------------- Footer year ---------------- */
   var yearEl = document.querySelector("[data-year]");

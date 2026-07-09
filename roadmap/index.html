@@ -99,11 +99,20 @@
         <p class="lead" style="margin-bottom:18px">It stays unannounced until it passes
         the same bar as Photo Mode Pro: full tests, full docs, a store page that doesn't
         oversell. It gets announced here first.</p>
-        <a class="btn btn-ghost" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20next%20DanMaxPublishing%20asset">Tell me when it's announced</a>
-        <div class="email-fallback" style="justify-content:flex-start">
-          <span>No mail app? Copy the address:</span>
-          <code>support.dan.max@gmail.com</code>
-          <button type="button" data-copy-email="support.dan.max@gmail.com">Copy</button>
+        <div class="notify left" data-notify>
+          <form class="notify-form" method="post" target="_blank" rel="noopener" hidden>
+            <input type="hidden" name="tag" value="next-asset">
+            <input type="email" name="email" required placeholder="you@example.com" aria-label="Email address">
+            <button class="btn btn-ghost" type="submit">Tell me when it's announced</button>
+          </form>
+          <div class="notify-fallback">
+            <a class="btn btn-ghost" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20next%20DanMaxPublishing%20asset">Tell me when it's announced</a>
+            <div class="email-fallback" style="justify-content:flex-start">
+              <span>No mail app? Copy the address:</span>
+              <code>support.dan.max@gmail.com</code>
+              <button type="button" data-copy-email="support.dan.max@gmail.com">Copy</button>
+            </div>
+          </div>
         </div>
       </div>
       <figure class="shot reveal">

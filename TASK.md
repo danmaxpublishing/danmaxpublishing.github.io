@@ -73,6 +73,18 @@ ProductInfo.cs/README/CHANGELOG/QuickStart + regenerating the offline PDF. The
 "Get notified" mailto CTAs gained a copy-address fallback (mailto silently no-ops
 without a configured mail client).
 
+## Landing v2 (2026-07-09, evening)
+
+Hero now plays two in-engine loops (free-camera glide + preset cycle) with a
+third (aperture rack) on the product page; frames captured by
+`Assets/SiteCapture/SiteAnimationCapture.cs` via a junction-clone batch run,
+encoded to WebM/MP4 with ffmpeg (`assets/vid/`). Ambient ember particles,
+press ripples, card cursor glow and a scroll progress bar were added
+(all skipped under prefers-reduced-motion; videos fall back to posters with
+controls). Notify CTAs are now Buttondown-ready subscribe forms behind the
+`MAILING_LIST_URL` constant in `assets/js/site.js`; while unset they keep the
+mailto fallback.
+
 ## Remaining manual steps for the owner
 
 1. **Re-register `supportdanmax`** as a fresh placeholder GitHub account (squat
@@ -88,3 +100,10 @@ without a configured mail client).
 5. **When the asset goes live:** put the real store URL into the `STORE_URL`
    constant at the top of `assets/js/site.js` — every "Get Photo Mode Pro" button
    updates from that one spot. Also update the roadmap "Submitted" card.
+6. **Mailing list:** create a free Buttondown account (buttondown.com, suggested
+   username `danmaxpublishing`, sender = the support Gmail), then paste
+   `https://buttondown.com/api/emails/embed-subscribe/<username>` into the
+   `MAILING_LIST_URL` constant in `assets/js/site.js` and push. Every notify CTA
+   switches from the mailto fallback to a real subscribe form. Subscribers from
+   the launch CTAs arrive tagged `photo-mode-pro-launch`; roadmap ones tagged
+   `next-asset`. Test with your own address (double opt-in is on by default).

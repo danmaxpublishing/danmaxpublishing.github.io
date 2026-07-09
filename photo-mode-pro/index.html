@@ -172,8 +172,14 @@
       </div>
       <figure class="shot reveal">
         <div class="frame">
-          <img src="../assets/img/shots/dof_bokeh.webp" alt="Close-up of the demo adventurer with creamy background bokeh at f/1.4" data-lightbox data-caption="Depth of field at f/1.4, straight from the capture pipeline." loading="lazy">
+          <video autoplay muted loop playsinline preload="metadata" width="1280" height="720"
+            poster="../assets/img/shots/dof_bokeh.webp"
+            aria-label="The aperture slider racking focus onto the adventurer, from f/13 to f/1.2">
+            <source src="../assets/vid/dof.webm" type="video/webm">
+            <source src="../assets/vid/dof.mp4" type="video/mp4">
+          </video>
         </div>
+        <figcaption>The aperture rack, recorded in-engine.</figcaption>
       </figure>
     </div>
     <div class="grid grid-2" style="align-items:center;gap:44px;margin-top:72px">
@@ -351,14 +357,25 @@ PhotoModeController.Instance.OnPhotoCaptured += (path, thumb) =>
       <p class="lead" style="margin:0 auto 26px">The package is submitted and in review.
       Leave your email and you'll get two messages: one on launch day, one before the
       launch discount ends.</p>
-      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a class="btn btn-orange" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20Photo%20Mode%20Pro%20launch&amp;body=Hi%20Dan%2C%0A%0APlease%20email%20me%20when%20Photo%20Mode%20Pro%20launches%20on%20the%20Asset%20Store.%0A">Get notified by email</a>
-        <a class="btn btn-ghost" href="../docs/">Read the full manual first</a>
-      </div>
-      <div class="email-fallback">
-        <span>The button opens your mail app. No mail app? Copy the address:</span>
-        <code>support.dan.max@gmail.com</code>
-        <button type="button" data-copy-email="support.dan.max@gmail.com">Copy</button>
+      <div class="notify" data-notify>
+        <form class="notify-form" method="post" target="_blank" rel="noopener" hidden>
+          <input type="hidden" name="tag" value="photo-mode-pro-launch">
+          <input type="email" name="email" required placeholder="you@example.com" aria-label="Email address">
+          <button class="btn btn-orange" type="submit">Notify me</button>
+        </form>
+        <div class="notify-fallback">
+          <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+            <a class="btn btn-orange" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20Photo%20Mode%20Pro%20launch&amp;body=Hi%20Dan%2C%0A%0APlease%20email%20me%20when%20Photo%20Mode%20Pro%20launches%20on%20the%20Asset%20Store.%0A">Get notified by email</a>
+            <a class="btn btn-ghost" href="../docs/">Read the full manual first</a>
+          </div>
+          <div class="email-fallback">
+            <span>The button opens your mail app. No mail app? Copy the address:</span>
+            <code>support.dan.max@gmail.com</code>
+            <button type="button" data-copy-email="support.dan.max@gmail.com">Copy</button>
+          </div>
+        </div>
+        <p class="notify-note">Two emails total: launch day, and a heads-up before the
+        discount ends. Unsubscribe whenever.</p>
       </div>
       <p class="meta-note" style="margin-top:18px">Requirements: Unity 2021.3 LTS or newer ·
       URP 12+ / HDRP 12+ / Built-in (PPv2 optional) · no dependencies · Input System optional</p>
