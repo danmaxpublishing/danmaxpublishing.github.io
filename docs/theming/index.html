@@ -4,10 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Theming the UI — Photo Mode Pro Documentation</title>
-<meta name="description" content="The entire photo mode UI — every panel, control, label, animation and sound — restyles from a single PhotoModeUITheme asset. Swap the asset, ship a new look.">
+<meta name="description" content="The entire photo mode UI (every panel, control, label, animation and sound) restyles from a single PhotoModeUITheme asset. Swap the asset to ship a new look.">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/theming/">
 <meta property="og:title" content="Theming the UI — Photo Mode Pro Documentation">
-<meta property="og:description" content="The entire photo mode UI — every panel, control, label, animation and sound — restyles from a single PhotoModeUITheme asset. Swap the asset, ship a new look.">
+<meta property="og:description" content="The entire photo mode UI (every panel, control, label, animation and sound) restyles from a single PhotoModeUITheme asset. Swap the asset to ship a new look.">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/theming/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -41,8 +46,8 @@
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
     <h1>Theming the UI</h1>
 
-<p>The entire photo mode UI — every panel, control, label, animation and sound —
-restyles from a single <code>PhotoModeUITheme</code> asset. Swap the asset, ship a new look.</p>
+<p>The entire photo mode UI (every panel, control, label, animation and sound)
+restyles from a single <code>PhotoModeUITheme</code> asset. Swap the asset to ship a new look.</p>
 <h2 id="reskin-in-three-steps">Reskin in three steps<a class="headerlink" href="#reskin-in-three-steps" title="Permanent link">¶</a></h2>
 <ol>
 <li>Duplicate the shipped <code>PhotoModeUITheme.asset</code> (or create a fresh one via
@@ -51,7 +56,7 @@ restyles from a single <code>PhotoModeUITheme</code> asset. Swap the asset, ship
 <li>Assign it to the <strong>Theme</strong> field on the <code>PhotoModeUIController</code> component of
    your photo mode UI prefab.</li>
 </ol>
-<p>The theme is applied at bind time — every time the UI spawns — so the next time
+<p>The theme is applied at bind time (every time the UI spawns), so the next time
 photo mode opens, the whole panel wears your skin. At runtime you can also set
 <code>PhotoModeUIController.Theme</code> and call <code>ApplyTheme()</code> to restyle a live panel.</p>
 <h2 id="what-the-theme-controls">What the theme controls<a class="headerlink" href="#what-the-theme-controls" title="Permanent link">¶</a></h2>
@@ -95,7 +100,7 @@ category icons (<code>cameraIcon</code>, <code>effectsIcon</code>, <code>presets
 <h3 id="typography">Typography<a class="headerlink" href="#typography" title="Permanent link">¶</a></h3>
 <p><code>tmpFont</code> sets the TextMeshPro font asset for all labels (null falls back to the
 TMP default). <code>tmpOutlineMaterial</code> is an optional TMP material with a black
-outline/underlay used by scene-floating text — hint chips, the toast filename —
+outline/underlay used by scene-floating text (hint chips, the toast filename)
 so it stays readable over bright surfaces. A legacy <code>font</code> field exists as a
 fallback for non-TMP text.</p>
 <div class="admonition note">
@@ -179,14 +184,14 @@ not already (the demo builder and the
 </table></div>
 <div class="admonition tip">
 <p class="admonition-title">Kill switches</p>
-<p>Want a completely static, silent UI? Set <code>enableMotion</code> and <code>enableUiAudio</code>
-to false — no other changes needed. Or keep motion and just drop your own
+<p>For a completely static, silent UI, set <code>enableMotion</code> and <code>enableUiAudio</code>
+to false. No other changes needed. Or keep motion and drop your own
 recorded sounds into the clip slots to replace the generated ones.</p>
 </div>
 <h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">¶</a></h2>
 <p>The theme restyles the photo mode panel and its floating chrome (toolbar, hint
 chips, toast). It does not touch your game's own UI, and gameplay HUD canvases
-are only ever hidden/shown — never restyled — by photo mode (see
+are only ever hidden/shown by photo mode, never restyled (see
 <a href="../capture/">Capturing photos</a> for the visibility toggles).</p>
 <p>Related: <a href="../core-concepts/">Core Concepts</a> · <a href="../faq/">FAQ</a></p>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/events-and-api/"><span class="dir">Previous</span>Events & Scripting</a><a class="next" href="../../docs/integrations/"><span class="dir">Next</span>Integrations</a></nav>
@@ -198,9 +203,9 @@ are only ever hidden/shown — never restyled — by photo mode (see
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -232,7 +237,7 @@ are only ever hidden/shown — never restyled — by photo mode (see
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

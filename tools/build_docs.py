@@ -83,10 +83,12 @@ def nav_html(active_slug: str, root: str) -> str:
     return "".join(out)
 
 
-def site_chrome_top(title: str, description: str, root: str, active: str) -> str:
+def site_chrome_top(title: str, description: str, root: str, active: str,
+                    url: str = "") -> str:
     def cur(name: str) -> str:
         return ' aria-current="page"' if name == active else ""
 
+    canonical = f"https://danmaxpublishing.github.io/{url}"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,9 +96,14 @@ def site_chrome_top(title: str, description: str, root: str, active: str) -> str
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html_mod.escape(title)}</title>
 <meta name="description" content="{html_mod.escape(description)}">
+<link rel="canonical" href="{canonical}">
 <meta property="og:title" content="{html_mod.escape(title)}">
 <meta property="og:description" content="{html_mod.escape(description)}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="{root}assets/img/favicon.png">
 <link rel="stylesheet" href="{root}assets/css/site.css">
@@ -126,9 +133,9 @@ def site_chrome_bottom(root: str) -> str:
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -160,7 +167,7 @@ def site_chrome_bottom(root: str) -> str:
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>
@@ -260,7 +267,7 @@ def main() -> None:
 
         desc_m = re.search(r"<p>(.*?)</p>", body, flags=re.S)
         description = (strip_tags(desc_m.group(1))[:158] if desc_m else
-                       f"{PRODUCT} documentation — {h1}.")
+                       f"{PRODUCT} documentation: {h1}.")
 
         toc = extract_toc(body)
         toc_html = ""
@@ -291,7 +298,7 @@ def main() -> None:
         page_title = (f"{h1} — {PRODUCT} Documentation" if slug
                       else f"{PRODUCT} Documentation")
 
-        html_out = site_chrome_top(page_title, description, root, "docs")
+        html_out = site_chrome_top(page_title, description, root, "docs", url)
         html_out += f"""<div class="docs-shell">
   <aside class="docs-sidebar" aria-label="Documentation">
     <div class="docs-search">

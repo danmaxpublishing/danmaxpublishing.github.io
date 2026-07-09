@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Per-Pipeline Notes — Photo Mode Pro Documentation</title>
 <meta name="description" content="Photo Mode Pro detects the active render pipeline at runtime and picks the right effects backend automatically. Controls for effects the active backend cannot">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/pipelines/">
 <meta property="og:title" content="Per-Pipeline Notes — Photo Mode Pro Documentation">
 <meta property="og:description" content="Photo Mode Pro detects the active render pipeline at runtime and picks the right effects backend automatically. Controls for effects the active backend cannot">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/pipelines/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -117,7 +122,7 @@ flags to scripts).</p>
 </table></div>
 <h2 id="urp">URP<a class="headerlink" href="#urp" title="Permanent link">¶</a></h2>
 <ul>
-<li>Effects run through a code-built global <code>Volume</code> at very high priority — no
+<li>Effects run through a code-built global <code>Volume</code> at very high priority. No
   scene assets are touched, and everything is removed on exit.</li>
 <li>URP's film grain reads weaker than PPv2's at the same intensity, so the URP
   backend uses a coarse grain lookup (<code>Large01</code>) with a low luminance response to
@@ -129,7 +134,7 @@ flags to scripts).</p>
   your main camera's overlay stack is left untouched while photo mode is open and
   is intact after exit (asserted by
   <code>HostileEnvironmentTests.UrpOverlayCameraStack_UnaffectedAfterExit</code> in the
-  shipped test suite).</li>
+  release test suite).</li>
 </ul>
 <h2 id="hdrp">HDRP<a class="headerlink" href="#hdrp" title="Permanent link">¶</a></h2>
 <ul>
@@ -158,13 +163,13 @@ flags to scripts).</p>
 <li>A single internal full-screen shader provides exposure, contrast, saturation
   and vignette. Temperature, film grain and depth of field are unavailable and
   their controls hide automatically.</li>
-<li>Install <code>com.unity.postprocessing</code> for the full set — the Setup Wizard's
+<li>Install <code>com.unity.postprocessing</code> for the full set; the Setup Wizard's
   effects-backend check links you straight to the Package Manager.</li>
 </ul>
 <h2 id="aperture-clamping-all-pipelines">Aperture clamping (all pipelines)<a class="headerlink" href="#aperture-clamping-all-pipelines" title="Permanent link">¶</a></h2>
 <p>The aperture property accepts any positive value, but backends clamp it into
-<strong>f/0.7–f/16</strong> when applying (<a href="../effects/">why — see the effects how-to</a>).
-Out-of-range values from old presets or scripts are clamped, never errors.</p>
+<strong>f/0.7–f/16</strong> when applying (<a href="../effects/">the effects how-to explains why</a>).
+Out-of-range values from old presets or scripts are clamped and never raise an error.</p>
 <h2 id="demo-materials">Demo materials<a class="headerlink" href="#demo-materials" title="Permanent link">¶</a></h2>
 <p>Demo materials are generated for the <strong>active</strong> pipeline (Standard, URP Lit or
 HDRP Lit). Opening the demo scene under a mismatched pipeline offers
@@ -180,9 +185,9 @@ pink.</p>
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -214,7 +219,7 @@ pink.</p>
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

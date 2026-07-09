@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Upgrade Guide — Photo Mode Pro Documentation</title>
 <meta name="description" content="How to move an existing project to a newer Photo Mode Pro version, newest first. Each step lists what changed, who is affected, and what (if anything) you mus">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/upgrade-guide/">
 <meta property="og:title" content="Upgrade Guide — Photo Mode Pro Documentation">
 <meta property="og:description" content="How to move an existing project to a newer Photo Mode Pro version, newest first. Each step lists what changed, who is affected, and what (if anything) you mus">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/upgrade-guide/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -48,7 +53,7 @@ you must do. The full change list lives in the <a href="../changelog/">Changelog
 <p class="admonition-title">After any upgrade</p>
 <ol>
 <li>Let Unity reimport the package fully.</li>
-<li>Run <strong>Tools &gt; Photo Mode Pro &gt; Run Self-Test</strong> — it writes
+<li>Run <strong>Tools &gt; Photo Mode Pro &gt; Run Self-Test</strong>. It writes
    <code>PhotoModeSelfTest.json</code> and verifies your setup end to end.</li>
 <li>If you ship a modified copy of the demo, rebuild it via
    <strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</strong>.</li>
@@ -73,7 +78,7 @@ mapping so its full travel produces visible depth-of-field change.</p>
 (wrapping to a second row only on very narrow/portrait windows), and the
 toolbar is raised so the two bands cannot intersect.</p>
 <ul>
-<li><strong>No action</strong> if you use the generated UI prefab as shipped — it updates
+<li><strong>No action</strong> if you use the generated UI prefab as shipped; it updates
   with the package.</li>
 <li>If you <strong>modified the generated UI prefab</strong>, regenerate it
   (<strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</strong>) and re-apply your
@@ -84,7 +89,7 @@ toolbar is raised so the two bands cannot intersect.</p>
 Photo Mode To Scene, Run Self-Test, Build Demo Assets, Open Documentation,
 Report a Bug, Welcome, and About. The Setup Wizard runs green/yellow/red
 checks (pipeline, effects backend, input handling, Cinemachine, TMP
-essentials, demo materials) with one-click fixes — run it once after
+essentials, demo materials) with one-click fixes. Run it once after
 upgrading.</p>
 <p>The demo is also pipeline-aware now (no longer URP-only): opening the demo
 scene under a mismatched pipeline offers a one-click rebuild. A first-import
@@ -96,13 +101,13 @@ updates.</p>
 <code>audioPauseMode</code> enum (<code>AudioPauseMode.AudioListenerPause</code> /
 <code>AudioPauseMode.None</code>).</p>
 <ul>
-<li>Old serialized assets fall back to the default, <code>AudioListenerPause</code> —
-  the same behavior as the old <code>pauseAudio = true</code>. <strong>No action</strong> for most
+<li>Old serialized assets fall back to the default, <code>AudioListenerPause</code>
+  (the same behavior as the old <code>pauseAudio = true</code>). <strong>No action</strong> for most
   projects.</li>
 <li><strong>Action required</strong> if you had <em>unchecked</em> <code>pauseAudio</code>: select
   <code>AudioPauseMode.None</code> once on your settings asset. With <code>None</code> the
   package never touches audio, so drive your own mixer-snapshot transitions
-  from <code>OnEntered</code>/<code>OnExited</code> — see
+  from <code>OnEntered</code>/<code>OnExited</code>; see
   <a href="../events-and-api/">Events and API</a>.</li>
 </ul>
 <h3 id="none-preset-button-removed">NONE preset button removed<a class="headerlink" href="#none-preset-button-removed" title="Permanent link">¶</a></h3>
@@ -110,13 +115,13 @@ updates.</p>
 gone because it was indistinguishable from Clean.</p>
 <ul>
 <li><code>ApplyPreset(null)</code> still works as the programmatic reset and maps to the
-  same state — <strong>no API break</strong>.</li>
+  same state: <strong>no API break</strong>.</li>
 <li>See <a href="../presets/">Presets</a>.</li>
 </ul>
 <h3 id="minimum-unity-version-drops-to-20213">Minimum Unity version drops to 2021.3<a class="headerlink" href="#minimum-unity-version-drops-to-20213" title="Permanent link">¶</a></h3>
 <p>1.3.0 lowers the minimum from Unity 6000.0 to <strong>2021.3 LTS</strong> (verified on
 2021.3, 2022.3 and 6000.3, across URP/HDRP/Built-in and both input
-handlers). Purely additive — nothing to migrate; see the
+handlers). Purely additive; nothing to migrate. See the
 <a href="../support-matrix/">Support Matrix</a>.</p>
 <h2 id="to-120">To 1.2.0<a class="headerlink" href="#to-120" title="Permanent link">¶</a></h2>
 <h3 id="breaking-iphotomodeeffectsbackend-custom-backend-implementors-only">Breaking: <code>IPhotoModeEffectsBackend</code> (custom backend implementors only)<a class="headerlink" href="#breaking-iphotomodeeffectsbackend-custom-backend-implementors-only" title="Permanent link">¶</a></h3>
@@ -134,11 +139,11 @@ handlers). Purely additive — nothing to migrate; see the
 </code></pre></div>
 <ul>
 <li>Add the <code>Capabilities</code> property (return the <code>EffectCapabilities</code> flags
-  your backend supports — the UI hides controls for everything else).</li>
+  your backend supports; the UI hides controls for everything else).</li>
 <li>Update <code>Initialize()</code> to <code>Initialize(Camera photoCamera)</code>; backends that
   do not need the camera can simply discard the argument.</li>
 </ul>
-<p>Projects that only <em>use</em> the built-in backends are unaffected — backend
+<p>Projects that only <em>use</em> the built-in backends are unaffected. Backend
 selection is automatic, with a manual <code>PhotoModeSettings.backendOverride</code>
 if you need to force one. See <a href="../effects/">Effects</a> and
 <a href="../pipelines/">Pipelines</a>.</p>
@@ -157,9 +162,9 @@ it. If anything misbehaves afterwards, start with
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -191,7 +196,7 @@ it. If anything misbehaves afterwards, start with
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

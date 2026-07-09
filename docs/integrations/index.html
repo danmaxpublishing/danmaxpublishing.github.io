@@ -4,10 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Integrations — Photo Mode Pro Documentation</title>
-<meta name="description" content="Photo Mode Pro is built to drop into an existing game without taking it over: no required packages beyond Unity itself, no edits to your ProjectSettings, and ">
+<meta name="description" content="Photo Mode Pro is built to drop into an existing game without taking it over. It requires no packages beyond Unity itself and does not edit your ProjectSettin">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/integrations/">
 <meta property="og:title" content="Integrations — Photo Mode Pro Documentation">
-<meta property="og:description" content="Photo Mode Pro is built to drop into an existing game without taking it over: no required packages beyond Unity itself, no edits to your ProjectSettings, and ">
+<meta property="og:description" content="Photo Mode Pro is built to drop into an existing game without taking it over. It requires no packages beyond Unity itself and does not edit your ProjectSettin">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/integrations/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -41,33 +46,34 @@
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Reference</p>
     <h1>Integrations</h1>
 
-<p>Photo Mode Pro is built to drop into an existing game without taking it over:
-no required packages beyond Unity itself, no edits to your ProjectSettings, and
-exact state restoration on exit. This page covers the common integration points.</p>
+<p>Photo Mode Pro is built to drop into an existing game without taking it over.
+It requires no packages beyond Unity itself and does not edit your
+ProjectSettings; state is restored exactly on exit. This page covers the common
+integration points.</p>
 <h2 id="cinemachine">Cinemachine<a class="headerlink" href="#cinemachine" title="Permanent link">¶</a></h2>
-<p>Photo Mode Pro has <strong>no hard dependency</strong> on Cinemachine — the package compiles
-and runs without it — but plays cleanly with it when present (the
+<p>Photo Mode Pro has <strong>no hard dependency</strong> on Cinemachine (the package compiles
+and runs without it) but plays cleanly with it when present (the
 <a href="../core-concepts/">Setup Wizard</a> detects and reports Cinemachine in its checks).</p>
 <p>What happens on enter when a <code>CinemachineBrain</code> drives your main camera:</p>
 <ul>
 <li>The main camera (carrying the brain) is <strong>disabled</strong>, which suspends
   Cinemachine's hold on the rendered view. The brain component itself is never
   touched, removed or disabled.</li>
-<li>The photo camera is a clean clone — it carries <strong>no</strong> <code>CinemachineBrain</code>, so
+<li>The photo camera is a clean clone: it carries <strong>no</strong> <code>CinemachineBrain</code>, so
   virtual cameras cannot pull it around. The free camera owns its transform
   entirely while photo mode is open.</li>
 </ul>
 <p>On exit, the main camera's enabled state is restored exactly and Cinemachine
-resumes control as if nothing happened — your virtual cameras keep running
+resumes control as if nothing happened. Your virtual cameras keep running
 throughout (handy with the <code>Unscaled</code> pause mode, where blends continue).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If your vcams animate on scaled time, the default <code>TimeScaleZero</code> pause
-freezes them along with the rest of the game — which is usually exactly what
+freezes them along with the rest of the game, which is usually exactly what
 a photo mode should do.</p>
 </div>
-<p>Using <strong>URP camera stacking</strong> alongside (or instead of) Cinemachine? Your
-overlay stack is untouched too — see the
+<p>If you use <strong>URP camera stacking</strong> alongside (or instead of) Cinemachine, your
+overlay stack is untouched too; see the
 <a href="../pipelines/">per-pipeline notes</a>.</p>
 <h2 id="input-systems">Input systems<a class="headerlink" href="#input-systems" title="Permanent link">¶</a></h2>
 <p>The input layer is abstracted behind version defines and works with all three
@@ -97,7 +103,7 @@ overlay stack is untouched too — see the
 <div class="admonition warning">
 <p class="admonition-title">Legacy Input Manager gamepad limitation</p>
 <p>On the legacy Input Manager, <strong>gamepad right-stick look and triggers are
-unavailable</strong> — the default <code>InputManager.asset</code> defines no axes for them,
+unavailable</strong>: the default <code>InputManager.asset</code> defines no axes for them,
 and the package does not edit your ProjectSettings. Keyboard + mouse is fully
 supported; gamepad UI navigation then uses the default Horizontal/Vertical
 axes, which also drive camera movement. See the
@@ -118,7 +124,7 @@ axes, which also drive camera movement. See the
 <tbody>
 <tr>
 <td><code>AudioListenerPause</code> (default)</td>
-<td><code>AudioListener.pause</code> is set on enter; the <strong>prior value</strong> is restored exactly on exit — a game that was already paused stays paused.</td>
+<td><code>AudioListener.pause</code> is set on enter; the <strong>prior value</strong> is restored exactly on exit, so a game that was already paused stays paused.</td>
 </tr>
 <tr>
 <td><code>None</code></td>
@@ -141,7 +147,7 @@ axes, which also drive camera movement. See the
 <span class="p">}</span>
 </code></pre></div>
 <p>UI sounds (hover, click, shutter) are separate and can be routed into a mixer
-group of your choice via the theme — see <a href="../theming/">Theming</a>.</p>
+group of your choice via the theme; see <a href="../theming/">Theming</a>.</p>
 <h2 id="pause-menus-and-game-state-machines">Pause menus and game-state machines<a class="headerlink" href="#pause-menus-and-game-state-machines" title="Permanent link">¶</a></h2>
 <p>Treat photo mode as one more state your game can be in, owned by your state
 machine:</p>
@@ -168,14 +174,14 @@ machine:</p>
 <p>Practical notes:</p>
 <ul>
 <li><strong>Already-paused games:</strong> photo mode records <code>Time.timeScale</code> on enter and
-  restores that exact value on exit — entering from a <code>timeScale = 0</code> pause menu
+  restores that exact value on exit. Entering from a <code>timeScale = 0</code> pause menu
   and exiting back to it is fully supported.</li>
 <li><strong>Disable the built-in toggle if you want exclusive control:</strong> the controller
   polls its toggle binding whenever a settings asset is assigned. Pick a toggle
   key that does not collide with your menus, or gate entry entirely through your
   own UI and pick an unused binding.</li>
 <li><strong>Shared bindings:</strong> if any photo mode binding doubles as a gameplay action,
-  use the <code>ExitedThisFrame</code> guard — see
+  use the <code>ExitedThisFrame</code> guard; see
   <a href="../events-and-api/">Events &amp; API</a>.</li>
 <li><strong>Hide your HUD:</strong> add your HUD canvases to the controller's
   <strong>Game Ui Canvases</strong> list (or tag them and set <code>gameUiTag</code>) so photo mode can
@@ -195,9 +201,9 @@ machine:</p>
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -229,7 +235,7 @@ machine:</p>
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

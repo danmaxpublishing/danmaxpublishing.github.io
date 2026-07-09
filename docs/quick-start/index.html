@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quick Start — Photo Mode Pro Documentation</title>
 <meta name="description" content="Two ways in: the wizard path (about 2 minutes) or the manual path (about 10).">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/quick-start/">
 <meta property="og:title" content="Quick Start — Photo Mode Pro Documentation">
 <meta property="og:description" content="Two ways in: the wizard path (about 2 minutes) or the manual path (about 10).">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/quick-start/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -50,12 +55,12 @@
   set; without it a minimal fallback backend is used. The right backend is
   detected automatically at runtime (override via <code>PhotoModeSettings.backendOverride</code>).</li>
 <li>Optional: the <strong>Input System</strong> package (recommended). The legacy Input Manager
-  also works — see <a href="../integrations/">Integrations</a> for its gamepad limitations.</li>
+  also works; see <a href="../integrations/">Integrations</a> for its gamepad limitations.</li>
 </ul>
 <h2 id="the-wizard-path-2-minutes">The wizard path (2 minutes)<a class="headerlink" href="#the-wizard-path-2-minutes" title="Permanent link">¶</a></h2>
 <ol>
 <li>Import Photo Mode Pro. A welcome window appears on first import (once per
-   machine) — or open <strong>Tools → Photo Mode Pro → Setup Wizard</strong> any time.</li>
+   machine), or open <strong>Tools → Photo Mode Pro → Setup Wizard</strong> any time.</li>
 <li>The wizard checks your render pipeline, effects backend, input handling,
    optional packages, TextMesh Pro essentials and the demo materials, each with a
    green / yellow / red light, a one-line explanation and a <strong>Fix</strong> button where a
@@ -68,7 +73,7 @@
 <div class="admonition note">
 <p class="admonition-title">No EventSystem? No problem.</p>
 <p>If your scene has no EventSystem when photo mode opens, one is created for the
-duration (matching your active input handling) and removed on exit — the scene
+duration (matching your active input handling) and removed on exit. The scene
 is left exactly as found.</p>
 </div>
 <h2 id="the-manual-path-10-minutes">The manual path (10 minutes)<a class="headerlink" href="#the-manual-path-10-minutes" title="Permanent link">¶</a></h2>
@@ -76,10 +81,10 @@ is left exactly as found.</p>
 <li>Drag <code>Assets/PhotoModePro/Demo/Generated/PhotoModePro.prefab</code> into your scene
    (menu equivalent: <strong>Tools → Photo Mode Pro → Add Photo Mode To Scene</strong>).</li>
 <li>The prefab already references the default <code>PhotoModeSettings</code>, the UI prefab
-   and the six built-in presets. Done — press your toggle key in Play mode.</li>
+   and the six built-in presets. Done. Press your toggle key in Play mode.</li>
 <li>Recommended wiring on the <code>PhotoModeController</code> component:<ul>
-<li><strong>Game Ui Canvases</strong> — add your HUD canvases so photo mode can hide them.</li>
-<li><strong>Player Objects</strong> — add your player root(s) for the <em>Hide Player</em> toggle.</li>
+<li><strong>Game Ui Canvases</strong>: add your HUD canvases so photo mode can hide them.</li>
+<li><strong>Player Objects</strong>: add your player root(s) for the <em>Hide Player</em> toggle.</li>
 </ul>
 </li>
 <li>To change keys, pause behavior, camera limits or the save folder, duplicate
@@ -88,12 +93,12 @@ is left exactly as found.</p>
 </ol>
 <h2 id="try-the-demo">Try the demo<a class="headerlink" href="#try-the-demo" title="Permanent link">¶</a></h2>
 <ol>
-<li>Open <code>Assets/PhotoModePro/Demo/PhotoModeDemo.unity</code> — a forest clearing at
+<li>Open <code>Assets/PhotoModePro/Demo/PhotoModeDemo.unity</code>: a forest clearing at
    golden hour with a campfire, wandering animals and a playable adventurer (all
    bundled third-party assets are CC0; see <code>Demo/ThirdParty/ATTRIBUTIONS.md</code>).</li>
 <li>Press Play. Move with <strong>WASD</strong> (or left stick), orbit with the mouse (or right
    stick), <strong>Shift</strong> to run, <strong>Space</strong> to jump.</li>
-<li>Press <strong>F</strong> to open photo mode — fire, animals and audio freeze instantly. Try
+<li>Press <strong>F</strong> to open photo mode. Fire, animals and audio freeze instantly. Try
    the Warm preset against the sunset, or pull focus with depth of field.</li>
 </ol>
 <div class="admonition tip">
@@ -175,9 +180,9 @@ does this for you and explains what to assign).</p>
 on-screen hint chips to match.</p>
 <h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <ul>
-<li><a href="../core-concepts/">Core Concepts</a> — the architecture in five minutes.</li>
-<li><a href="../events-and-api/">Events &amp; Scripting</a> — drive photo mode from code.</li>
-<li><a href="../theming/">Theming the UI</a> — make it look like <em>your</em> game.</li>
+<li><a href="../core-concepts/">Core Concepts</a>: the architecture in five minutes.</li>
+<li><a href="../events-and-api/">Events &amp; Scripting</a>: drive photo mode from code.</li>
+<li><a href="../theming/">Theming the UI</a>: make it look like <em>your</em> game.</li>
 </ul>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/"><span class="dir">Previous</span>Overview</a><a class="next" href="../../docs/core-concepts/"><span class="dir">Next</span>Core Concepts</a></nav>
   </main>
@@ -188,9 +193,9 @@ on-screen hint chips to match.</p>
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -222,7 +227,7 @@ on-screen hint chips to match.</p>
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

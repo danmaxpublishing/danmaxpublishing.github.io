@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Performance Notes — Photo Mode Pro Documentation</title>
 <meta name="description" content="Measured in the demo scene (Unity 6000.3, mid-range desktop, 640×480 base render in the automated batch run). Informational, not a contract:">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/performance/">
 <meta property="og:title" content="Performance Notes — Photo Mode Pro Documentation">
 <meta property="og:description" content="Measured in the demo scene (Unity 6000.3, mid-range desktop, 640×480 base render in the automated batch run). Informational, not a contract:">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/performance/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -45,10 +50,10 @@
 <ul>
 <li><strong>Zero per-frame managed (GC) allocations</strong> while photo mode is open and idle
   and while adjusting sliders (after the first-open warmup frame, which builds
-  caches). These are asserted by allocation gates in the automated test suite,
-  not just measured once.</li>
-<li>While <strong>closed</strong>, the controller only polls the toggle binding — no other
-  per-frame work, no allocations.</li>
+  caches). The idle paths are enforced by allocation gates in the automated test
+  suite on every release run rather than measured once.</li>
+<li>While <strong>closed</strong>, the controller only polls the toggle binding. There is no
+  other per-frame work and nothing allocates.</li>
 <li>Slider value labels use cached lookups and TextMesh Pro's non-allocating
   numeric <code>SetText</code>.</li>
 </ul>
@@ -77,9 +82,9 @@ in the automated batch run). Informational, not a contract:</p>
 </tr>
 </tbody>
 </table></div>
-<p>Times scale roughly with output pixel count — a 4× capture of a 1080p view
-renders at 7680×4320 — dominated by the GPU readback and PNG encode; expect
-multiple seconds at 4× from 1080p. A <strong>PROCESSING…</strong> badge appears automatically
+<p>Times scale roughly with output pixel count (a 4× capture of a 1080p view
+renders at 7680×4320) and are dominated by the GPU readback and PNG encode;
+expect multiple seconds at 4× from 1080p. A <strong>PROCESSING…</strong> badge appears automatically
 during heavy supersampled captures (and never appears in the captured photo).</p>
 <h2 id="memory">Memory<a class="headerlink" href="#memory" title="Permanent link">¶</a></h2>
 <ul>
@@ -104,9 +109,9 @@ during heavy supersampled captures (and never appears in the captured photo).</p
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -138,7 +143,7 @@ during heavy supersampled captures (and never appears in the captured photo).</p
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

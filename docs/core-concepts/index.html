@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Core Concepts — Photo Mode Pro Documentation</title>
 <meta name="description" content="Photo Mode Pro is built around one component, one settings asset and a handful of small, replaceable pieces. This page explains how they fit together so the h">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/core-concepts/">
 <meta property="og:title" content="Core Concepts — Photo Mode Pro Documentation">
 <meta property="og:description" content="Photo Mode Pro is built around one component, one settings asset and a handful of small, replaceable pieces. This page explains how they fit together so the h">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/core-concepts/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -46,7 +51,7 @@ small, replaceable pieces. This page explains how they fit together so the
 <a href="../camera/">how-to guides</a> make sense at a glance.</p>
 <h2 id="the-controller">The controller<a class="headerlink" href="#the-controller" title="Permanent link">¶</a></h2>
 <p><code>PhotoModeController</code> (menu: <strong>Photo Mode Pro/Photo Mode Controller</strong>) is the single
-entry point. Add it to any GameObject — or drop in the generated prefab — assign a
+entry point. Add it to any GameObject (or drop in the generated prefab), assign a
 <code>PhotoModeSettings</code> asset, and you are done. The component is marked
 <code>[DisallowMultipleComponent]</code>, and if a second controller appears in the scene it
 disables itself with a warning: there is always at most one active controller.</p>
@@ -58,7 +63,7 @@ disables itself with a warning: there is always at most one active controller.</
 <p><code>Instance</code> is set in <code>OnEnable</code> and cleared in <code>OnDisable</code>, so it is safe across
 scene loads. See <a href="../events-and-api/">Events &amp; API</a> for the full scripting surface.</p>
 <h2 id="enter-exit-lifecycle">Enter / exit lifecycle<a class="headerlink" href="#enter-exit-lifecycle" title="Permanent link">¶</a></h2>
-<p><code>EnterPhotoMode()</code> (or the configured toggle binding — <strong>F</strong> / <strong>View</strong> by default) does,
+<p><code>EnterPhotoMode()</code> (or the configured toggle binding, <strong>F</strong> / <strong>View</strong> by default) does,
 in order:</p>
 <ol>
 <li>Records the current <code>Time.timeScale</code>, <code>AudioListener.pause</code>, cursor visibility,
@@ -75,13 +80,13 @@ in order:</p>
 audio pause state, cursor state and main-camera enabled flag, destroys the photo
 camera and UI, and re-shows anything the visibility toggles hid. If the scene had
 no <code>EventSystem</code> when the UI opened, photo mode creates a matching one and removes
-it again on exit — the scene is left exactly as found. Cinemachine-driven cameras
+it again on exit. The scene is left exactly as found. Cinemachine-driven cameras
 hand off and resume cleanly too; see <a href="../integrations/">Integrations</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Safety nets</p>
 <p>Replacing or unloading a scene while photo mode is open auto-closes it cleanly
-(state restored first, an in-flight capture abandoned). Additive loads —
-streamed chunks — are harmless and do not close the session. If the controller
+(state restored first, an in-flight capture abandoned). Additive loads
+(streamed chunks) are harmless and do not close the session. If the controller
 itself is destroyed while open, an <code>OnDestroy</code> fallback still restores
 time scale, audio, cursor and everything photo mode spawned.</p>
 </div>
@@ -89,7 +94,7 @@ time scale, audio, cursor and everything photo mode spawned.</p>
 <code>ExitPhotoMode()</code> no-ops while inactive or while a capture is in flight.</p>
 <h2 id="the-adjustments-model">The adjustments model<a class="headerlink" href="#the-adjustments-model" title="Permanent link">¶</a></h2>
 <p><code>PhotoModeController.Adjustments</code> is a plain <code>PhotoModeAdjustments</code> object holding
-every image tweak in <strong>natural units</strong> — no pipeline types anywhere:</p>
+every image tweak in <strong>natural units</strong>. No pipeline types anywhere:</p>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -133,7 +138,7 @@ every image tweak in <strong>natural units</strong> — no pipeline types anywhe
 </table></div>
 <p>Values are <em>sticky for the play session</em>: close and reopen photo mode and your look
 is still there. If you write fields from script, call
-<code>controller.NotifyAdjustmentsEdited()</code> afterwards — details in
+<code>controller.NotifyAdjustmentsEdited()</code> afterwards; details in
 <a href="../effects/">Image adjustments</a>.</p>
 <h2 id="effects-backends-and-capabilities">Effects backends and capabilities<a class="headerlink" href="#effects-backends-and-capabilities" title="Permanent link">¶</a></h2>
 <p>Adjustments are pushed through <code>IPhotoModeEffectsBackend</code>
@@ -146,16 +151,16 @@ Selection is automatic from the active render pipeline; force one via
 <code>Saturation</code>, <code>Temperature</code>, <code>Vignette</code>, <code>Grain</code>, <code>DepthOfField</code>,
 <code>TransparentCapture</code>). <strong>The UI hides any control whose capability is missing</strong>, so
 players never touch a dead slider, and gamepad navigation never lands on one.
-Scripts read the same flags via <code>PhotoModeController.ActiveCapabilities</code> — even
-while photo mode is closed, where it returns a prediction for the backend that
-would be selected right now. Per-pipeline differences are tabulated in
+Scripts read the same flags via <code>PhotoModeController.ActiveCapabilities</code>. That
+works even while photo mode is closed, where it returns a prediction for the
+backend that would be selected right now. Per-pipeline differences are tabulated in
 <a href="../pipelines/">Pipelines</a>.</p>
 <h2 id="the-settings-asset">The settings asset<a class="headerlink" href="#the-settings-asset" title="Permanent link">¶</a></h2>
 <p><code>PhotoModeSettings</code> (<strong>Assets &gt; Create &gt; Photo Mode Pro &gt; Settings</strong>) holds every
 tunable: key/gamepad bindings, pause and audio behavior, free-camera limits
 (speed, sphere clamp, collision, FOV range, roll speed), the effects backend
 override, capture defaults and the save path, and visibility options. Duplicate
-it per configuration and assign it on the controller — or swap it from script via
+it per configuration and assign it on the controller, or swap it from script via
 the <code>Settings</code> property while photo mode is inactive.</p>
 <h2 id="presets">Presets<a class="headerlink" href="#presets" title="Permanent link">¶</a></h2>
 <p>A <code>PhotoModePreset</code> asset is just a named bundle of adjustment values. Six ship
@@ -165,11 +170,11 @@ in; <code>ApplyPreset(null)</code> resets to the neutral "Clean" state. See
 <a href="../presets/">Presets</a>.</p>
 <h2 id="the-ui-prefab-and-theme">The UI prefab and theme<a class="headerlink" href="#the-ui-prefab-and-theme" title="Permanent link">¶</a></h2>
 <p>The photo mode UI is an ordinary UGUI prefab (<code>PhotoModeUIController</code>) that the
-controller instantiates on enter and destroys on exit. It has four categories —
-Camera, Effects, Presets, Capture — cycled with <strong>Q/E</strong> or <strong>LB/RB</strong>, full
+controller instantiates on enter and destroys on exit. It has four categories
+(Camera, Effects, Presets, Capture) cycled with <strong>Q/E</strong> or <strong>LB/RB</strong>, full
 keyboard/gamepad navigation, and a single row of hotkey hint chips along the
 bottom edge of the screen. Every color, sprite, font, motion parameter and UI
-sound comes from one <code>PhotoModeUITheme</code> asset — swap it to reskin everything.
+sound comes from one <code>PhotoModeUITheme</code> asset; swap it to reskin everything.
 See <a href="../theming/">Theming</a>.</p>
 <h2 id="capture-pipeline">Capture pipeline<a class="headerlink" href="#capture-pipeline" title="Permanent link">¶</a></h2>
 <p><code>CapturePhoto()</code> (or <strong>P</strong> / the SNAP button) renders the photo camera into a
@@ -192,9 +197,9 @@ timing numbers live in <a href="../performance/">Performance</a>.</p>
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -226,7 +231,7 @@ timing numbers live in <a href="../performance/">Performance</a>.</p>
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

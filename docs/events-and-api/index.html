@@ -4,10 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Events &amp; Scripting — Photo Mode Pro Documentation</title>
-<meta name="description" content="Everything the UI can do, your code can do. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the null-safe static ">
+<meta name="description" content="Everything in the UI is also available from script. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the null-safe">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/events-and-api/">
 <meta property="og:title" content="Events &amp; Scripting — Photo Mode Pro Documentation">
-<meta property="og:description" content="Everything the UI can do, your code can do. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the null-safe static ">
+<meta property="og:description" content="Everything in the UI is also available from script. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the null-safe">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/events-and-api/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -41,7 +46,7 @@
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
     <h1>Events &amp; Scripting</h1>
 
-<p>Everything the UI can do, your code can do. The whole public surface lives on
+<p>Everything in the UI is also available from script. The whole public surface lives on
 <code>PhotoModeController</code> (namespace <code>PhotoModePro</code>), reached via the null-safe
 static <code>PhotoModeController.Instance</code>.</p>
 <h2 id="lifecycle-events">Lifecycle events<a class="headerlink" href="#lifecycle-events" title="Permanent link">¶</a></h2>
@@ -67,7 +72,7 @@ static <code>PhotoModeController.Instance</code>.</p>
 <tr>
 <td><code>OnPhotoCaptured</code></td>
 <td><code>Action&lt;string, Texture2D&gt;</code></td>
-<td>A photo was saved — path and thumbnail.</td>
+<td>A photo was saved (path and thumbnail).</td>
 </tr>
 <tr>
 <td><code>OnAdjustmentsReplaced</code></td>
@@ -77,7 +82,7 @@ static <code>PhotoModeController.Instance</code>.</p>
 </tbody>
 </table></div>
 <p>Three of these also exist as serialized <strong>UnityEvents</strong> on the component for
-Inspector-only wiring — <code>On Entered</code>, <code>On Exited</code> and <code>On Photo Captured</code> (a
+Inspector-only wiring: <code>On Entered</code>, <code>On Exited</code> and <code>On Photo Captured</code> (a
 <code>PhotoCapturedUnityEvent</code>, i.e. <code>UnityEvent&lt;string, Texture2D&gt;</code>). The C# event
 fires first, then the UnityEvent.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
@@ -91,7 +96,7 @@ fires first, then the UnityEvent.</p>
 </code></pre></div>
 <h2 id="enter-exit-from-a-pause-menu">Enter / exit from a pause menu<a class="headerlink" href="#enter-exit-from-a-pause-menu" title="Permanent link">¶</a></h2>
 <p><code>EnterPhotoMode()</code>, <code>ExitPhotoMode()</code> and <code>TogglePhotoMode()</code> are plain public
-methods — wire them to a button or call them from your game-state machine:</p>
+methods. Wire them to a button or call them from your game-state machine:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 
 <span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnPhotoModeButtonClicked</span><span class="p">()</span>
@@ -127,8 +132,8 @@ on the exit frame. <code>ExitedThisFrame</code> is true only during that single 
 <h2 id="audio-mixer-snapshots-instead-of-audiolistenerpause">Audio: mixer snapshots instead of <code>AudioListener.pause</code><a class="headerlink" href="#audio-mixer-snapshots-instead-of-audiolistenerpause" title="Permanent link">¶</a></h2>
 <p>By default photo mode sets <code>AudioListener.pause</code> on enter and restores the prior
 value exactly on exit. If your game drives audio through mixer snapshots, set
-<code>PhotoModeSettings.audioPauseMode</code> to <code>AudioPauseMode.None</code> — the package then
-never touches audio — and transition in your own handlers:</p>
+<code>PhotoModeSettings.audioPauseMode</code> to <code>AudioPauseMode.None</code> (the package then
+never touches audio) and transition in your own handlers:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine.Audio</span><span class="p">;</span>
 
@@ -145,8 +150,8 @@ never touches audio — and transition in your own handlers:</p>
 <p>More audio strategies in <a href="../integrations/">Integrations</a>.</p>
 <h2 id="capability-checks">Capability checks<a class="headerlink" href="#capability-checks" title="Permanent link">¶</a></h2>
 <p><code>ActiveCapabilities</code> returns the <code>EffectCapabilities</code> flags of the active effects
-backend — and while photo mode is closed, a cheap, side-effect-free prediction of
-the backend that would be selected right now:</p>
+backend. While photo mode is closed, it returns a cheap, side-effect-free
+prediction of the backend that would be selected right now:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro.Effects</span><span class="p">;</span>
 
@@ -197,7 +202,7 @@ the backend that would be selected right now:</p>
 </tr>
 <tr>
 <td><code>PhotoCamera</code></td>
-<td>The live <code>FreeCameraController</code> — see <a href="../camera/">Free camera</a>.</td>
+<td>The live <code>FreeCameraController</code>; see <a href="../camera/">Free camera</a>.</td>
 </tr>
 <tr>
 <td><code>Visibility</code></td>
@@ -222,9 +227,9 @@ the backend that would be selected right now:</p>
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -256,7 +261,7 @@ the backend that would be selected right now:</p>
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

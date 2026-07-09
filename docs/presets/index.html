@@ -4,10 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Presets — Photo Mode Pro Documentation</title>
-<meta name="description" content="A preset is a PhotoModePreset asset: a display name plus one full set of adjustment values . No LUT textures, no shaders — just data, so presets are tiny and ">
+<meta name="description" content="A preset is a PhotoModePreset asset: a display name plus one full set of adjustment values . There are no LUT textures or shaders involved, just plain data, s">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/presets/">
 <meta property="og:title" content="Presets — Photo Mode Pro Documentation">
-<meta property="og:description" content="A preset is a PhotoModePreset asset: a display name plus one full set of adjustment values . No LUT textures, no shaders — just data, so presets are tiny and ">
+<meta property="og:description" content="A preset is a PhotoModePreset asset: a display name plus one full set of adjustment values . There are no LUT textures or shaders involved, just plain data, s">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/presets/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -42,8 +47,8 @@
     <h1>Presets</h1>
 
 <p>A preset is a <code>PhotoModePreset</code> asset: a display name plus one full set of
-<a href="../effects/">adjustment values</a>. No LUT textures, no shaders — just data, so
-presets are tiny and trivially diffable in version control.</p>
+<a href="../effects/">adjustment values</a>. There are no LUT textures or shaders involved,
+just plain data, so presets stay tiny and diff cleanly in version control.</p>
 <h2 id="the-built-in-six">The built-in six<a class="headerlink" href="#the-built-in-six" title="Permanent link">¶</a></h2>
 <div class="table-scroll"><table>
 <thead>
@@ -55,7 +60,7 @@ presets are tiny and trivially diffable in version control.</p>
 <tbody>
 <tr>
 <td><strong>Clean</strong></td>
-<td>Neutral — every value at its default. First in the list and the active default.</td>
+<td>Neutral: every value at its default. First in the list and the active default.</td>
 </tr>
 <tr>
 <td><strong>Noir</strong></td>
@@ -84,7 +89,7 @@ presets are tiny and trivially diffable in version control.</p>
 <h2 id="creating-your-own">Creating your own<a class="headerlink" href="#creating-your-own" title="Permanent link">¶</a></h2>
 <ol>
 <li><strong>Assets &gt; Create &gt; Photo Mode Pro &gt; Preset</strong>.</li>
-<li>Set <code>displayName</code> — this is the label shown on the Presets tab button.</li>
+<li>Set <code>displayName</code>, the label shown on the Presets tab button.</li>
 <li>Fill in the <code>adjustments</code> block (same fields and units as the
    <a href="../effects/">Effects tab</a>: EV, −100..+100, 0..1, meters, f-stops).</li>
 </ol>
@@ -97,7 +102,7 @@ fields, so it is a one-to-one transfer.</p>
 <div class="admonition note">
 <p class="admonition-title">Aperture range</p>
 <p>Aperture values outside f/0.7–f/16 are accepted by the asset but clamped by
-the effect backends when applied — see
+the effect backends when applied; see
 <a href="../effects/">the aperture slider</a>.</p>
 </div>
 <h2 id="offering-presets-in-the-ui">Offering presets in the UI<a class="headerlink" href="#offering-presets-in-the-ui" title="Permanent link">¶</a></h2>
@@ -108,8 +113,8 @@ from script) decides which presets the Presets tab shows, in order:</p>
 <span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
 <span class="n">controller</span><span class="p">.</span><span class="n">Presets</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">myPreset</span><span class="p">);</span><span class="w">   </span><span class="c1">// List&lt;PhotoModePreset&gt;</span>
 </code></pre></div>
-<p>The generated prefab ships with the built-in six already assigned; rearrange,
-remove or replace them freely.</p>
+<p>The generated prefab ships with the built-in six already assigned; change the
+list however you like.</p>
 <h2 id="applying-from-script">Applying from script<a class="headerlink" href="#applying-from-script" title="Permanent link">¶</a></h2>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 
@@ -120,7 +125,7 @@ remove or replace them freely.</p>
 </code></pre></div>
 <p><code>ApplyPreset</code> copies the preset's values into <code>controller.Adjustments</code>, pushes
 them to the effects backend and raises <code>OnAdjustmentsReplaced</code> (so the UI sliders
-re-seed). <code>ApplyPreset(null)</code> resets every value to neutral — identical to the
+re-seed). <code>ApplyPreset(null)</code> resets every value to neutral, identical to the
 Clean preset.</p>
 <h2 id="the-label-clean-a-preset-name-or-custom">The label: Clean, a preset name, or "Custom"<a class="headerlink" href="#the-label-clean-a-preset-name-or-custom" title="Permanent link">¶</a></h2>
 <p><code>CurrentPresetLabel</code> tracks where the current look came from:</p>
@@ -160,9 +165,9 @@ drifted from it.</p>
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -194,7 +199,7 @@ drifted from it.</p>
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

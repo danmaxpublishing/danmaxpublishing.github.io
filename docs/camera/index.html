@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Free Camera — Photo Mode Pro Documentation</title>
 <meta name="description" content="When photo mode opens, the main camera is cloned into a free photo camera driven by a FreeCameraController . It runs on unscaled time (so it works while the g">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/camera/">
 <meta property="og:title" content="Free Camera — Photo Mode Pro Documentation">
 <meta property="og:description" content="When photo mode opens, the main camera is cloned into a free photo camera driven by a FreeCameraController . It runs on unscaled time (so it works while the g">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/camera/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -59,7 +64,7 @@ is frozen) and allocates nothing per frame.</p>
 </tr>
 <tr>
 <td><strong>Orbit</strong></td>
-<td>The camera circles the <em>activation point</em> — where photo mode was opened — at an adjustable distance. Look input orbits; forward/back input changes the orbit distance.</td>
+<td>The camera circles the <em>activation point</em> (where photo mode was opened) at an adjustable distance. Look input orbits; forward/back input changes the orbit distance.</td>
 </tr>
 </tbody>
 </table></div>
@@ -142,7 +147,7 @@ preserves the current framing. The starting mode comes from
 </table></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The sphere clamp is your spoiler/exploit guard — it keeps players from flying
+<p>The sphere clamp is your spoiler/exploit guard. It keeps players from flying
 the camera across the level. The activation point is exposed as
 <code>FreeCameraController.Pivot</code>.</p>
 </div>
@@ -169,7 +174,7 @@ need to read its pose or projection.</p>
 <div class="admonition warning">
 <p class="admonition-title">Physical cameras (HDRP)</p>
 <p>While the camera uses physical properties, the controller drives zoom via
-<code>focalLength</code> instead of <code>fieldOfView</code> — writing <code>fieldOfView</code> would silently
+<code>focalLength</code> instead of <code>fieldOfView</code>. Writing <code>fieldOfView</code> would silently
 switch the camera back to non-physical mode and break HDRP's depth of field.
 Use the <code>Fov</code> property and let the controller pick the right path.</p>
 </div>
@@ -187,9 +192,9 @@ snapping.</p>
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -221,7 +226,7 @@ snapping.</p>
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

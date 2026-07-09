@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Image Adjustments — Photo Mode Pro Documentation</title>
 <meta name="description" content="The Effects tab exposes the full adjustment set. Every value lives in PhotoModeController.Adjustments (a PhotoModeAdjustments object) in natural, pipeline-agn">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/effects/">
 <meta property="og:title" content="Image Adjustments — Photo Mode Pro Documentation">
 <meta property="og:description" content="The Effects tab exposes the full adjustment set. Every value lives in PhotoModeController.Adjustments (a PhotoModeAdjustments object) in natural, pipeline-agn">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/effects/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -114,19 +119,19 @@ pipeline-agnostic units, and is sticky for the play session.</p>
 <h2 id="the-aperture-slider">The aperture slider<a class="headerlink" href="#the-aperture-slider" title="Permanent link">¶</a></h2>
 <p>The aperture slider spans <strong>f/0.7 – f/16</strong> with a perceptual log-stop mapping:
 each step of slider travel multiplies the f-number by a constant ratio, so a
-nudge near f/1 changes the bokeh about as much as a nudge near f/11 — the way
+nudge near f/1 changes the bokeh about as much as a nudge near f/11, the way
 photographers think in stops. Lower f-numbers mean a shallower focus plane and
 bigger bokeh; f/0.7 is the widest aperture HDRP's physical camera accepts, and
 beyond ~f/16 the blur is sub-pixel at game scales.</p>
 <div class="admonition note">
 <p class="admonition-title">Clamping</p>
 <p><code>PhotoModeAdjustments.aperture</code> still accepts <strong>any positive value</strong> from
-script, and old presets keep loading unchanged — but the effect backends
+script, and old presets keep loading unchanged, but the effect backends
 clamp into <code>[PhotoModeAdjustments.ApertureMin, ApertureMax]</code> (0.7–16) when
 applying. A preset saved at f/22 simply renders as f/16.</p>
 </div>
 <h2 id="per-pipeline-availability">Per-pipeline availability<a class="headerlink" href="#per-pipeline-availability" title="Permanent link">¶</a></h2>
-<p>Not every backend supports every effect — the Built-in fallback (no Post
+<p>Not every backend supports every effect. The Built-in fallback (no Post
 Processing Stack v2) lacks temperature, grain and depth of field, and HDRP cannot
 do transparent captures. <strong>Unsupported controls hide automatically</strong>, and scripts
 can check the same flags:</p>
@@ -139,7 +144,7 @@ can check the same flags:</p>
 <p>The full capability matrix and the visual differences between pipelines are on
 the <a href="../pipelines/">Pipelines</a> page.</p>
 <h2 id="scripting-adjustments">Scripting adjustments<a class="headerlink" href="#scripting-adjustments" title="Permanent link">¶</a></h2>
-<p>Write the fields directly, then tell the controller you did — that marks the
+<p>Write the fields directly, then tell the controller you did. That marks the
 effects dirty (re-applied next frame) and flips the preset label to "Custom":</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 
@@ -160,12 +165,12 @@ effects dirty (re-applied next frame) and flips the preset label to "Custom":</p
 reach the screen until something else (a slider, a preset) triggers a
 re-apply. The UI sliders call it for you; direct field writes must.</p>
 </div>
-<p>To replace the whole set at once, use a preset instead —
+<p>To replace the whole set at once, use a preset instead:
 <code>ApplyPreset(...)</code> copies values, re-applies and raises
 <code>OnAdjustmentsReplaced</code> so the UI re-seeds its sliders. See
 <a href="../presets/">Presets</a>.</p>
-<p>Values for capabilities the active backend lacks are simply ignored — never
-clamped or destroyed — so a look authored on URP survives a session on the
+<p>Values for capabilities the active backend lacks are simply ignored (never
+clamped or destroyed), so a look authored on URP survives a session on the
 Built-in fallback intact.</p>
 <p>Related: <a href="../core-concepts/">Core Concepts</a> ·
 <a href="../presets/">Presets</a> · <a href="../events-and-api/">Events &amp; API</a></p>
@@ -178,9 +183,9 @@ Built-in fallback intact.</p>
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -212,7 +217,7 @@ Built-in fallback intact.</p>
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>

@@ -4,10 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Capturing Photos — Photo Mode Pro Documentation</title>
-<meta name="description" content="Press P (keyboard), X / Square (gamepad) or the SNAP button — or call PhotoModeController.CapturePhoto() from script. The UI hides itself for the shot, the fr">
+<meta name="description" content="Press P (keyboard), X / Square (gamepad) or the SNAP button, or call PhotoModeController.CapturePhoto() from script. The UI hides itself for the shot, the fra">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/capture/">
 <meta property="og:title" content="Capturing Photos — Photo Mode Pro Documentation">
-<meta property="og:description" content="Press P (keyboard), X / Square (gamepad) or the SNAP button — or call PhotoModeController.CapturePhoto() from script. The UI hides itself for the shot, the fr">
+<meta property="og:description" content="Press P (keyboard), X / Square (gamepad) or the SNAP button, or call PhotoModeController.CapturePhoto() from script. The UI hides itself for the shot, the fra">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/capture/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
 <meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
@@ -41,7 +46,7 @@
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
     <h1>Capturing Photos</h1>
 
-<p>Press <strong>P</strong> (keyboard), <strong>X / Square</strong> (gamepad) or the <strong>SNAP</strong> button — or call
+<p>Press <strong>P</strong> (keyboard), <strong>X / Square</strong> (gamepad) or the <strong>SNAP</strong> button, or call
 <code>PhotoModeController.CapturePhoto()</code> from script. The UI hides itself for the
 shot, the frame is rendered offscreen, encoded to PNG and saved to disk, and a
 thumbnail toast confirms it.</p>
@@ -54,7 +59,7 @@ duration of every capture, so the output is artifact-free and exactly the
 requested size.</p>
 <div class="admonition note">
 <p class="admonition-title">Heavy captures show a badge</p>
-<p>Supersampled captures block the main thread for the render + encode — a
+<p>Supersampled captures block the main thread for the render + encode. A
 static <strong>PROCESSING…</strong> badge appears automatically for 2×/4× shots. It lives
 on the overlay canvas and can never end up in the photo. Expect multiple
 seconds at 4× from 1080p; measured timings are on the
@@ -90,14 +95,14 @@ sanitized for the file system. Collisions get a counter suffix:
 <code>Game_2026-06-11_12-00-00_001.png</code>.</p>
 <h2 id="transparent-background">Transparent background<a class="headerlink" href="#transparent-background" title="Permanent link">¶</a></h2>
 <p>Toggle <strong>Transparent BG</strong> on the Capture tab (or set
-<code>PhotoModeController.TransparentCapture</code>) to capture with a clean alpha channel —
-ideal for compositing screenshots over other art.</p>
+<code>PhotoModeController.TransparentCapture</code>) to capture with a clean alpha channel,
+useful for compositing screenshots over other art.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <ul>
 <li>Transparent frames render <strong>without post-processing</strong> (post effects destroy
   alpha), so your image adjustments do not appear in transparent shots.</li>
-<li><strong>Not available on HDRP</strong> — the toggle is hidden there and a transparent
+<li><strong>Not available on HDRP</strong>: the toggle is hidden there and a transparent
   request is ignored at the backend boundary. URP and both Built-in backends
   support it. Details on <a href="../pipelines/">Pipelines</a>.</li>
 </ul>
@@ -125,7 +130,7 @@ ideal for compositing screenshots over other art.</p>
 <tr>
 <td>Hide Player</td>
 <td>Capture tab</td>
-<td>Disables the renderers of the registered player objects (<code>PlayerObjects</code> list + <code>playerTag</code>) — animator/physics state is untouched, so unhiding never pops.</td>
+<td>Disables the renderers of the registered player objects (<code>PlayerObjects</code> list + <code>playerTag</code>). Animator/physics state is untouched, so unhiding never pops.</td>
 </tr>
 <tr>
 <td>Hide Layers</td>
@@ -153,7 +158,7 @@ ideal for compositing screenshots over other art.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>The same event exists as a UnityEvent (<code>On Photo Captured</code>) on the controller for
-Inspector wiring. <code>IsCapturing</code> is true while a capture is in flight — note that
+Inspector wiring. <code>IsCapturing</code> is true while a capture is in flight.
 <code>ExitPhotoMode()</code> no-ops during that window, and the toggle key is ignored.</p>
 <p>Related: <a href="../core-concepts/">Core Concepts</a> ·
 <a href="../events-and-api/">Events &amp; API</a> · <a href="../troubleshooting/">Troubleshooting</a></p>
@@ -166,9 +171,9 @@ Inspector wiring. <code>IsCapturing</code> is true while a capture is in flight 
     <div class="cols">
       <div>
         <h4>DanMaxPublishing</h4>
-        <p>Production-grade Unity tools by a solo developer with 10+ years of
-        shipped commercial projects. Built, documented and supported like they
-        have to survive production — because they do.</p>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -200,7 +205,7 @@ Inspector wiring. <code>IsCapturing</code> is true while a capture is in flight 
     </div>
     <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
     Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
-    OpenGameArt) — full attributions ship in the package. This site loads no
+    OpenGameArt); full attributions ship in the package. This site loads no
     external resources and sets no cookies.</p>
   </div>
 </footer>
