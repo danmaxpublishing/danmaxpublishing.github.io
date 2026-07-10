@@ -117,7 +117,7 @@ settings asset; see the <a href="../upgrade-guide/">Upgrade Guide</a>.</p>
 <h2 id="gamepad-navigation-goes-dead-after-a-mouse-click">Gamepad navigation goes dead after a mouse click<a class="headerlink" href="#gamepad-navigation-goes-dead-after-a-mouse-click" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> Arrow keys / D-pad do nothing when photo mode opens, or stop
 working after clicking a control with the mouse, until you switch tabs with
-Q/E. <em>(NB-01)</em></p>
+Q/E.</p>
 <p><strong>Cause:</strong> Mouse clicks clear the EventSystem selection by design (so the
 focus ring never lingers for mouse users); older versions had no recovery
 path, so navigation lost its anchor.</p>
@@ -138,11 +138,11 @@ supported on legacy.</p>
 <h2 id="focus-rings-are-cut-off-at-panel-edges">Focus rings are cut off at panel edges<a class="headerlink" href="#focus-rings-are-cut-off-at-panel-edges" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> The thin focus ring around toggles, preset buttons, Fly/Orbit,
 1x/2x/4x or the capture-folder row is clipped by the side panel's scroll
-mask. <em>(NB-03–NB-07, NB-09, NB-10; regressed and re-fixed as NB-16, NB-17)</em></p>
+mask.</p>
 <p><strong>Cause:</strong> Focus rings extend a few pixels beyond each control; without
 enough inner content padding the scroll viewport's mask clips them. The
 1.4.0 regression had a subtler cause: the hover/selection scale-up (theme
-<code>hoverScale</code>) pushed rings on full-width controls past the Phase 3 padding.</p>
+<code>hoverScale</code>) pushed rings on full-width controls past the original padding.</p>
 <p><strong>Fix:</strong> Fixed in 1.3.0 and finally in 1.4.0 (padding is now computed from
 the ring size <em>and</em> the theme's selection scale, and regeneration-proof
 regression tests guard it). Update the package. If it persists: you are
@@ -150,7 +150,7 @@ likely using a custom theme with a large <code>hoverScale</code>; reduce it, or 
 the UI prefab via <strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</strong>.</p>
 <h2 id="keyboardgamepad-selection-scrolls-out-of-view">Keyboard/gamepad selection scrolls out of view<a class="headerlink" href="#keyboardgamepad-selection-scrolls-out-of-view" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> Arrowing down a long tab (e.g. Effects) moves the selection
-below the visible scroll area and the panel doesn't follow. <em>(NB-02)</em></p>
+below the visible scroll area and the panel doesn't follow.</p>
 <p><strong>Cause:</strong> Older versions had no scroll-follow logic for EventSystem
 selection changes.</p>
 <p><strong>Fix:</strong> Fixed in 1.3.0; update the package. The panel now auto-scrolls
@@ -179,7 +179,7 @@ pointer is over any UI and zooms the camera otherwise. Wheel zoom also
 updates the FOV slider live (two-way sync).</p>
 <h2 id="the-aperture-slider-seems-to-do-nothing-above-f3">The aperture slider seems to do nothing above f/3<a class="headerlink" href="#the-aperture-slider-seems-to-do-nothing-above-f3" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> Dragging the aperture slider up changes bokeh only at the low
-end; most of the travel produces no visible difference. <em>(NB-15)</em></p>
+end; most of the travel produces no visible difference.</p>
 <p><strong>Cause:</strong> The old slider range extended far past visually useful f-stops,
 mapped linearly, so almost all the travel sat in a perceptual dead zone.</p>
 <p><strong>Fix:</strong> Fixed in 1.4.0. Update the package. The slider is re-ranged to
@@ -283,7 +283,7 @@ MSAA/SMAA/FXAA are unaffected.</p>
 the requested size.</p>
 <h2 id="player-pops-or-jumps-after-hide-player">Player pops or jumps after Hide Player<a class="headerlink" href="#player-pops-or-jumps-after-hide-player" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> Toggle Hide Player on and off, exit photo mode, and the
-character jumps or pops on return to gameplay. <em>(NB-13)</em></p>
+character jumps or pops on return to gameplay.</p>
 <p><strong>Cause:</strong> Older versions hid the player with <code>SetActive(false/true)</code>;
 re-activation reset <code>CharacterController</code> grounding and rebound the
 Animator. Additionally, a shared binding (e.g. Space as both fly-up and
@@ -308,7 +308,7 @@ de-scaled copies of the clips. If it persists after updating, run
 <h2 id="hint-chips-overlap-my-games-ui-or-look-stackedcramped">Hint chips overlap my game's UI (or look stacked/cramped)<a class="headerlink" href="#hint-chips-overlap-my-games-ui-or-look-stackedcramped" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> The hotkey hint chips collide with other UI, or pile up as a
 tall stack in the bottom-left corner. Earlier: the chips were too small to
-read. <em>(NB-11, NB-12, NB-14)</em></p>
+read.</p>
 <p><strong>Cause:</strong> The chips were originally undersized (fixed in 1.3.0 with a ×1.5
 scale-up into four short rows), and the 1.3.0 four-row block read as a
 cramped stack at some window sizes.</p>
@@ -386,8 +386,8 @@ mode appear to allocate a little every frame, despite the zero-GC claim.</p>
 uGUI/TMP editor profiler markers and the measuring recorder itself: uGUI's
 <code>Slider.Set</code> alone allocates ~123 B/frame in editor play mode with no
 package code involved. The package's own pipeline (model write, backend
-apply, label <code>SetText</code>) allocates zero bytes above idle; allocation gates
-in the test suite assert this.</p>
+apply, label <code>SetText</code>) allocates zero bytes above idle; the release test
+suite's allocation gates assert the idle paths.</p>
 <p><strong>Fix:</strong> Profile a player build; the editor-only allocations vanish.
 Expect one warmup allocation on the first open (cache building), then zero
 per-frame GC. See <a href="../performance/">Performance</a>.</p>

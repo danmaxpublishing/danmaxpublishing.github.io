@@ -113,7 +113,8 @@
         <h3>Exit restores everything, exactly</h3>
         <p>Time scale, audio, cursor, camera, hidden HUD canvases, hidden player.
         Renderers are hidden, not GameObjects, so physics never pops. Loading a new
-        scene auto-closes it cleanly. Works with or without an EventSystem.</p>
+        scene auto-closes it cleanly (additive loads leave it open). Works with or
+        without an EventSystem.</p>
       </div>
       <div class="card hoverable">
         <h3>Set up in minutes</h3>
@@ -265,8 +266,8 @@
         <p class="eyebrow">Engineering</p>
         <h2>Built like a system, <br>not a script</h2>
         <ul style="list-style:none;display:grid;gap:14px;margin-top:22px">
-          <li class="card" style="padding:16px 20px"><strong>Zero per-frame GC</strong><span style="color:var(--muted)"> while open and idle, and while dragging sliders. Allocation gates in the release tests keep it that way.</span></li>
-          <li class="card" style="padding:16px 20px"><strong>Exact state restoration</strong><span style="color:var(--muted)"> of time scale, audio, cursor and camera; auto-close on scene loads.</span></li>
+          <li class="card" style="padding:16px 20px"><strong>Zero per-frame GC</strong><span style="color:var(--muted)"> while open and idle, and while dragging sliders. Allocation gates in the release tests keep the idle paths at zero.</span></li>
+          <li class="card" style="padding:16px 20px"><strong>Exact state restoration</strong><span style="color:var(--muted)"> of time scale, audio, cursor and camera; auto-close on full scene loads and unloads (additive streaming leaves the session open).</span></li>
           <li class="card" style="padding:16px 20px"><strong>Plays nice</strong><span style="color:var(--muted)"> with Cinemachine and URP camera stacking. It never moves your gameplay camera; it spawns its own.</span></li>
           <li class="card" style="padding:16px 20px"><strong>Tested on Unity 2021.3, 2022.3 and Unity 6</strong><span style="color:var(--muted)">, including an IL2CPP build with high managed stripping.</span></li>
           <li class="card" style="padding:16px 20px"><strong>Both input systems</strong><span style="color:var(--muted)">: new Input System, legacy Input Manager, or Both. Hint chips update when you remap.</span></li>
@@ -320,8 +321,8 @@ PhotoModeController.Instance.OnPhotoCaptured += (path, thumb) =>
     <details class="qa">
       <summary>Is it safe to add this late in production?</summary>
       <div class="qa-body"><p>That's the design brief. Zero per-frame GC while open, nothing
-      but a toggle poll while closed, exact state restoration, and auto-close when a new
-      scene loads. Every release passes EditMode and PlayMode suites (allocation, leak
+      but a toggle poll while closed, exact state restoration, and auto-close when a
+      full scene load replaces the level. Every release passes EditMode and PlayMode suites (allocation, leak
       and state-restoration gates) before it ships. IL2CPP with high managed stripping
       is verified.</p></div>
     </details>
