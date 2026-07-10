@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Roadmap — DanMaxPublishing</title>
 <meta name="description" content="Where Photo Mode Pro is headed: shipped milestones, what's next after the Asset Store launch, and what's being explored.">
 <link rel="canonical" href="https://danmaxpublishing.github.io/roadmap/">
@@ -22,8 +24,8 @@
 <nav class="site-nav" aria-label="Main">
   <div class="bar">
     <a class="brand" href="../"><img src="../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
       <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
       <li><a href="../docs/">Docs</a></li>
       <li><a href="../roadmap/" aria-current="page">Roadmap</a></li>
@@ -34,7 +36,7 @@
   </div>
 </nav>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
 <header class="hero" style="padding:84px 0 56px">
   <div class="hero-veil"></div>
@@ -62,7 +64,7 @@
   </div>
 </section>
 
-<section class="tight" style="background:var(--bg-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)">
+<section class="tight band">
   <div class="wrap">
     <div class="section-head">
       <h2>Next</h2>
@@ -90,7 +92,7 @@
   </div>
 </section>
 
-<section class="tight" style="background:var(--bg-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)">
+<section class="tight band">
   <div class="wrap">
     <div class="grid grid-2" style="align-items:center;gap:44px">
       <div class="reveal">
@@ -117,7 +119,7 @@
       </div>
       <figure class="shot reveal">
         <div class="frame">
-          <img src="../assets/img/future-teaser.webp" alt="Teaser artwork for the next unannounced DanMaxPublishing asset" loading="lazy">
+          <img src="../assets/img/future-teaser.webp" alt="Teaser artwork for the next unannounced DanMaxPublishing asset" width="1376" height="768" loading="lazy">
         </div>
       </figure>
     </div>
@@ -130,13 +132,13 @@
   <div class="wrap">
     <div class="cols">
       <div>
-        <h4>DanMaxPublishing</h4>
+        <h2>DanMaxPublishing</h2>
         <p>Unity tools from a solo developer with 10+ years of shipped
         commercial projects. Built, documented and supported to hold up in
         real production.</p>
       </div>
       <div>
-        <h4>Product</h4>
+        <h2>Product</h2>
         <ul>
           <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
           <li><a href="../demo/">WebGL demo</a></li>
@@ -146,7 +148,7 @@
         </ul>
       </div>
       <div>
-        <h4>Documentation</h4>
+        <h2>Documentation</h2>
         <ul>
           <li><a href="../docs/quick-start/">Quick Start</a></li>
           <li><a href="../docs/faq/">FAQ</a></li>
@@ -155,7 +157,7 @@
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h2>Support</h2>
         <ul>
           <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
           <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>

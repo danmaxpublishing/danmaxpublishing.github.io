@@ -4,9 +4,8 @@
    [data-store-link] CTA on the site switches to it automatically. */
 var STORE_URL = "";
 
-/* Mailing list. Create a Buttondown newsletter, then paste its embed endpoint
-   here, e.g. "https://buttondown.com/api/emails/embed-subscribe/danmaxpublishing".
-   While this is empty, every notify CTA falls back to the mailto flow. */
+/* Mailing list: the live Buttondown embed endpoint. If it's ever emptied,
+   every notify CTA falls back to the mailto flow automatically. */
 var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmaxpublishing";
 
 (function () {
@@ -17,6 +16,34 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
   document.documentElement.classList.add("js");
 
   var root = document.body.getAttribute("data-root") || "./";
+
+  /* Delegated handlers receive events whose target may be a non-Element
+     (document, text selection edge cases); closest() would throw on those. */
+  function closestFrom(target, selector) {
+    return target instanceof Element ? target.closest(selector) : null;
+  }
+
+  var clipboard = navigator.clipboard || null;
+
+  /* Shared "copy → Copied!" feedback for any copy button. */
+  function copyWithFeedback(btn, text, restoreText) {
+    clipboard.writeText(text).then(
+      function () {
+        btn.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(function () {
+          btn.textContent = restoreText;
+          btn.classList.remove("copied");
+        }, 1600);
+      },
+      function () {
+        btn.textContent = "Copy failed";
+        setTimeout(function () {
+          btn.textContent = restoreText;
+        }, 1600);
+      }
+    );
+  }
 
   if (STORE_URL) {
     document.querySelectorAll("[data-store-link]").forEach(function (a) {
@@ -64,26 +91,45 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
 
   /* ---------------- Lightbox ---------------- */
   var lightbox = null;
+  var lightboxOpener = null;
+
+  function closeLightbox() {
+    if (!lightbox || !lightbox.classList.contains("open")) return;
+    lightbox.classList.remove("open");
+    if (lightboxOpener && document.contains(lightboxOpener)) {
+      lightboxOpener.focus();
+    }
+    lightboxOpener = null;
+  }
 
   function ensureLightbox() {
     if (lightbox) return lightbox;
     lightbox = document.createElement("div");
     lightbox.className = "lightbox";
     lightbox.setAttribute("role", "dialog");
+    lightbox.setAttribute("aria-modal", "true");
     lightbox.setAttribute("aria-label", "Image viewer");
-    lightbox.innerHTML = '<img alt=""><div class="caption"></div>';
-    lightbox.addEventListener("click", function () {
-      lightbox.classList.remove("open");
+    lightbox.innerHTML =
+      '<button class="lightbox-close" type="button" aria-label="Close image viewer">×</button>' +
+      '<img alt=""><div class="caption"></div>';
+    lightbox.addEventListener("click", closeLightbox);
+    // The close button is the dialog's only focusable element, so trapping
+    // Tab means simply keeping focus on it while the dialog is open.
+    lightbox.addEventListener("keydown", function (e) {
+      if (e.key === "Tab") {
+        e.preventDefault();
+        lightbox.querySelector(".lightbox-close").focus();
+      }
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") lightbox.classList.remove("open");
+      if (e.key === "Escape") closeLightbox();
     });
     document.body.appendChild(lightbox);
     return lightbox;
   }
 
   document.addEventListener("click", function (e) {
-    var target = e.target.closest("[data-lightbox]");
+    var target = closestFrom(e.target, "[data-lightbox]");
     if (!target) return;
     e.preventDefault();
     var img = target.tagName === "IMG" ? target : target.querySelector("img");
@@ -95,7 +141,9 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     var capEl = lb.querySelector(".caption");
     capEl.textContent = cap;
     capEl.style.display = cap ? "" : "none";
+    lightboxOpener = target;
     lb.classList.add("open");
+    lb.querySelector(".lightbox-close").focus();
   });
 
   /* ---------------- Before/after compare sliders ---------------- */
@@ -104,14 +152,19 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     var handle = el.querySelector(".handle");
     if (!after) return;
 
-    function setPos(clientX) {
-      var rect = el.getBoundingClientRect();
-      var x = Math.min(Math.max(clientX - rect.left, 0), rect.width);
-      var pct = (x / rect.width) * 100;
+    function setPct(pct) {
       after.style.width = pct + "%";
       if (handle) {
         handle.style.left = pct + "%";
       }
+      el.setAttribute("aria-valuenow", String(Math.round(pct)));
+    }
+
+    function setPos(clientX) {
+      var rect = el.getBoundingClientRect();
+      if (!rect.width) return;
+      var x = Math.min(Math.max(clientX - rect.left, 0), rect.width);
+      setPct((x / rect.width) * 100);
     }
 
     function syncAfterImg() {
@@ -139,65 +192,109 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     el.setAttribute("tabindex", "0");
     el.setAttribute("role", "slider");
     el.setAttribute("aria-label", "Before/after comparison");
+    el.setAttribute("aria-valuemin", "0");
+    el.setAttribute("aria-valuemax", "100");
+    el.setAttribute("aria-valuenow", "50");
     el.addEventListener("keydown", function (e) {
       var w = parseFloat(after.style.width || "50");
-      if (e.key === "ArrowLeft") {
-        after.style.width = Math.max(0, w - 4) + "%";
-        if (handle) handle.style.left = after.style.width;
-        e.preventDefault();
-      } else if (e.key === "ArrowRight") {
-        after.style.width = Math.min(100, w + 4) + "%";
-        if (handle) handle.style.left = after.style.width;
+      var next = null;
+      if (e.key === "ArrowLeft" || e.key === "ArrowDown") next = Math.max(0, w - 4);
+      else if (e.key === "ArrowRight" || e.key === "ArrowUp") next = Math.min(100, w + 4);
+      else if (e.key === "PageDown") next = Math.max(0, w - 20);
+      else if (e.key === "PageUp") next = Math.min(100, w + 20);
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = 100;
+      if (next !== null) {
+        setPct(next);
         e.preventDefault();
       }
     });
   });
 
   /* ---------------- Preset gallery tabs ---------------- */
-  document.querySelectorAll("[data-preset-gallery]").forEach(function (gallery) {
-    var tabs = gallery.querySelectorAll(".preset-tabs button");
-    var img = gallery.querySelector(".preset-stage img");
+  document.querySelectorAll("[data-preset-gallery]").forEach(function (gallery, g) {
+    var tabs = Array.prototype.slice.call(
+      gallery.querySelectorAll(".preset-tabs button")
+    );
+    var stage = gallery.querySelector(".preset-stage");
+    var img = stage && stage.querySelector("img");
     if (!tabs.length || !img) return;
-    tabs.forEach(function (tab) {
+
+    // Complete the tab/tabpanel relationship the static markup starts.
+    stage.id = stage.id || "preset-stage-" + g;
+    stage.setAttribute("role", "tabpanel");
+    var loadToken = 0;
+
+    function altFor(tab) {
+      return "Demo scene with the " + tab.textContent.trim() + " preset";
+    }
+
+    function selectTab(tab, moveFocus) {
+      tabs.forEach(function (t) {
+        var selected = t === tab;
+        t.setAttribute("aria-selected", selected ? "true" : "false");
+        t.tabIndex = selected ? 0 : -1;
+      });
+      stage.setAttribute("aria-labelledby", tab.id);
+      if (moveFocus) tab.focus();
+      var src = tab.getAttribute("data-src");
+      if (!src || img.getAttribute("src") === src) return;
+      var token = ++loadToken; // rapid clicks: only the latest request lands
+      if (reducedMotion) {
+        img.src = src;
+        img.alt = altFor(tab);
+        return;
+      }
+      img.classList.add("fading");
+      var loader = new Image();
+      loader.onload = function () {
+        if (token !== loadToken) return;
+        img.src = src;
+        img.alt = altFor(tab);
+        img.classList.remove("fading");
+      };
+      loader.src = src;
+    }
+
+    tabs.forEach(function (tab, i) {
+      tab.id = tab.id || stage.id + "-tab-" + i;
+      tab.setAttribute("aria-controls", stage.id);
+      var selected = tab.getAttribute("aria-selected") === "true";
+      tab.tabIndex = selected ? 0 : -1;
+      if (selected) stage.setAttribute("aria-labelledby", tab.id);
       tab.addEventListener("click", function () {
-        tabs.forEach(function (t) {
-          t.setAttribute("aria-selected", t === tab ? "true" : "false");
-        });
-        var src = tab.getAttribute("data-src");
-        if (!src || img.getAttribute("src") === src) return;
-        if (reducedMotion) {
-          img.src = src;
-          return;
+        selectTab(tab, false);
+      });
+      // Standard tablist keyboard pattern: arrows move and select.
+      tab.addEventListener("keydown", function (e) {
+        var next = null;
+        if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+        else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+        else if (e.key === "Home") next = tabs[0];
+        else if (e.key === "End") next = tabs[tabs.length - 1];
+        if (next) {
+          e.preventDefault();
+          selectTab(next, true);
         }
-        img.classList.add("fading");
-        var loader = new Image();
-        loader.onload = function () {
-          img.src = src;
-          img.classList.remove("fading");
-        };
-        loader.src = src;
       });
     });
   });
 
   /* ---------------- Copy buttons on code blocks ---------------- */
-  document.querySelectorAll(".docs-article pre").forEach(function (pre) {
-    var btn = document.createElement("button");
-    btn.className = "copy-btn";
-    btn.type = "button";
-    btn.textContent = "Copy";
-    btn.addEventListener("click", function () {
-      var code = pre.querySelector("code");
-      var text = code ? code.innerText : pre.innerText;
-      navigator.clipboard.writeText(text).then(function () {
-        btn.textContent = "Copied!";
-        setTimeout(function () {
-          btn.textContent = "Copy";
-        }, 1600);
+  if (clipboard) {
+    document.querySelectorAll(".docs-article pre").forEach(function (pre) {
+      var btn = document.createElement("button");
+      btn.className = "copy-btn";
+      btn.type = "button";
+      btn.textContent = "Copy";
+      btn.addEventListener("click", function () {
+        var code = pre.querySelector("code");
+        var text = code ? code.innerText : pre.innerText;
+        copyWithFeedback(btn, text, "Copy");
       });
+      pre.appendChild(btn);
     });
-    pre.appendChild(btn);
-  });
+  }
 
   /* ---------------- Docs TOC scroll spy ---------------- */
   var tocLinks = document.querySelectorAll(".docs-toc a[href^='#']");
@@ -230,10 +327,27 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
 
   /* ---------------- Docs search ---------------- */
   var searchBox = document.querySelector(".docs-search input");
-  if (searchBox) {
-    var resultsEl = document.querySelector(".docs-search .results");
+  var searchResults = document.querySelector(".docs-search .results");
+  if (searchBox && searchResults) {
+    var resultsEl = searchResults;
     var index = null;
     var selIdx = -1;
+
+    // Combobox wiring so screen readers announce the results list.
+    resultsEl.id = resultsEl.id || "docs-search-results";
+    searchBox.setAttribute("role", "combobox");
+    searchBox.setAttribute("aria-expanded", "false");
+    searchBox.setAttribute("aria-autocomplete", "list");
+    searchBox.setAttribute("aria-controls", resultsEl.id);
+
+    function setResultsOpen(open) {
+      resultsEl.classList.toggle("open", open);
+      searchBox.setAttribute("aria-expanded", open ? "true" : "false");
+      if (!open) {
+        selIdx = -1;
+        searchBox.removeAttribute("aria-activedescendant");
+      }
+    }
 
     function loadIndex() {
       if (index) return Promise.resolve(index);
@@ -267,31 +381,48 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       return s;
     }
 
+    // Results are built with createElement/textContent, never innerHTML, so
+    // index content can't inject markup.
     function render(matches) {
       selIdx = -1;
+      searchBox.removeAttribute("aria-activedescendant");
+      resultsEl.textContent = "";
       if (!matches.length) {
-        resultsEl.innerHTML = '<div class="none">No results.</div>';
+        var none = document.createElement("div");
+        none.className = "none";
+        // A listbox may only contain options; a disabled one carries the
+        // "nothing found" message without breaking the pattern.
+        none.setAttribute("role", "option");
+        none.setAttribute("aria-disabled", "true");
+        none.setAttribute("aria-selected", "false");
+        none.textContent = "No results.";
+        resultsEl.appendChild(none);
       } else {
-        resultsEl.innerHTML = matches
-          .slice(0, 9)
-          .map(function (m) {
-            return (
-              '<a href="' + root + m.u + '">' + m.t +
-              '<span class="in">' + m.s + "</span></a>"
-            );
-          })
-          .join("");
+        matches.slice(0, 9).forEach(function (m, i) {
+          var a = document.createElement("a");
+          a.href = root + m.u;
+          a.id = resultsEl.id + "-" + i;
+          a.setAttribute("role", "option");
+          a.setAttribute("aria-selected", "false");
+          a.appendChild(document.createTextNode(m.t));
+          var inEl = document.createElement("span");
+          inEl.className = "in";
+          inEl.textContent = m.s;
+          a.appendChild(inEl);
+          resultsEl.appendChild(a);
+        });
       }
-      resultsEl.classList.add("open");
+      setResultsOpen(true);
     }
 
     searchBox.addEventListener("input", function () {
       var q = searchBox.value.trim().toLowerCase();
       if (q.length < 2) {
-        resultsEl.classList.remove("open");
+        setResultsOpen(false);
         return;
       }
       loadIndex().then(function (idx) {
+        if (searchBox.value.trim().toLowerCase() !== q) return; // stale query
         var terms = q.split(/\s+/);
         var matches = idx
           .map(function (entry) {
@@ -315,41 +446,45 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       if (!links.length) return;
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
-        if (selIdx >= 0) links[selIdx].classList.remove("sel");
+        if (selIdx >= 0) {
+          links[selIdx].classList.remove("sel");
+          links[selIdx].setAttribute("aria-selected", "false");
+        }
         selIdx = e.key === "ArrowDown"
           ? (selIdx + 1) % links.length
           : (selIdx - 1 + links.length) % links.length;
         links[selIdx].classList.add("sel");
+        links[selIdx].setAttribute("aria-selected", "true");
+        searchBox.setAttribute("aria-activedescendant", links[selIdx].id);
         links[selIdx].scrollIntoView({ block: "nearest" });
       } else if (e.key === "Enter" && selIdx >= 0) {
         e.preventDefault();
         links[selIdx].click();
       } else if (e.key === "Escape") {
-        resultsEl.classList.remove("open");
+        setResultsOpen(false);
       }
     });
 
     document.addEventListener("click", function (e) {
-      if (!e.target.closest(".docs-search")) {
-        resultsEl.classList.remove("open");
+      if (!closestFrom(e.target, ".docs-search")) {
+        setResultsOpen(false);
       }
     });
   }
 
   /* ---------------- Email copy fallback ---------------- */
-  document.addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-copy-email]");
-    if (!btn) return;
-    navigator.clipboard.writeText(btn.getAttribute("data-copy-email")).then(function () {
-      var original = btn.textContent;
-      btn.textContent = "Copied!";
-      btn.classList.add("copied");
-      setTimeout(function () {
-        btn.textContent = original;
-        btn.classList.remove("copied");
-      }, 1600);
+  if (clipboard) {
+    document.addEventListener("click", function (e) {
+      var btn = closestFrom(e.target, "[data-copy-email]");
+      if (!btn) return;
+      copyWithFeedback(btn, btn.getAttribute("data-copy-email"), "Copy");
     });
-  });
+  } else {
+    // No Clipboard API: the address next to the button is still selectable.
+    document.querySelectorAll("[data-copy-email]").forEach(function (btn) {
+      btn.hidden = true;
+    });
+  }
 
   /* ---------------- Mailing list subscribe forms ---------------- */
   document.querySelectorAll("[data-notify]").forEach(function (box) {
@@ -366,27 +501,59 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
   /* ---------------- Showcase videos ---------------- */
   var vids = document.querySelectorAll("video[autoplay]");
   if (vids.length) {
-    if (reducedMotion) {
-      // Reduced motion: nothing moves until the visitor asks it to.
+    var saveData = navigator.connection && navigator.connection.saveData;
+    if (reducedMotion || saveData) {
+      // Reduced motion / Save-Data: nothing moves (or streams) until asked.
       vids.forEach(function (v) {
         v.removeAttribute("autoplay");
         v.autoplay = false;
         v.controls = true;
+        v.preload = "none";
         try { v.pause(); } catch (err) { /* not started */ }
       });
-    } else if ("IntersectionObserver" in window) {
-      // Pause offscreen loops; resume when they scroll back in.
-      var vio = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          var v = en.target;
-          if (en.isIntersecting) {
-            if (v.paused) v.play().catch(function () { /* autoplay blocked */ });
-          } else if (!v.paused) {
+    } else {
+      // WCAG 2.2.2: looping animation needs a visible pause control even for
+      // visitors without the OS reduced-motion flag.
+      vids.forEach(function (v) {
+        var frame = v.parentElement;
+        if (!frame) return;
+        var btn = document.createElement("button");
+        btn.className = "vid-toggle";
+        btn.type = "button";
+        btn.setAttribute("aria-label", "Pause animation");
+        btn.textContent = "❚❚";
+        btn.addEventListener("click", function () {
+          if (v.paused) {
+            delete v.dataset.userPaused;
+            v.play().catch(function () { /* autoplay blocked */ });
+            btn.textContent = "❚❚";
+            btn.setAttribute("aria-label", "Pause animation");
+          } else {
+            v.dataset.userPaused = "1";
             v.pause();
+            btn.textContent = "▶";
+            btn.setAttribute("aria-label", "Play animation");
           }
         });
-      }, { threshold: 0.15 });
-      vids.forEach(function (v) { vio.observe(v); });
+        frame.appendChild(btn);
+      });
+      if ("IntersectionObserver" in window) {
+        // Pause offscreen loops; resume when they scroll back in — unless the
+        // visitor paused the loop themselves.
+        var vio = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            var v = en.target;
+            if (en.isIntersecting) {
+              if (v.paused && !v.dataset.userPaused) {
+                v.play().catch(function () { /* autoplay blocked */ });
+              }
+            } else if (!v.paused) {
+              v.pause();
+            }
+          });
+        }, { threshold: 0.15 });
+        vids.forEach(function (v) { vio.observe(v); });
+      }
     }
   }
 
@@ -408,13 +575,14 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
         requestAnimationFrame(update);
       }
     }, { passive: true });
+    window.addEventListener("resize", update);
     update();
   })();
 
   /* ---------------- Button press ripple ---------------- */
   if (!reducedMotion) {
     document.addEventListener("pointerdown", function (e) {
-      var btn = e.target.closest(".btn");
+      var btn = closestFrom(e.target, ".btn");
       if (!btn) return;
       var rect = btn.getBoundingClientRect();
       var r = document.createElement("span");
@@ -428,7 +596,7 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
 
   /* ---------------- Card cursor glow ---------------- */
   document.addEventListener("pointermove", function (e) {
-    var card = e.target.closest(".card.hoverable");
+    var card = closestFrom(e.target, ".card.hoverable");
     if (!card) return;
     var rect = card.getBoundingClientRect();
     card.style.setProperty("--mx", (e.clientX - rect.left) + "px");
@@ -439,6 +607,9 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
   (function () {
     if (reducedMotion) return;
     if (navigator.connection && navigator.connection.saveData) return;
+    // Ambient decoration for the marketing pages only; reading-heavy docs
+    // pages shouldn't pay for a persistent full-viewport animation.
+    if (document.querySelector(".docs-shell")) return;
 
     var canvas = document.createElement("canvas");
     canvas.className = "fx-embers";
@@ -510,9 +681,10 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       }
     }, { passive: true });
 
+    var rafId = null;
+
     function tick() {
-      requestAnimationFrame(tick);
-      if (document.hidden) return;
+      rafId = requestAnimationFrame(tick);
       ctx.clearRect(0, 0, W, H);
       scrollDrift *= 0.9;
 
@@ -552,6 +724,18 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
         ctx.fill();
       }
     }
+
+    // Stop scheduling frames entirely while the tab is hidden.
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      } else if (rafId === null) {
+        tick();
+      }
+    });
     tick();
   })();
 

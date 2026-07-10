@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>FAQ — Photo Mode Pro Documentation</title>
 <meta name="description" content="Quick answers to the questions buyers ask most. For symptom-driven help, see Troubleshooting ; for version migrations, see the Upgrade Guide .">
 <link rel="canonical" href="https://danmaxpublishing.github.io/docs/faq/">
@@ -22,8 +24,8 @@
 <nav class="site-nav" aria-label="Main">
   <div class="bar">
     <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
       <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
       <li><a href="../../docs/" aria-current="page">Docs</a></li>
       <li><a href="../../roadmap/">Roadmap</a></li>
@@ -40,9 +42,9 @@
       <input type="search" placeholder="Search docs…" aria-label="Search documentation">
       <div class="results" role="listbox"></div>
     </div>
-    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/" aria-current="page">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/" aria-current="page">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
   </aside>
-  <main class="docs-article" id="main">
+  <main class="docs-article" id="main" tabindex="-1">
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Help</p>
     <h1>FAQ</h1>
 
@@ -197,19 +199,19 @@ captures the environment details we need. See also
 <a href="../troubleshooting/">Troubleshooting</a>.</p>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/performance/"><span class="dir">Previous</span>Performance</a><a class="next" href="../../docs/troubleshooting/"><span class="dir">Next</span>Troubleshooting</a></nav>
   </main>
-  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#getting-started">Getting started</a></li><li class="h3"><a href="#how-long-does-it-take-to-add-photo-mode-to-my-game">How long does it take to add photo mode to my game?</a></li><li class="h3"><a href="#what-does-the-setup-wizard-do">What does the Setup Wizard do?</a></li><li class="h3"><a href="#do-i-need-to-install-any-other-packages">Do I need to install any other packages?</a></li><li class="h3"><a href="#can-i-open-photo-mode-from-my-own-code-eg-a-pause-menu">Can I open photo mode from my own code, e.g. a pause menu?</a></li><li class="h3"><a href="#does-opening-photo-mode-pause-my-game">Does opening photo mode pause my game?</a></li><li class="h2"><a href="#compatibility">Compatibility</a></li><li class="h3"><a href="#which-unity-versions-and-render-pipelines-are-supported">Which Unity versions and render pipelines are supported?</a></li><li class="h3"><a href="#does-it-work-with-both-the-new-input-system-and-the-legacy-input-manager">Does it work with both the new Input System and the legacy Input Manager?</a></li><li class="h3"><a href="#does-it-work-with-cinemachine">Does it work with Cinemachine?</a></li><li class="h3"><a href="#what-about-webgl-mobile-and-consoles">What about WebGL, mobile and consoles?</a></li><li class="h2"><a href="#capture">Capture</a></li><li class="h3"><a href="#where-are-photos-saved">Where are photos saved?</a></li><li class="h3"><a href="#why-is-the-transparent-bg-toggle-missing-on-hdrp">Why is the Transparent BG toggle missing on HDRP?</a></li><li class="h3"><a href="#how-large-can-captures-be">How large can captures be?</a></li><li class="h3"><a href="#does-photo-mode-allocate-gc-garbage-every-frame">Does photo mode allocate GC garbage every frame?</a></li><li class="h2"><a href="#ui-input">UI &amp;amp; input</a></li><li class="h3"><a href="#can-i-rebind-the-keys">Can I rebind the keys?</a></li><li class="h3"><a href="#can-i-restyle-the-ui-to-match-my-game">Can I restyle the UI to match my game?</a></li><li class="h3"><a href="#is-the-ui-fully-gamepad-navigable">Is the UI fully gamepad-navigable?</a></li><li class="h2"><a href="#demo-assets">Demo &amp;amp; assets</a></li><li class="h3"><a href="#why-does-the-demo-render-pinkmagenta">Why does the demo render pink/magenta?</a></li><li class="h3"><a href="#can-i-delete-the-demo-folder">Can I delete the Demo folder?</a></li><li class="h3"><a href="#who-made-the-demo-art-and-can-i-ship-it">Who made the demo art, and can I ship it?</a></li><li class="h3"><a href="#a-welcome-window-appeared-after-import-will-it-keep-popping-up">A Welcome window appeared after import — will it keep popping up?</a></li><li class="h3"><a href="#how-do-i-get-support">How do I get support?</a></li></ul></aside>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#getting-started">Getting started</a></li><li class="h3"><a href="#how-long-does-it-take-to-add-photo-mode-to-my-game">How long does it take to add photo mode to my game?</a></li><li class="h3"><a href="#what-does-the-setup-wizard-do">What does the Setup Wizard do?</a></li><li class="h3"><a href="#do-i-need-to-install-any-other-packages">Do I need to install any other packages?</a></li><li class="h3"><a href="#can-i-open-photo-mode-from-my-own-code-eg-a-pause-menu">Can I open photo mode from my own code, e.g. a pause menu?</a></li><li class="h3"><a href="#does-opening-photo-mode-pause-my-game">Does opening photo mode pause my game?</a></li><li class="h2"><a href="#compatibility">Compatibility</a></li><li class="h3"><a href="#which-unity-versions-and-render-pipelines-are-supported">Which Unity versions and render pipelines are supported?</a></li><li class="h3"><a href="#does-it-work-with-both-the-new-input-system-and-the-legacy-input-manager">Does it work with both the new Input System and the legacy Input Manager?</a></li><li class="h3"><a href="#does-it-work-with-cinemachine">Does it work with Cinemachine?</a></li><li class="h3"><a href="#what-about-webgl-mobile-and-consoles">What about WebGL, mobile and consoles?</a></li><li class="h2"><a href="#capture">Capture</a></li><li class="h3"><a href="#where-are-photos-saved">Where are photos saved?</a></li><li class="h3"><a href="#why-is-the-transparent-bg-toggle-missing-on-hdrp">Why is the Transparent BG toggle missing on HDRP?</a></li><li class="h3"><a href="#how-large-can-captures-be">How large can captures be?</a></li><li class="h3"><a href="#does-photo-mode-allocate-gc-garbage-every-frame">Does photo mode allocate GC garbage every frame?</a></li><li class="h2"><a href="#ui-input">UI &amp; input</a></li><li class="h3"><a href="#can-i-rebind-the-keys">Can I rebind the keys?</a></li><li class="h3"><a href="#can-i-restyle-the-ui-to-match-my-game">Can I restyle the UI to match my game?</a></li><li class="h3"><a href="#is-the-ui-fully-gamepad-navigable">Is the UI fully gamepad-navigable?</a></li><li class="h2"><a href="#demo-assets">Demo &amp; assets</a></li><li class="h3"><a href="#why-does-the-demo-render-pinkmagenta">Why does the demo render pink/magenta?</a></li><li class="h3"><a href="#can-i-delete-the-demo-folder">Can I delete the Demo folder?</a></li><li class="h3"><a href="#who-made-the-demo-art-and-can-i-ship-it">Who made the demo art, and can I ship it?</a></li><li class="h3"><a href="#a-welcome-window-appeared-after-import-will-it-keep-popping-up">A Welcome window appeared after import — will it keep popping up?</a></li><li class="h3"><a href="#how-do-i-get-support">How do I get support?</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">
     <div class="cols">
       <div>
-        <h4>DanMaxPublishing</h4>
+        <h2>DanMaxPublishing</h2>
         <p>Unity tools from a solo developer with 10+ years of shipped
         commercial projects. Built, documented and supported to hold up in
         real production.</p>
       </div>
       <div>
-        <h4>Product</h4>
+        <h2>Product</h2>
         <ul>
           <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
           <li><a href="../../demo/">WebGL demo</a></li>
@@ -219,7 +221,7 @@ captures the environment details we need. See also
         </ul>
       </div>
       <div>
-        <h4>Documentation</h4>
+        <h2>Documentation</h2>
         <ul>
           <li><a href="../../docs/quick-start/">Quick Start</a></li>
           <li><a href="../../docs/faq/">FAQ</a></li>
@@ -228,7 +230,7 @@ captures the environment details we need. See also
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h2>Support</h2>
         <ul>
           <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
           <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>

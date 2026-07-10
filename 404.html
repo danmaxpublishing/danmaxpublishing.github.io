@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Page not found — DanMaxPublishing</title>
 <meta name="description" content="That page doesn't exist. Head back to the DanMaxPublishing home page or the Photo Mode Pro docs.">
 <meta name="robots" content="noindex">
@@ -15,8 +17,8 @@
 <nav class="site-nav" aria-label="Main">
   <div class="bar">
     <a class="brand" href="/"><img src="/assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
       <li><a href="/photo-mode-pro/">Photo Mode Pro</a></li>
       <li><a href="/docs/">Docs</a></li>
       <li><a href="/roadmap/">Roadmap</a></li>
@@ -27,7 +29,7 @@
   </div>
 </nav>
 
-<main id="main">
+<main id="main" tabindex="-1">
 <header class="hero" style="padding:110px 0 90px">
   <div class="hero-veil"></div>
   <div class="wrap center">
@@ -47,7 +49,8 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.</p>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    This site loads no external resources and sets no cookies.</p>
   </div>
 </footer>
 <script src="/assets/js/site.js"></script>

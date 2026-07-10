@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>DanMaxPublishing — Production-Grade Unity Tools</title>
 <meta name="description" content="DanMaxPublishing makes Unity tools built to survive production. Home of Photo Mode Pro, a AAA-style photo mode for URP, HDRP and Built-in.">
 <link rel="canonical" href="https://danmaxpublishing.github.io/">
@@ -16,6 +18,7 @@
 <meta name="theme-color" content="#060b14">
 <link rel="icon" type="image/png" href="./assets/img/favicon.png">
 <link rel="stylesheet" href="./assets/css/site.css">
+<link rel="preload" as="image" href="./assets/img/hero-backdrop.webp" fetchpriority="high">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -33,8 +36,8 @@
 <nav class="site-nav" aria-label="Main">
   <div class="bar">
     <a class="brand" href="./"><img src="./assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
       <li><a href="./photo-mode-pro/">Photo Mode Pro</a></li>
       <li><a href="./docs/">Docs</a></li>
       <li><a href="./roadmap/">Roadmap</a></li>
@@ -45,7 +48,7 @@
   </div>
 </nav>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
 <header class="hero">
   <div class="hero-bg" style="background-image:url('./assets/img/hero-backdrop.webp')"></div>
@@ -71,16 +74,16 @@
           <video autoplay muted loop playsinline preload="metadata" width="1280" height="720"
             poster="./assets/vid/ui_poster.webp"
             aria-label="The photo mode panel in use: the Effects sliders grade the shot, presets switch, and a capture fires with its thumbnail toast">
-            <source src="./assets/vid/ui.webm" type="video/webm">
             <source src="./assets/vid/ui.mp4" type="video/mp4">
+            <source src="./assets/vid/ui.webm" type="video/webm">
           </video>
         </div>
         <div class="frame pip">
           <video autoplay muted loop playsinline preload="metadata" width="1280" height="720"
             poster="./assets/vid/grade_poster.webp"
             aria-label="The six built-in presets cycling on one shot">
-            <source src="./assets/vid/grade.webm" type="video/webm">
             <source src="./assets/vid/grade.mp4" type="video/mp4">
+            <source src="./assets/vid/grade.webm" type="video/webm">
           </video>
         </div>
         <p class="show-note">The panel, sliders and capture you see are the
@@ -110,13 +113,13 @@
       when it's finished, not when a deadline says so.</p>
     </div>
     <div class="grid grid-2 reveal-stagger">
-      <article class="card hoverable" style="padding:0;overflow:hidden">
-        <a href="./photo-mode-pro/" style="color:inherit;text-decoration:none;display:block">
-          <div class="frame" style="border:0;border-radius:0;box-shadow:none">
-            <img src="./assets/img/photomode-keyart.webp" alt="Photo Mode Pro key art" loading="lazy">
+      <article class="card hoverable card-flush">
+        <a class="card-link" href="./photo-mode-pro/">
+          <div class="frame flush">
+            <img src="./assets/img/photomode-keyart.webp" alt="Photo Mode Pro key art" width="1376" height="768" loading="lazy">
           </div>
-          <div style="padding:24px">
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <div class="card-body">
+            <div class="badge-row">
               <span class="badge badge-orange">Coming soon to the Asset Store</span>
               <span class="badge">v1.4.0</span>
             </div>
@@ -124,7 +127,7 @@
             <p>A AAA-style, player-facing photo mode: pause, fly, grade, capture a
             supersampled PNG. URP, HDRP and Built-in from one prefab. Gamepad-ready,
             zero per-frame GC.</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+            <div class="badge-row tags">
               <span class="badge">URP · HDRP · Built-in</span>
               <span class="badge">Unity 2021.3 → Unity 6</span>
               <span class="badge">6 presets</span>
@@ -133,12 +136,12 @@
           </div>
         </a>
       </article>
-      <article class="card" style="padding:0;overflow:hidden;opacity:.92">
-        <div class="frame" style="border:0;border-radius:0;box-shadow:none">
-          <img src="./assets/img/future-teaser.webp" alt="Unannounced asset teaser" loading="lazy">
+      <article class="card card-flush" style="opacity:.92">
+        <div class="frame flush">
+          <img src="./assets/img/future-teaser.webp" alt="Unannounced asset teaser" width="1376" height="768" loading="lazy">
         </div>
-        <div style="padding:24px">
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <div class="card-body">
+          <div class="badge-row">
             <span class="badge badge-cyan">In development</span>
           </div>
           <h3>The next tool</h3>
@@ -151,7 +154,7 @@
   </div>
 </section>
 
-<section style="background:var(--bg-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)">
+<section class="band">
   <div class="wrap">
     <div class="section-head center">
       <p class="eyebrow" style="justify-content:center">The standard</p>
@@ -221,9 +224,9 @@
 
 <section class="tight">
   <div class="wrap">
-    <div class="card" style="padding:44px;text-align:center;background:linear-gradient(120deg,var(--bg-2),var(--bg-1));border-color:var(--cyan-line)">
+    <div class="card cta-panel">
       <h2 style="margin-bottom:10px">Photo Mode Pro is coming to the Asset Store</h2>
-      <p class="lead" style="margin:0 auto 26px">Leave your email and you'll get two
+      <p class="lead">Leave your email and you'll get two
       messages: one when it goes live, one before the launch discount ends. That's it.</p>
       <div class="notify" data-notify>
         <form class="notify-form" method="post" target="_blank" rel="noopener" hidden>
@@ -232,7 +235,7 @@
           <button class="btn btn-orange" type="submit">Notify me</button>
         </form>
         <div class="notify-fallback">
-          <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+          <div class="btn-row">
             <a class="btn btn-orange" href="mailto:support.dan.max@gmail.com?subject=Notify%20me%3A%20Photo%20Mode%20Pro%20launch&amp;body=Hi%20Dan%2C%0A%0APlease%20email%20me%20when%20Photo%20Mode%20Pro%20launches%20on%20the%20Asset%20Store.%0A">Get notified by email</a>
             <a class="btn btn-ghost" href="./photo-mode-pro/">See the feature tour</a>
           </div>
@@ -255,13 +258,13 @@
   <div class="wrap">
     <div class="cols">
       <div>
-        <h4>DanMaxPublishing</h4>
+        <h2>DanMaxPublishing</h2>
         <p>Unity tools from a solo developer with 10+ years of shipped
         commercial projects. Built, documented and supported to hold up in
         real production.</p>
       </div>
       <div>
-        <h4>Product</h4>
+        <h2>Product</h2>
         <ul>
           <li><a href="./photo-mode-pro/">Photo Mode Pro</a></li>
           <li><a href="./demo/">WebGL demo</a></li>
@@ -271,7 +274,7 @@
         </ul>
       </div>
       <div>
-        <h4>Documentation</h4>
+        <h2>Documentation</h2>
         <ul>
           <li><a href="./docs/quick-start/">Quick Start</a></li>
           <li><a href="./docs/faq/">FAQ</a></li>
@@ -280,7 +283,7 @@
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h2>Support</h2>
         <ul>
           <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
           <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>

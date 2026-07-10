@@ -74,6 +74,21 @@ body {
   overflow-x: clip;
 }
 
+/* Fallback for engines without overflow: clip (Safari < 16). Scoped so
+   modern browsers never see `hidden`, which would make body a scroll
+   container. */
+@supports not (overflow: clip) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Skip-link target: focusable for keyboard users, but no focus ring around
+   the whole content column. */
+main:focus {
+  outline: none;
+}
+
 img,
 video {
   max-width: 100%;
@@ -238,6 +253,17 @@ section {
 
 section.tight {
   padding: 56px 0;
+}
+
+/* Tighter vertical rhythm on small phones */
+@media (max-width: 720px) {
+  section {
+    padding: 56px 0;
+  }
+
+  section.tight {
+    padding: 40px 0;
+  }
 }
 
 .section-head {
@@ -408,6 +434,8 @@ section.tight {
   transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out),
     background 0.15s, border-color 0.15s;
   white-space: nowrap;
+  position: relative; /* anchors the press ripple */
+  overflow: hidden;
 }
 
 .btn:hover {
@@ -416,7 +444,7 @@ section.tight {
 }
 
 .btn:active {
-  transform: translateY(0);
+  transform: scale(0.97);
 }
 
 .btn-primary {
@@ -623,9 +651,12 @@ td.n,
 /* Hard line breaks in hero headlines are a desktop typographic choice —
    on narrow screens they force overflow, so let the text wrap naturally. */
 @media (max-width: 720px) {
-  .hero h1 br,
   h1 br {
     display: none;
+  }
+
+  .hero {
+    padding: 72px 0 56px;
   }
 }
 
@@ -664,6 +695,32 @@ td.n,
   overflow: hidden;
   background: var(--bg-1);
   box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+  position: relative; /* anchors video pause toggles and live chips */
+}
+
+/* Pause/play control injected on every autoplaying loop (WCAG 2.2.2) */
+.vid-toggle {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(6, 11, 20, 0.72);
+  color: var(--ink);
+  font-size: 0.72rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+
+.vid-toggle:hover,
+.vid-toggle:focus-visible {
+  opacity: 1;
+  border-color: var(--cyan-line);
 }
 
 .frame img {
@@ -707,7 +764,9 @@ figure.shot figcaption {
   overflow: hidden;
   border: 1px solid var(--line);
   user-select: none;
-  touch-action: none;
+  /* pan-y keeps vertical page scrolling alive when a touch starts on the
+     slider; horizontal drags still reach the pointer handlers. */
+  touch-action: pan-y;
   cursor: ew-resize;
 }
 
@@ -864,6 +923,28 @@ figure.shot figcaption {
   border: 1px solid var(--line);
 }
 
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(6, 11, 20, 0.8);
+  color: var(--ink);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+  border-color: var(--cyan-line);
+  color: var(--cyan);
+}
+
 [data-lightbox] {
   cursor: zoom-in;
 }
@@ -988,7 +1069,8 @@ details.qa .qa-body p + p {
   }
 }
 
-.site-footer h4 {
+/* Footer column titles are h2s for a sane document outline, styled small. */
+.site-footer h2 {
   font-size: 0.88rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1607,6 +1689,73 @@ pre:hover .copy-btn {
 }
 
 /* --------------------------------------------------------------------------
+   Shared page-building utilities (replace repeated inline styles)
+   -------------------------------------------------------------------------- */
+
+/* Full-width tinted band between plain sections */
+section.band {
+  background: var(--bg-1);
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+/* Card variant with edge-to-edge media (catalog tiles) */
+.card.card-flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card .card-body {
+  padding: 24px;
+}
+
+/* Whole-card links (catalog tiles, docs shortcuts) */
+a.card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Media frame without its own chrome, for images inside flush cards */
+.frame.flush {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Row of badges above card copy */
+.badge-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.badge-row.tags {
+  margin: 14px 0 0;
+}
+
+/* Centered row of action buttons */
+.btn-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Big call-to-action panel at the end of a page */
+.card.cta-panel {
+  padding: 44px;
+  text-align: center;
+  background: linear-gradient(120deg, var(--bg-2), var(--bg-1));
+  border-color: var(--cyan-line);
+}
+
+.cta-panel .lead {
+  margin: 0 auto 26px;
+}
+
+/* --------------------------------------------------------------------------
    Misc
    -------------------------------------------------------------------------- */
 
@@ -1624,20 +1773,6 @@ pre:hover .copy-btn {
 
 .skip-link:focus {
   left: 0;
-}
-
-.kbd-row {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.divider-glow {
-  height: 1px;
-  border: 0;
-  margin: 0;
-  background: linear-gradient(90deg, transparent, var(--cyan-line), transparent);
 }
 
 /* --------------------------------------------------------------------------
@@ -1723,9 +1858,7 @@ pre:hover .copy-btn {
     max-width: 100%;
     margin-top: 12px;
   }
-}
 
-@media (max-width: 980px) {
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -1758,15 +1891,6 @@ pre:hover .copy-btn {
   background: linear-gradient(90deg, var(--cyan), #7dd3fc);
   opacity: 0.85;
   pointer-events: none;
-}
-
-.btn {
-  position: relative;
-  overflow: hidden;
-}
-
-.btn:active {
-  transform: scale(0.97);
 }
 
 .btn .fx-ripple {
@@ -1857,4 +1981,99 @@ pre:hover .copy-btn {
 .notify.left .notify-form {
   justify-content: flex-start;
   margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Print (docs pages especially): ink-friendly, chrome-free
+   -------------------------------------------------------------------------- */
+
+@media print {
+  html {
+    scroll-padding-top: 0;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+    font-size: 11pt;
+  }
+
+  .site-nav,
+  .site-footer,
+  .docs-sidebar,
+  .docs-toc,
+  .docs-pager,
+  .skip-link,
+  .copy-btn,
+  .vid-toggle,
+  .fx-embers,
+  .fx-progress,
+  .lightbox,
+  .notify,
+  video {
+    display: none !important;
+  }
+
+  .docs-shell {
+    display: block;
+    padding: 0;
+    max-width: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #000;
+  }
+
+  .docs-article a,
+  .docs-article .crumbs a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
+  }
+
+  pre,
+  code,
+  kbd {
+    background: #f4f4f4;
+    border-color: #ccc;
+    color: #111;
+  }
+
+  pre code {
+    color: #111;
+  }
+
+  .card,
+  .admonition,
+  .table-scroll {
+    background: #fff;
+    border-color: #bbb;
+    box-shadow: none;
+  }
+
+  .admonition > .admonition-title {
+    color: #000;
+  }
+
+  th,
+  td {
+    border-color: #ccc;
+  }
+
+  thead th {
+    background: #eee;
+    color: #000;
+  }
+
+  tbody tr:hover {
+    background: none;
+  }
 }

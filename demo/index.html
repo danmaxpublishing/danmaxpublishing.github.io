@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' blob: 'wasm-unsafe-eval'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Try Photo Mode Pro in Your Browser — DanMaxPublishing</title>
 <meta name="description" content="Playable WebGL demo of Photo Mode Pro: walk the demo forest, press F, and try the free camera, presets and grading right in your browser.">
 <link rel="canonical" href="https://danmaxpublishing.github.io/demo/">
@@ -101,8 +103,8 @@
 <nav class="site-nav" aria-label="Main">
   <div class="bar">
     <a class="brand" href="../"><img src="../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
       <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
       <li><a href="../docs/">Docs</a></li>
       <li><a href="../roadmap/">Roadmap</a></li>
@@ -113,7 +115,7 @@
   </div>
 </nav>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
 <section class="tight" style="padding-top:44px">
   <div class="wrap-wide">
@@ -126,8 +128,8 @@
       <canvas id="unity-canvas" tabindex="-1"></canvas>
       <div class="demo-loading" id="demo-loading">
         <img src="../assets/img/logo-mark.png" alt="" width="56" height="56" style="border-radius:14px">
-        <div class="bar"><div class="fill" id="demo-progress"></div></div>
-        <span id="demo-status">Loading the forest… (~23 MB)</span>
+        <div class="bar" aria-hidden="true"><div class="fill" id="demo-progress"></div></div>
+        <span id="demo-status" role="status" aria-live="polite">Loading the forest… (~23 MB)</span>
       </div>
     </div>
     <div class="demo-toolbar">
@@ -159,13 +161,13 @@
   <div class="wrap">
     <div class="cols">
       <div>
-        <h4>DanMaxPublishing</h4>
+        <h2>DanMaxPublishing</h2>
         <p>Unity tools from a solo developer with 10+ years of shipped
         commercial projects. Built, documented and supported to hold up in
         real production.</p>
       </div>
       <div>
-        <h4>Product</h4>
+        <h2>Product</h2>
         <ul>
           <li><a href="../photo-mode-pro/">Photo Mode Pro</a></li>
           <li><a href="../demo/">WebGL demo</a></li>
@@ -175,7 +177,7 @@
         </ul>
       </div>
       <div>
-        <h4>Documentation</h4>
+        <h2>Documentation</h2>
         <ul>
           <li><a href="../docs/quick-start/">Quick Start</a></li>
           <li><a href="../docs/faq/">FAQ</a></li>
@@ -184,7 +186,7 @@
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h2>Support</h2>
         <ul>
           <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
           <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
@@ -200,41 +202,6 @@
 </footer>
 <script src="../assets/js/site.js"></script>
 <script src="./Build/WebGLDemo.loader.js"></script>
-<script>
-(function () {
-  var canvas = document.getElementById("unity-canvas");
-  var loading = document.getElementById("demo-loading");
-  var progress = document.getElementById("demo-progress");
-  var status = document.getElementById("demo-status");
-  var fsBtn = document.getElementById("btn-fullscreen");
-
-  createUnityInstance(canvas, {
-    arguments: [],
-    dataUrl: "./Build/WebGLDemo.data.unityweb",
-    frameworkUrl: "./Build/WebGLDemo.framework.js.unityweb",
-    codeUrl: "./Build/WebGLDemo.wasm.unityweb",
-    streamingAssetsUrl: "StreamingAssets",
-    companyName: "DanMaxPublishing",
-    productName: "Photo Mode Pro Demo",
-    productVersion: "1.4.0"
-  }, function (p) {
-    progress.style.width = (p * 100) + "%";
-    if (p >= 0.9) {
-      status.textContent = "Warming up the engine…";
-    }
-  }).then(function (instance) {
-    loading.style.display = "none";
-    fsBtn.disabled = false;
-    fsBtn.addEventListener("click", function () {
-      instance.SetFullscreen(1);
-    });
-  }).catch(function (message) {
-    progress.parentElement.style.display = "none";
-    status.className = "demo-error";
-    status.textContent = "The demo could not start: " + message +
-      ". Try desktop Chrome, Edge or Firefox with WebGL 2 enabled.";
-  });
-})();
-</script>
+<script src="./demo.js"></script>
 </body>
 </html>

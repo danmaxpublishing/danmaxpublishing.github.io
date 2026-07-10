@@ -6,18 +6,24 @@ own static HTML design. Re-run whenever the source docs change:
 
 Outputs docs/<slug>/index.html plus assets/search-index.json.
 No build step is needed to serve the site; the generated HTML is committed.
+
+Trust note: the source markdown is owner-authored and treated as trusted;
+raw HTML in it passes through unsanitized (the site CSP is the backstop).
 """
 
 import argparse
 import html as html_mod
 import json
 import re
+import sys
 from pathlib import Path
 
 import markdown
 
 REPO = Path(__file__).resolve().parent.parent
-DEFAULT_SRC = Path(r"D:\AssetStore_PhotoMode\AssetStore_PhotoMode\docs-site\docs")
+# The docs repo lives at <unity-project>/SupportSite/photo-mode-pro-docs and
+# the manual sources at <unity-project>/docs-site/docs.
+DEFAULT_SRC = REPO.parent.parent / "docs-site" / "docs"
 
 SITE_NAME = "DanMaxPublishing"
 PRODUCT = "Photo Mode Pro"
@@ -75,9 +81,11 @@ def nav_html(active_slug: str, root: str) -> str:
         for slug, title in items:
             href = f"{root}docs/{slug}/" if slug else f"{root}docs/"
             cur = ' aria-current="page"' if slug == active_slug else ""
-            lis.append(f'<li><a href="{href}"{cur}>{title}</a></li>')
+            lis.append(
+                f'<li><a href="{href}"{cur}>{html_mod.escape(title)}</a></li>'
+            )
         out.append(
-            f'<div class="group"><span class="grp">{group}</span>'
+            f'<div class="group"><span class="grp">{html_mod.escape(group)}</span>'
             f'<ul>{"".join(lis)}</ul></div>'
         )
     return "".join(out)
@@ -89,11 +97,17 @@ def site_chrome_top(title: str, description: str, root: str, active: str,
         return ' aria-current="page"' if name == active else ""
 
     canonical = f"https://danmaxpublishing.github.io/{url}"
+    csp = ("default-src 'none'; script-src 'self'; "
+           "style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+           "media-src 'self'; connect-src 'self'; "
+           "form-action https://buttondown.com; base-uri 'none'")
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="{csp}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>{html_mod.escape(title)}</title>
 <meta name="description" content="{html_mod.escape(description)}">
 <link rel="canonical" href="{canonical}">
@@ -113,8 +127,8 @@ def site_chrome_top(title: str, description: str, root: str, active: str,
 <nav class="site-nav" aria-label="Main">
   <div class="bar">
     <a class="brand" href="{root}"><img src="{root}assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
       <li><a href="{root}photo-mode-pro/"{cur('product')}>Photo Mode Pro</a></li>
       <li><a href="{root}docs/"{cur('docs')}>Docs</a></li>
       <li><a href="{root}roadmap/"{cur('roadmap')}>Roadmap</a></li>
@@ -132,13 +146,13 @@ def site_chrome_bottom(root: str) -> str:
   <div class="wrap">
     <div class="cols">
       <div>
-        <h4>DanMaxPublishing</h4>
+        <h2>DanMaxPublishing</h2>
         <p>Unity tools from a solo developer with 10+ years of shipped
         commercial projects. Built, documented and supported to hold up in
         real production.</p>
       </div>
       <div>
-        <h4>Product</h4>
+        <h2>Product</h2>
         <ul>
           <li><a href="{root}photo-mode-pro/">Photo Mode Pro</a></li>
           <li><a href="{root}demo/">WebGL demo</a></li>
@@ -148,7 +162,7 @@ def site_chrome_bottom(root: str) -> str:
         </ul>
       </div>
       <div>
-        <h4>Documentation</h4>
+        <h2>Documentation</h2>
         <ul>
           <li><a href="{root}docs/quick-start/">Quick Start</a></li>
           <li><a href="{root}docs/faq/">FAQ</a></li>
@@ -157,7 +171,7 @@ def site_chrome_bottom(root: str) -> str:
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h2>Support</h2>
         <ul>
           <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
           <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
@@ -181,12 +195,10 @@ def rewrite_links(body: str, slug: str) -> str:
     """Rewrite intra-docs .md links to the generated folder URLs."""
 
     def repl(m: re.Match) -> str:
-        href = m.group(2)
-        anchor = ""
-        if "#" in href:
-            href, anchor = href.split("#", 1)
-            anchor = "#" + anchor
-        clean = href.lstrip("./")
+        anchor = m.group(3) or ""
+        # Strip leading ./ and ../ path segments only; lstrip("./") would eat
+        # characters, not prefixes.
+        clean = re.sub(r"^(?:\.\./|\./)+", "", m.group(2))
         if clean in MD_TO_SLUG:
             target = MD_TO_SLUG[clean]
             path = f"../{target}/" if target else "../"
@@ -195,17 +207,20 @@ def rewrite_links(body: str, slug: str) -> str:
             return f'{m.group(1)}"{path}{anchor}"'
         return m.group(0)
 
-    return re.sub(r'(href=)"([^"#:]+\.md)(#[^"]*)?"',
-                  lambda m: repl(m), body)
+    return re.sub(r'(href=)"([^"#:]+\.md)(#[^"]*)?"', repl, body)
 
 
 def extract_toc(body: str) -> list:
     toc = []
+    # Attribute order/extras are not guaranteed (attr_list can add classes),
+    # so match the id anywhere in the tag.
     for m in re.finditer(
-        r'<h([23]) id="([^"]+)">(.*?)</h\1>', body, flags=re.S
+        r'<h([23])\b[^>]*\bid="([^"]+)"[^>]*>(.*?)</h\1>', body, flags=re.S
     ):
         level, hid, inner = m.group(1), m.group(2), m.group(3)
-        text = re.sub(r"<[^>]+>", "", inner)
+        # Unescape entities so the later html escape doesn't double-encode
+        # (e.g. "&amp;" would otherwise render literally as "&amp;").
+        text = html_mod.unescape(re.sub(r"<[^>]+>", "", inner))
         text = text.replace("¶", "").strip()
         toc.append((int(level), hid, text))
     return toc
@@ -216,20 +231,30 @@ def strip_tags(fragment: str) -> str:
     return re.sub(r"\s+", " ", html_mod.unescape(text)).strip()
 
 
+def trim_words(text: str, limit: int) -> str:
+    """Truncate at a word boundary so snippets don't cut mid-word."""
+    if len(text) <= limit:
+        return text
+    cut = text[:limit].rsplit(" ", 1)[0].rstrip(",.;:")
+    return cut + "…"
+
+
 def build_search_entries(body: str, page_title: str, url: str) -> list:
     """One entry per h2 section plus one for the page lead."""
     entries = []
-    parts = re.split(r'(<h2 id="[^"]+">.*?</h2>)', body, flags=re.S)
-    lead = strip_tags(parts[0])[:400]
+    h2_re = r'<h2\b[^>]*\bid="([^"]+)"[^>]*>(.*?)</h2>'
+    parts = re.split(f"({h2_re})", body, flags=re.S)
+    # re.split with capture groups inside the wrapper group yields
+    # [before, whole-h2, id, inner, section, whole-h2, id, inner, section, ...]
+    lead = trim_words(strip_tags(parts[0]), 400)
     if lead:
         entries.append({"t": page_title, "s": PRODUCT + " docs", "u": url, "b": lead})
-    for i in range(1, len(parts), 2):
-        m = re.match(r'<h2 id="([^"]+)">(.*?)</h2>', parts[i], flags=re.S)
-        if not m:
-            continue
-        hid = m.group(1)
-        heading = strip_tags(m.group(2)).replace("¶", "").strip()
-        section_body = strip_tags(parts[i + 1] if i + 1 < len(parts) else "")[:400]
+    for i in range(1, len(parts), 4):
+        hid = parts[i + 1]
+        heading = strip_tags(parts[i + 2]).replace("¶", "").strip()
+        section_body = trim_words(
+            strip_tags(parts[i + 3] if i + 3 < len(parts) else ""), 400
+        )
         entries.append(
             {"t": heading, "s": page_title, "u": f"{url}#{hid}", "b": section_body}
         )
@@ -237,16 +262,22 @@ def build_search_entries(body: str, page_title: str, url: str) -> list:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--src", type=Path, default=DEFAULT_SRC)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--src", type=Path, default=DEFAULT_SRC,
+                        help="MkDocs docs/ folder to port (default: %(default)s)")
     args = parser.parse_args()
 
-    search_index = []
-    flat = NAV
+    if not args.src.is_dir():
+        parser.error(f"source docs folder not found: {args.src}")
 
-    for i, (src_rel, slug, title, group) in enumerate(flat):
+    search_index = []
+
+    for i, (src_rel, slug, title, group) in enumerate(NAV):
         src = args.src / src_rel
-        text = src.read_text(encoding="utf-8")
+        try:
+            text = src.read_text(encoding="utf-8")
+        except OSError as exc:
+            sys.exit(f"error: cannot read {src} (listed in NAV): {exc}")
 
         md = markdown.Markdown(extensions=MD_EXTENSIONS, extension_configs=MD_CONFIG)
         body = md.convert(text)
@@ -259,15 +290,21 @@ def main() -> None:
             body = body.replace(m.group(0), "", 1)
 
         body = rewrite_links(body, slug)
-        body = body.replace("<table>", '<div class="table-scroll"><table>')
+        # Wrap tables (with or without attributes) for horizontal scrolling.
+        # Code samples can't false-match: markdown entity-escapes them.
+        body = re.sub(r"<table(\s[^>]*)?>",
+                      r'<div class="table-scroll"><table\1>', body)
         body = body.replace("</table>", "</table></div>")
 
         root = "../" if not slug else "../../"
         url = "docs/" if not slug else f"docs/{slug}/"
 
-        desc_m = re.search(r"<p>(.*?)</p>", body, flags=re.S)
-        description = (strip_tags(desc_m.group(1))[:158] if desc_m else
-                       f"{PRODUCT} documentation: {h1}.")
+        # Meta description: first paragraph of the page proper — admonition
+        # boxes (which can open a page) make poor SERP snippets.
+        plain = re.sub(r'<div class="admonition.*?</div>', "", body, flags=re.S)
+        desc_m = re.search(r"<p>(.*?)</p>", plain, flags=re.S)
+        description = (trim_words(strip_tags(desc_m.group(1)), 158) if desc_m
+                       else f"{PRODUCT} documentation: {h1}.")
 
         toc = extract_toc(body)
         toc_html = ""
@@ -283,15 +320,17 @@ def main() -> None:
 
         prev_html = next_html = ""
         if i > 0:
-            p_slug, p_title = flat[i - 1][1], flat[i - 1][2]
+            p_slug, p_title = NAV[i - 1][1], NAV[i - 1][2]
             p_href = f"{root}docs/{p_slug}/" if p_slug else f"{root}docs/"
             prev_html = (f'<a class="prev" href="{p_href}">'
-                         f'<span class="dir">Previous</span>{p_title}</a>')
-        if i < len(flat) - 1:
-            n_slug, n_title = flat[i + 1][1], flat[i + 1][2]
+                         f'<span class="dir">Previous</span>'
+                         f'{html_mod.escape(p_title)}</a>')
+        if i < len(NAV) - 1:
+            n_slug, n_title = NAV[i + 1][1], NAV[i + 1][2]
             n_href = f"{root}docs/{n_slug}/"
             next_html = (f'<a class="next" href="{n_href}">'
-                         f'<span class="dir">Next</span>{n_title}</a>')
+                         f'<span class="dir">Next</span>'
+                         f'{html_mod.escape(n_title)}</a>')
         pager = (f'<nav class="docs-pager" aria-label="Docs pages">'
                  f"{prev_html}{next_html}</nav>") if (prev_html or next_html) else ""
 
@@ -308,8 +347,8 @@ def main() -> None:
     </div>
     {nav_html(slug, root)}
   </aside>
-  <main class="docs-article" id="main">
-    <p class="crumbs"><a href="{root}">Home</a> / <a href="{root}docs/">Docs</a> / {group}</p>
+  <main class="docs-article" id="main" tabindex="-1">
+    <p class="crumbs"><a href="{root}">Home</a> / <a href="{root}docs/">Docs</a> / {html_mod.escape(group)}</p>
     <h1>{html_mod.escape(h1)}</h1>
 {body}
 {pager}

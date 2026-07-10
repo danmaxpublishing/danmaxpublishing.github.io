@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Theming the UI — Photo Mode Pro Documentation</title>
 <meta name="description" content="The entire photo mode UI (every panel, control, label, animation and sound) restyles from a single PhotoModeUITheme asset. Swap the asset to ship a new look.">
 <link rel="canonical" href="https://danmaxpublishing.github.io/docs/theming/">
@@ -22,8 +24,8 @@
 <nav class="site-nav" aria-label="Main">
   <div class="bar">
     <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
       <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
       <li><a href="../../docs/" aria-current="page">Docs</a></li>
       <li><a href="../../roadmap/">Roadmap</a></li>
@@ -40,9 +42,9 @@
       <input type="search" placeholder="Search docs…" aria-label="Search documentation">
       <div class="results" role="listbox"></div>
     </div>
-    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/" aria-current="page">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/" aria-current="page">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
   </aside>
-  <main class="docs-article" id="main">
+  <main class="docs-article" id="main" tabindex="-1">
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
     <h1>Theming the UI</h1>
 
@@ -194,7 +196,7 @@ chips, toast). It does not touch your game's own UI, and gameplay HUD canvases
 are only ever hidden/shown by photo mode, never restyled (see
 <a href="../capture/">Capturing photos</a> for the visibility toggles).</p>
 <p>Related: <a href="../core-concepts/">Core Concepts</a> · <a href="../faq/">FAQ</a></p>
-<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/events-and-api/"><span class="dir">Previous</span>Events & Scripting</a><a class="next" href="../../docs/integrations/"><span class="dir">Next</span>Integrations</a></nav>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/events-and-api/"><span class="dir">Previous</span>Events &amp; Scripting</a><a class="next" href="../../docs/integrations/"><span class="dir">Next</span>Integrations</a></nav>
   </main>
   <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#reskin-in-three-steps">Reskin in three steps</a></li><li class="h2"><a href="#what-the-theme-controls">What the theme controls</a></li><li class="h3"><a href="#colors">Colors</a></li><li class="h3"><a href="#sprites-and-icons">Sprites and icons</a></li><li class="h3"><a href="#typography">Typography</a></li><li class="h3"><a href="#motion">Motion</a></li><li class="h3"><a href="#ui-audio">UI audio</a></li><li class="h2"><a href="#scope">Scope</a></li></ul></aside>
 </div>
@@ -202,13 +204,13 @@ are only ever hidden/shown by photo mode, never restyled (see
   <div class="wrap">
     <div class="cols">
       <div>
-        <h4>DanMaxPublishing</h4>
+        <h2>DanMaxPublishing</h2>
         <p>Unity tools from a solo developer with 10+ years of shipped
         commercial projects. Built, documented and supported to hold up in
         real production.</p>
       </div>
       <div>
-        <h4>Product</h4>
+        <h2>Product</h2>
         <ul>
           <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
           <li><a href="../../demo/">WebGL demo</a></li>
@@ -218,7 +220,7 @@ are only ever hidden/shown by photo mode, never restyled (see
         </ul>
       </div>
       <div>
-        <h4>Documentation</h4>
+        <h2>Documentation</h2>
         <ul>
           <li><a href="../../docs/quick-start/">Quick Start</a></li>
           <li><a href="../../docs/faq/">FAQ</a></li>
@@ -227,7 +229,7 @@ are only ever hidden/shown by photo mode, never restyled (see
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h2>Support</h2>
         <ul>
           <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
           <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>

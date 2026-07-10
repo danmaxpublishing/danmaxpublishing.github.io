@@ -3,11 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Presets — Photo Mode Pro Documentation</title>
-<meta name="description" content="A preset is a PhotoModePreset asset: a display name plus one full set of adjustment values . There are no LUT textures or shaders involved, just plain data, s">
+<meta name="description" content="A preset is a PhotoModePreset asset: a display name plus one full set of adjustment values . There are no LUT textures or shaders involved, just plain data…">
 <link rel="canonical" href="https://danmaxpublishing.github.io/docs/presets/">
 <meta property="og:title" content="Presets — Photo Mode Pro Documentation">
-<meta property="og:description" content="A preset is a PhotoModePreset asset: a display name plus one full set of adjustment values . There are no LUT textures or shaders involved, just plain data, s">
+<meta property="og:description" content="A preset is a PhotoModePreset asset: a display name plus one full set of adjustment values . There are no LUT textures or shaders involved, just plain data…">
 <meta property="og:url" content="https://danmaxpublishing.github.io/docs/presets/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="DanMaxPublishing">
@@ -22,8 +24,8 @@
 <nav class="site-nav" aria-label="Main">
   <div class="bar">
     <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
       <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
       <li><a href="../../docs/" aria-current="page">Docs</a></li>
       <li><a href="../../roadmap/">Roadmap</a></li>
@@ -40,9 +42,9 @@
       <input type="search" placeholder="Search docs…" aria-label="Search documentation">
       <div class="results" role="listbox"></div>
     </div>
-    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects & Depth of Field</a></li><li><a href="../../docs/presets/" aria-current="page">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events & Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform & Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/" aria-current="page">Presets</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
   </aside>
-  <main class="docs-article" id="main">
+  <main class="docs-article" id="main" tabindex="-1">
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
     <h1>Presets</h1>
 
@@ -103,7 +105,7 @@ fields, so it is a one-to-one transfer.</p>
 <p class="admonition-title">Aperture range</p>
 <p>Aperture values outside f/0.7–f/16 are accepted by the asset but clamped by
 the effect backends when applied; see
-<a href="../effects/">the aperture slider</a>.</p>
+<a href="../effects/#the-aperture-slider">the aperture slider</a>.</p>
 </div>
 <h2 id="offering-presets-in-the-ui">Offering presets in the UI<a class="headerlink" href="#offering-presets-in-the-ui" title="Permanent link">¶</a></h2>
 <p>The controller's <strong>Presets</strong> list (Inspector field, or the <code>Presets</code> property
@@ -156,7 +158,7 @@ The UI shows it so players always know whether they are on a stock look or have
 drifted from it.</p>
 <p>Related: <a href="../effects/">Image adjustments</a> ·
 <a href="../core-concepts/">Core Concepts</a> · <a href="../events-and-api/">Events &amp; API</a></p>
-<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/effects/"><span class="dir">Previous</span>Effects & Depth of Field</a><a class="next" href="../../docs/capture/"><span class="dir">Next</span>Capture</a></nav>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/effects/"><span class="dir">Previous</span>Effects &amp; Depth of Field</a><a class="next" href="../../docs/capture/"><span class="dir">Next</span>Capture</a></nav>
   </main>
   <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#the-built-in-six">The built-in six</a></li><li class="h2"><a href="#creating-your-own">Creating your own</a></li><li class="h2"><a href="#offering-presets-in-the-ui">Offering presets in the UI</a></li><li class="h2"><a href="#applying-from-script">Applying from script</a></li><li class="h2"><a href="#the-label-clean-a-preset-name-or-custom">The label: Clean, a preset name, or &quot;Custom&quot;</a></li></ul></aside>
 </div>
@@ -164,13 +166,13 @@ drifted from it.</p>
   <div class="wrap">
     <div class="cols">
       <div>
-        <h4>DanMaxPublishing</h4>
+        <h2>DanMaxPublishing</h2>
         <p>Unity tools from a solo developer with 10+ years of shipped
         commercial projects. Built, documented and supported to hold up in
         real production.</p>
       </div>
       <div>
-        <h4>Product</h4>
+        <h2>Product</h2>
         <ul>
           <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
           <li><a href="../../demo/">WebGL demo</a></li>
@@ -180,7 +182,7 @@ drifted from it.</p>
         </ul>
       </div>
       <div>
-        <h4>Documentation</h4>
+        <h2>Documentation</h2>
         <ul>
           <li><a href="../../docs/quick-start/">Quick Start</a></li>
           <li><a href="../../docs/faq/">FAQ</a></li>
@@ -189,7 +191,7 @@ drifted from it.</p>
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h2>Support</h2>
         <ul>
           <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
           <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>

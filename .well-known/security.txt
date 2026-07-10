@@ -1,0 +1,5 @@
+Contact: mailto:support.dan.max@gmail.com
+Contact: https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues
+Expires: 2027-07-10T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://danmaxpublishing.github.io/.well-known/security.txt
