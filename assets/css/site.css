@@ -1689,6 +1689,30 @@ pre:hover .copy-btn {
 }
 
 /* --------------------------------------------------------------------------
+   Product logo marks (Photo Mode Pro aperture emblem)
+   -------------------------------------------------------------------------- */
+
+/* Standalone emblem above a product hero heading */
+.product-mark {
+  display: block;
+  margin: 0 auto 18px;
+  filter: drop-shadow(0 0 18px rgba(34, 211, 238, 0.35));
+}
+
+.product-mark.left {
+  margin-left: 0;
+}
+
+/* Small inline emblem next to a heading */
+.h3-mark {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  vertical-align: -3px;
+  margin-right: 7px;
+}
+
+/* --------------------------------------------------------------------------
    Shared page-building utilities (replace repeated inline styles)
    -------------------------------------------------------------------------- */
 
