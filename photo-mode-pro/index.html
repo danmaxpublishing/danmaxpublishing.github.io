@@ -126,6 +126,28 @@
   </div>
 </section>
 
+<section class="tight">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow" style="justify-content:center">See it in motion</p>
+      <h2>The 30-second tour</h2>
+      <p class="lead" style="margin-inline:auto">Freeze the action, fly the camera, grade the
+      shot, press SNAP. One session from start to finish, captured in-engine with the UI
+      you ship.</p>
+    </div>
+    <figure class="shot reveal" style="max-width:940px;margin:0 auto">
+      <div class="frame glow">
+        <video controls playsinline preload="metadata" width="1920" height="1080"
+          poster="../assets/vid/tour30_poster.webp"
+          aria-label="Thirty-second tour: photo mode opens over the demo scene, the free camera frames a shot, presets and sliders grade it, and a capture fires with its thumbnail toast">
+          <source src="../assets/vid/tour30.mp4" type="video/mp4">
+        </video>
+      </div>
+      <figcaption>Sound on if you want the shutter.</figcaption>
+    </figure>
+  </div>
+</section>
+
 <section class="band">
   <div class="wrap">
     <div class="section-head">
@@ -205,6 +227,24 @@
         to find that out here than in your bug tracker.</p>
       </div>
     </div>
+    <div class="grid grid-2" style="align-items:center;gap:44px;margin-top:72px">
+      <div class="reveal">
+        <p class="eyebrow">Supersampling</p>
+        <h2>More pixels than your monitor has</h2>
+        <p class="lead" style="margin-bottom:18px">Captures render at 1×, 2× or 4× of the
+        screen resolution, so a 1080p session can write a 7680×4320 PNG. Zoom in later
+        and the detail is really there.</p>
+        <p style="color:var(--muted)">The loupe compares the same spot of one shot at 1×
+        and 4×. Async readback, where the platform supports it, keeps the game responsive
+        while the big captures are written.</p>
+      </div>
+      <figure class="shot reveal">
+        <div class="frame">
+          <img src="../assets/img/promo/supersample-zoom.webp" alt="Campfire scene with a magnifier comparing the same detail at 1x and at 4x supersampling" width="1920" height="1080" data-lightbox data-caption="The same pixels at 1× and 4×, from one capture." loading="lazy">
+        </div>
+        <figcaption>Native pixels from a single 4× still.</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -219,6 +259,12 @@
       <code>PhotoModeController.ActiveCapabilities</code> reports the same thing to your
       code.</p>
     </div>
+    <figure class="shot reveal" style="margin-bottom:26px">
+      <div class="frame">
+        <img src="../assets/img/promo/pipeline-triptych.webp" alt="Three vertical strips of the same campfire scene rendered in URP, HDRP and Built-in" width="1920" height="1080" data-lightbox data-caption="The same demo scene through URP, HDRP and Built-in, from one prefab." loading="lazy">
+      </div>
+      <figcaption>Same scene, same prefab. The backend is detected at runtime.</figcaption>
+    </figure>
     <div class="table-scroll reveal">
       <table class="matrix">
         <thead>
@@ -246,15 +292,16 @@
     <div class="section-head">
       <p class="eyebrow">Gallery</p>
       <h2>Straight out of the demo scene</h2>
-      <p class="lead">Every shot below went through Photo Mode Pro's own capture
-      pipeline: supersampled, graded in-product, saved as PNG. Click any image to
-      enlarge it.</p>
+      <p class="lead">Every shot below was framed, graded and captured in the demo
+      scene with the product's own camera. Click any image to enlarge it.</p>
     </div>
     <div class="grid grid-2 reveal-stagger">
       <figure class="shot"><div class="frame"><img src="../assets/img/shots/hero_vista.webp" alt="Golden-hour campfire clearing in the demo forest" width="2400" height="1350" data-lightbox data-caption="The forest clearing at golden hour, on the Clean preset." loading="lazy"></div></figure>
       <figure class="shot"><div class="frame"><img src="../assets/img/shots/cinematic_grade.webp" alt="Warm cinematic grade with vignette and film grain over the campfire" width="1800" height="1012" data-lightbox data-caption="Custom grade: EV −0.3, contrast +25, temperature +35, vignette, grain." loading="lazy"></div></figure>
       <figure class="shot"><div class="frame"><img src="../assets/img/shots/low_angle_forest.webp" alt="Low-angle shot of the adventurer against the sky" width="1800" height="1012" data-lightbox data-caption="Low-angle framing with the free camera." loading="lazy"></div></figure>
       <figure class="shot"><div class="frame"><img src="../assets/img/shots/preset_vintage.webp" alt="Vintage preset over the campfire scene" width="1400" height="787" data-lightbox data-caption="The Vintage preset." loading="lazy"></div></figure>
+      <figure class="shot"><div class="frame"><img src="../assets/img/shots/dof_midair.webp" alt="The adventurer frozen mid-jump, forest and sky blurred by shallow depth of field" width="1920" height="1080" data-lightbox data-caption="Gameplay frozen mid-jump, shot wide open at a low f-stop." loading="lazy"></div></figure>
+      <figure class="shot"><div class="frame"><img src="../assets/img/promo/polaroids.webp" alt="Three captured photos shown as tilted framed prints: a warm campfire, a Noir grade, a forest walk" width="1920" height="1080" data-lightbox data-caption="Three captures from one session, framed the way players share them." loading="lazy"></div></figure>
     </div>
   </div>
 </section>
@@ -300,6 +347,32 @@ PhotoModeController.Instance.OnPhotoCaptured += (path, thumb) =>
 <section>
   <div class="wrap">
     <div class="section-head">
+      <p class="eyebrow">Setup</p>
+      <h2>From import to first photo</h2>
+      <p class="lead">The Setup Wizard checks your project, fixes what it can with one
+      click, and adds the configured prefab to your scene. Most projects are taking
+      photos about two minutes after import.</p>
+    </div>
+    <div class="grid grid-2 reveal-stagger">
+      <figure class="shot">
+        <div class="frame">
+          <img src="../assets/img/promo/wizard-card.webp" alt="The Setup Wizard window with six green checks: render pipeline, effects backend, input handling, Cinemachine, TextMesh Pro essentials and demo assets" width="1920" height="1080" data-lightbox data-caption="Six project checks, one-click fixes, one button to add it to the scene." loading="lazy">
+        </div>
+        <figcaption>The wizard, at Tools → Photo Mode Pro → Setup.</figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="frame">
+          <img src="../assets/img/promo/how-it-works.webp" alt="Four steps from import to PNG: run the setup wizard, press P in play mode, frame and grade the shot, supersampled PNG on disk" width="1920" height="1080" data-lightbox data-caption="The whole path, from import to a PNG on disk." loading="lazy">
+        </div>
+        <figcaption>Prefab in, PNG out. Nothing to script unless you want to.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="section-head">
       <p class="eyebrow">Due diligence</p>
       <h2>Questions a careful buyer asks</h2>
     </div>
@@ -309,7 +382,8 @@ PhotoModeController.Instance.OnPhotoCaptured += (path, thumb) =>
       same prefab. The backend is detected at runtime; on Built-in you get the full set
       with Post Processing Stack v2 installed, or a fallback
       (exposure/contrast/saturation/vignette) without it. The matrix above is the
-      complete picture.</p></div>
+      complete picture.</p>
+      <figure class="shot" style="margin-top:14px"><div class="frame"><img src="../assets/img/promo/ui-callouts.webp" alt="The Effects panel annotated: EV, f-stops and temperature use natural units, and unsupported effects hide their controls per pipeline" width="1920" height="1080" data-lightbox data-caption="Grading in natural units. Anything a pipeline can't honor hides its control." loading="lazy"></div></figure></div>
     </details>
     <details class="qa">
       <summary>Will it fight my input setup or Cinemachine?</summary>
@@ -336,7 +410,8 @@ PhotoModeController.Instance.OnPhotoCaptured += (path, thumb) =>
       <summary>Can players use it with a gamepad only?</summary>
       <div class="qa-body"><p>Yes, fully. Sticks fly the camera, D-pad navigates the UI,
       focus rings and auto-scroll keep the selection visible, and hint chips show the
-      real bindings (they update if you remap keys).</p></div>
+      real bindings (they update if you remap keys).</p>
+      <figure class="shot" style="margin-top:14px"><div class="frame"><img src="../assets/img/promo/gamepad-card.webp" alt="The camera panel over the demo scene with the control split: sticks fly the camera, D-pad drives the UI" width="1920" height="1080" data-lightbox data-caption="The AAA control split, with focus rings and hint chips." loading="lazy"></div></figure></div>
     </details>
     <details class="qa">
       <summary>Can I reskin the UI to match my game?</summary>
