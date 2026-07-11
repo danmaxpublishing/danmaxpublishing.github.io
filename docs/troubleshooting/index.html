@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Troubleshooting — Photo Mode Pro Documentation</title>
-<meta name="description" content="Symptom-driven fixes, including every historical bug fixed in 1.2.x–1.4.0. First steps for almost anything: update to the latest version, run Tools &gt; Photo…">
+<meta name="description" content="Symptom-driven fixes, including every historical bug fixed in 0.8.x–1.0.0. First steps for almost anything: update to the latest version, run Tools &gt; Photo…">
 <link rel="canonical" href="https://danmaxpublishing.github.io/docs/troubleshooting/">
 <meta property="og:title" content="Troubleshooting — Photo Mode Pro Documentation">
-<meta property="og:description" content="Symptom-driven fixes, including every historical bug fixed in 1.2.x–1.4.0. First steps for almost anything: update to the latest version, run Tools &gt; Photo…">
+<meta property="og:description" content="Symptom-driven fixes, including every historical bug fixed in 0.8.x–1.0.0. First steps for almost anything: update to the latest version, run Tools &gt; Photo…">
 <meta property="og:url" content="https://danmaxpublishing.github.io/docs/troubleshooting/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="DanMaxPublishing">
@@ -48,7 +48,7 @@
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Help</p>
     <h1>Troubleshooting</h1>
 
-<p>Symptom-driven fixes, including every historical bug fixed in 1.2.x–1.4.0.
+<p>Symptom-driven fixes, including every historical bug fixed in 0.8.x–1.0.0.
 First steps for almost anything: update to the latest version, run
 <strong>Tools &gt; Photo Mode Pro &gt; Setup Wizard</strong> (one-click fixes for pipeline,
 input, TMP and demo-material problems), and run
@@ -63,11 +63,11 @@ updating is usually the whole fix.</p>
 <p><strong>Symptom:</strong> The demo scene (or its props) shows pink/magenta materials.</p>
 <p><strong>Cause:</strong> The demo materials were generated for a different render pipeline
 than the one currently active — pink is Unity's "shader not supported" color.</p>
-<p><strong>Fix:</strong> Since 1.4.0 the demo is pipeline-aware: materials are generated for
+<p><strong>Fix:</strong> Since 1.0.0 the demo is pipeline-aware: materials are generated for
 the active pipeline, and opening the demo scene under a mismatched pipeline
 offers <strong>"Rebuild demo for current pipeline"</strong> (your choice can be persisted
 with don't-ask-again). Accept it, or run <strong>Tools &gt; Photo Mode Pro &gt; Build
-Demo Assets</strong> manually. On 1.3.0 and earlier the demo was URP-only; update
+Demo Assets</strong> manually. On 0.9.0 and earlier the demo was URP-only; update
 the package. The Setup Wizard's demo-materials check flags this too.</p>
 <h2 id="textmeshpro-text-is-missing-or-shows-boxes">TextMeshPro text is missing or shows boxes<a class="headerlink" href="#textmeshpro-text-is-missing-or-shows-boxes" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> UI labels are invisible or render as empty squares.</p>
@@ -80,7 +80,7 @@ essentials). The demo builder imports them automatically.</p>
 <p><strong>Symptom:</strong> You worry the UI needs an EventSystem your scene doesn't have
 (or, on old versions, the panel didn't respond to input without one).</p>
 <p><strong>Cause:</strong> UGUI input requires an EventSystem; not every game scene has one.</p>
-<p><strong>Fix:</strong> Fixed in 1.3.0; update the package. Photo mode now creates an
+<p><strong>Fix:</strong> Fixed in 0.9.0; update the package. Photo mode now creates an
 EventSystem on open if the scene has none (matching your active input
 handling), logs a single info message, and removes it on exit. The scene is
 left exactly as it was found. If you prefer, add your own EventSystem and photo
@@ -109,8 +109,8 @@ audio) and transition your own snapshots from the events:</p>
 <span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">gameplaySnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
 </code></pre></div>
 <div class="admonition warning">
-<p class="admonition-title">Upgrading from 1.2.x</p>
-<p><code>audioPauseMode</code> replaced the old <code>pauseAudio</code> bool in 1.3.0. Projects
+<p class="admonition-title">Upgrading from 0.8.x</p>
+<p><code>audioPauseMode</code> replaced the old <code>pauseAudio</code> bool in 0.9.0. Projects
 that had <em>unchecked</em> <code>pauseAudio</code> must select <code>None</code> once on their
 settings asset; see the <a href="../upgrade-guide/">Upgrade Guide</a>.</p>
 </div>
@@ -121,7 +121,7 @@ Q/E.</p>
 <p><strong>Cause:</strong> Mouse clicks clear the EventSystem selection by design (so the
 focus ring never lingers for mouse users); older versions had no recovery
 path, so navigation lost its anchor.</p>
-<p><strong>Fix:</strong> Fixed in 1.3.0. Update the package. The first control of the
+<p><strong>Fix:</strong> Fixed in 0.9.0. Update the package. The first control of the
 active tab is auto-selected on open, and pressing a navigation input while
 nothing is selected re-selects it, so navigation never goes dead. If it
 persists: call <code>PhotoModeUIController.EnsureSelection()</code> from your own code,
@@ -141,9 +141,9 @@ supported on legacy.</p>
 mask.</p>
 <p><strong>Cause:</strong> Focus rings extend a few pixels beyond each control; without
 enough inner content padding the scroll viewport's mask clips them. The
-1.4.0 regression had a subtler cause: the hover/selection scale-up (theme
+1.0.0 regression had a subtler cause: the hover/selection scale-up (theme
 <code>hoverScale</code>) pushed rings on full-width controls past the original padding.</p>
-<p><strong>Fix:</strong> Fixed in 1.3.0 and finally in 1.4.0 (padding is now computed from
+<p><strong>Fix:</strong> Fixed in 0.9.0 and finally in 1.0.0 (padding is now computed from
 the ring size <em>and</em> the theme's selection scale, and regeneration-proof
 regression tests guard it). Update the package. If it persists: you are
 likely using a custom theme with a large <code>hoverScale</code>; reduce it, or rebuild
@@ -153,7 +153,7 @@ the UI prefab via <strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</stro
 below the visible scroll area and the panel doesn't follow.</p>
 <p><strong>Cause:</strong> Older versions had no scroll-follow logic for EventSystem
 selection changes.</p>
-<p><strong>Fix:</strong> Fixed in 1.3.0; update the package. The panel now auto-scrolls
+<p><strong>Fix:</strong> Fixed in 0.9.0; update the package. The panel now auto-scrolls
 minimally, just enough to reveal the selected control plus its focus ring.
 It never moves when the selection is already visible.</p>
 <h2 id="the-highlight-overlaps-neighboring-controls-or-hides-toggle-checkmarks">The highlight overlaps neighboring controls or hides toggle checkmarks<a class="headerlink" href="#the-highlight-overlaps-neighboring-controls-or-hides-toggle-checkmarks" title="Permanent link">¶</a></h2>
@@ -163,7 +163,7 @@ checkmarks, or sits on the wrong supersample button. <em>(Phase 2 items 2–5,
 13, 27)</em></p>
 <p><strong>Cause:</strong> The original expanding soft-glow highlight extended 8–12 px past
 controls and persisted after clicks.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. The glow was replaced by a
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. The glow was replaced by a
 thin ~2 px snug outline ring (circular on knobs/toggles, rounded-rect on
 buttons/tabs) that appears only during keyboard/gamepad navigation; mouse
 clicks clear the selection.</p>
@@ -171,9 +171,9 @@ clicks clear the selection.</p>
 <p><strong>Symptom:</strong> Long tabs run off the panel with no way to scroll, and the
 mouse wheel zooms the camera even when the pointer is over the UI. <em>(Phase 2
 items 1, 9)</em></p>
-<p><strong>Cause:</strong> Pre-1.2.1 the side-panel pages had no scroll view and wheel input
+<p><strong>Cause:</strong> Pre-0.8.1 the side-panel pages had no scroll view and wheel input
 went to camera zoom unconditionally.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. All pages live in a shared
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. All pages live in a shared
 ScrollRect with a slim scrollbar; the wheel scrolls the panel when the
 pointer is over any UI and zooms the camera otherwise. Wheel zoom also
 updates the FOV slider live (two-way sync).</p>
@@ -182,7 +182,7 @@ updates the FOV slider live (two-way sync).</p>
 end; most of the travel produces no visible difference.</p>
 <p><strong>Cause:</strong> The old slider range extended far past visually useful f-stops,
 mapped linearly, so almost all the travel sat in a perceptual dead zone.</p>
-<p><strong>Fix:</strong> Fixed in 1.4.0. Update the package. The slider is re-ranged to
+<p><strong>Fix:</strong> Fixed in 1.0.0. Update the package. The slider is re-ranged to
 <strong>f/0.7–f/16</strong> with a perceptual log-stop mapping, so the full travel
 produces visible depth-of-field change. Out-of-range values from old presets
 or scripts clamp when applied (no API break; the property still accepts any
@@ -192,7 +192,7 @@ positive value). See the <a href="../upgrade-guide/">Upgrade Guide</a>.</p>
 <em>(Phase 2 item 15)</em></p>
 <p><strong>Cause:</strong> The slider mapped 0.1–100 m linearly; the visibly
 focus-pulling 0.1–3 m range occupied a sliver of the travel.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1; update the package. The slider now uses a
+<p><strong>Fix:</strong> Fixed in 0.8.1; update the package. The slider now uses a
 logarithmic mapping (half the travel covers 0.1–3 m); the readout stays in
 real meters.</p>
 <h2 id="focus-dist-and-aperture-rows-show-while-depth-of-field-is-off">Focus Dist and Aperture rows show while Depth of Field is off<a class="headerlink" href="#focus-dist-and-aperture-rows-show-while-depth-of-field-is-off" title="Permanent link">¶</a></h2>
@@ -200,14 +200,14 @@ real meters.</p>
 <em>(Phase 2 item 16)</em></p>
 <p><strong>Cause:</strong> A UI bug. The rendered blur deactivated correctly, but the rows
 did not hide.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package.</p>
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package.</p>
 <h2 id="slider-changes-dont-show-in-hdrp">Slider changes don't show in HDRP<a class="headerlink" href="#slider-changes-dont-show-in-hdrp" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> On HDRP, the Focus Dist and Aperture sliders have no effect.
 <em>(Phase 2 items 37, 38)</em></p>
 <p><strong>Cause:</strong> FOV smoothing wrote <code>Camera.fieldOfView</code> every frame, which
 silently resets <code>usePhysicalProperties</code>, so HDRP's physical-camera depth of
 field never saw the values.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. The camera is now driven via
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. The camera is now driven via
 <code>focalLength</code> while physical properties are in use. If a custom camera
 script of yours writes <code>fieldOfView</code> on the photo camera every frame, it
 will reintroduce the problem; drive <code>focalLength</code> instead on physical
@@ -218,7 +218,7 @@ pipeline (originally: grain far stronger on PPv2 than URP, vignette far
 weaker on PPv2 than URP). <em>(Phase 2 items 30, 31)</em></p>
 <p><strong>Cause:</strong> The underlying post stacks respond differently to identical
 parameter values.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. URP grain uses a coarse lookup
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. URP grain uses a coarse lookup
 with low luminance response to match the PPv2 look, and PPv2 vignette
 response is boosted toward URP's. Subtle character differences remain by
 nature of the stacks; see <a href="../pipelines/">Pipelines</a>.</p>
@@ -251,9 +251,9 @@ exit. See <a href="../capture/">Capture</a>.</p>
 <h2 id="capture-flash-and-thumbnail-dont-appear-with-the-ui-hidden">Capture flash and thumbnail don't appear with the UI hidden<a class="headerlink" href="#capture-flash-and-thumbnail-dont-appear-with-the-ui-hidden" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> With Hide UI active, capturing works but you get no white
 flash, shutter feedback or thumbnail toast. <em>(Phase 2 item 39)</em></p>
-<p><strong>Cause:</strong> Pre-1.2.1, Hide UI disabled the whole root canvas and took the
+<p><strong>Cause:</strong> Pre-0.8.1, Hide UI disabled the whole root canvas and took the
 capture feedback down with it.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. Capture feedback (flash,
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. Capture feedback (flash,
 shutter sound, toast) is now exempt from Hide UI on every pipeline; only the
 chrome (toolbar, panel, hint bar) hides.</p>
 <h2 id="capturing-at-4x-freezes-the-game-with-no-feedback">Capturing at 4x freezes the game with no feedback<a class="headerlink" href="#capturing-at-4x-freezes-the-game-with-no-feedback" title="Permanent link">¶</a></h2>
@@ -261,7 +261,7 @@ chrome (toolbar, panel, hint bar) hides.</p>
 <em>(Phase 2 item 10)</em></p>
 <p><strong>Cause:</strong> Supersampled captures render synchronously on the main thread;
 older versions showed nothing during the block.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. 2x/4x captures now show a
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. 2x/4x captures now show a
 static "Processing…" badge for the duration (it never appears in the photo).
 The wall-time itself is expected — a 4x capture of a 1080p view renders at
 7680×4320; see <a href="../performance/">Performance</a>.</p>
@@ -288,7 +288,7 @@ character jumps or pops on return to gameplay.</p>
 re-activation reset <code>CharacterController</code> grounding and rebound the
 Animator. Additionally, a shared binding (e.g. Space as both fly-up and
 jump) could bleed into gameplay on the closing frame.</p>
-<p><strong>Fix:</strong> Fixed in 1.3.0. Update the package. Hide Player now disables only
+<p><strong>Fix:</strong> Fixed in 0.9.0. Update the package. Hide Player now disables only
 the player's Renderer components, so physics/animation state survives
 exactly (regression-tested for position/velocity/grounded equality). If your
 gameplay code shares bindings with photo mode, also adopt the documented
@@ -302,17 +302,17 @@ exit-frame pattern:</p>
 while jumping, or after Hide Player. <em>(Phase 2 items 20, 22)</em></p>
 <p><strong>Cause:</strong> Imported animation clips keyed <code>m_LocalScale</code>, which snapped the
 model back to FBX units during the airborne state and on Animator rebind.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1; update the package. The animator now uses
+<p><strong>Fix:</strong> Fixed in 0.8.1; update the package. The animator now uses
 de-scaled copies of the clips. If it persists after updating, run
 <strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</strong> to regenerate the demo.</p>
 <h2 id="hint-chips-overlap-my-games-ui-or-look-stackedcramped">Hint chips overlap my game's UI (or look stacked/cramped)<a class="headerlink" href="#hint-chips-overlap-my-games-ui-or-look-stackedcramped" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> The hotkey hint chips collide with other UI, or pile up as a
 tall stack in the bottom-left corner. Earlier: the chips were too small to
 read.</p>
-<p><strong>Cause:</strong> The chips were originally undersized (fixed in 1.3.0 with a ×1.5
-scale-up into four short rows), and the 1.3.0 four-row block read as a
+<p><strong>Cause:</strong> The chips were originally undersized (fixed in 0.9.0 with a ×1.5
+scale-up into four short rows), and the 0.9.0 four-row block read as a
 cramped stack at some window sizes.</p>
-<p><strong>Fix:</strong> Fixed in 1.4.0; update the package. The chips now form a single
+<p><strong>Fix:</strong> Fixed in 1.0.0; update the package. The chips now form a single
 row along the bottom screen edge (wrapping to a second row only on very
 narrow/portrait windows) and the toolbar is raised so the two can never
 intersect; verified at 16:9, 21:9 and 4:3. If your own HUD occupies the
@@ -321,15 +321,15 @@ hides while photo mode is open.</p>
 <h2 id="hint-chips-show-the-wrong-keys-after-rebinding">Hint chips show the wrong keys after rebinding<a class="headerlink" href="#hint-chips-show-the-wrong-keys-after-rebinding" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> You changed hotkeys on the settings asset but the on-screen
 hints still show the old keys. <em>(Phase 2 item 12)</em></p>
-<p><strong>Cause:</strong> Pre-1.2.1, hint text was not updated on hotkey changes.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. Changing a hotkey in the
+<p><strong>Cause:</strong> Pre-0.8.1, hint text was not updated on hotkey changes.</p>
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. Changing a hotkey in the
 Inspector now offers (via an editor dialog) to update the matching hint
 chips in the UI prefab. If you declined the dialog or use a moved/duplicated
 prefab, change the key again to re-trigger it, or edit the chip labels on
 your prefab copy.</p>
 <h2 id="the-none-preset-button-is-missing">The NONE preset button is missing<a class="headerlink" href="#the-none-preset-button-is-missing" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> The Presets tab no longer has a NONE entry.</p>
-<p><strong>Cause:</strong> By design since 1.3.0: NONE was visually indistinguishable from
+<p><strong>Cause:</strong> By design since 0.9.0: NONE was visually indistinguishable from
 <strong>Clean</strong>, so it was removed. Clean is now the first preset and the active
 default.</p>
 <p><strong>Fix:</strong> Nothing to fix. <code>ApplyPreset(null)</code> remains the programmatic reset
@@ -338,22 +338,22 @@ and maps to the same state, with no API break. See
 <h2 id="clicking-the-capture-toast-does-nothing">Clicking the capture toast does nothing<a class="headerlink" href="#clicking-the-capture-toast-does-nothing" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> The thumbnail toast after a capture isn't clickable.
 <em>(Phase 2 item 6)</em></p>
-<p><strong>Cause:</strong> Pre-1.2.1, the toast blocked no raycasts.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. Clicking the toast opens the
+<p><strong>Cause:</strong> Pre-0.8.1, the toast blocked no raycasts.</p>
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. Clicking the toast opens the
 file browser with the new photo selected (Explorer reveal on Windows; folder
 open elsewhere). The save-path row on the CAPTURE tab is clickable too.</p>
 <h2 id="the-fov-slider-ignores-my-minmax-fov-settings">The FOV slider ignores my Min/Max FOV settings<a class="headerlink" href="#the-fov-slider-ignores-my-minmax-fov-settings" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> <code>PhotoModeSettings.minFov/maxFov</code> limit wheel zoom but the FOV
 slider still runs 10–120. <em>(Phase 2 item 14)</em></p>
-<p><strong>Cause:</strong> Pre-1.2.1, the slider range was hardcoded.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. The slider range is read from
+<p><strong>Cause:</strong> Pre-0.8.1, the slider range was hardcoded.</p>
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. The slider range is read from
 the settings asset at UI bind time.</p>
 <h2 id="sprint-doesnt-speed-up-camera-roll">Sprint doesn't speed up camera roll<a class="headerlink" href="#sprint-doesnt-speed-up-camera-roll" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> Holding Shift speeds up movement but Z/C roll stays slow.
 <em>(Phase 2 item 8)</em></p>
-<p><strong>Cause:</strong> Pre-1.2.1, the sprint multiplier applied to movement only.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1; update the package. Roll now uses the same
-<code>sprintMultiplier</code>. (1.2.1 also added the missing "Space/Ctrl · Up/Down" and
+<p><strong>Cause:</strong> Pre-0.8.1, the sprint multiplier applied to movement only.</p>
+<p><strong>Fix:</strong> Fixed in 0.8.1; update the package. Roll now uses the same
+<code>sprintMultiplier</code>. (0.8.1 also added the missing "Space/Ctrl · Up/Down" and
 "Z/C · Roll" hint chips, Phase 2 item 7.)</p>
 <h2 id="hint-text-is-hard-to-read-over-bright-surfaces">Hint text is hard to read over bright surfaces<a class="headerlink" href="#hint-text-is-hard-to-read-over-bright-surfaces" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> Floating hint labels, toolbar Q/E hints or the toast filename
@@ -361,7 +361,7 @@ wash out over white/bright backgrounds; the demo HUD looked like plain text.
 <em>(Phase 2 items 21, 25)</em></p>
 <p><strong>Cause:</strong> Scene-floating text had no outline, and the old demo HUD was a
 single legacy Text element.</p>
-<p><strong>Fix:</strong> Fixed in 1.2.1. Update the package. Scene-floating text now gets a
+<p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. Scene-floating text now gets a
 thin black TMP outline + underlay, and the demo HUD is rebuilt from the
 photo-mode UI building blocks.</p>
 <h2 id="i-cant-find-a-camera-collision-toggle-in-the-ui">I can't find a camera collision toggle in the UI<a class="headerlink" href="#i-cant-find-a-camera-collision-toggle-in-the-ui" title="Permanent link">¶</a></h2>

@@ -67,8 +67,8 @@ WebGL build files; live homepage screenshot-verified.)
 Account renamed supportdanmax → **danmaxpublishing**, repo renamed to
 **danmaxpublishing.github.io** (GitHub user site) → the site now serves at the apex
 URL https://danmaxpublishing.github.io/ (all routes re-verified 200; old URL 404s
-by design — GitHub Pages does not redirect). The v1.4.0 package was re-exported
-with the new docs URL (`Build/PhotoModePro_v1.4.0.unitypackage`) after updating
+by design — GitHub Pages does not redirect). The v1.0.0 package was re-exported
+with the new docs URL (`Build/PhotoModePro_v1.0.0.unitypackage`) after updating
 ProductInfo.cs/README/CHANGELOG/QuickStart + regenerating the offline PDF. The
 "Get notified" mailto CTAs gained a copy-address fallback (mailto silently no-ops
 without a configured mail client).
@@ -90,7 +90,7 @@ mailto fallback.
 1. **Re-register `supportdanmax`** as a fresh placeholder GitHub account (squat
    guard: the freed name is claimable, and the currently-in-review package still
    prints the old URL until the re-upload is approved).
-2. **Re-upload** `Build/PhotoModePro_v1.4.0.unitypackage` in the Asset Store
+2. **Re-upload** `Build/PhotoModePro_v1.0.0.unitypackage` in the Asset Store
    Publisher Portal (replaces the in-review draft; it contains the new docs URL).
 3. **Verify the WebGL demo in a real browser** at
    https://danmaxpublishing.github.io/demo/ — headless checks confirmed download +
