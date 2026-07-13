@@ -33,7 +33,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "DanMaxPublishing",
     productName: "Photo Mode Pro Demo",
-    productVersion: "1.4.0"
+    productVersion: "1.0.0"
   }, function (p) {
     progress.style.width = (p * 100) + "%";
     if (p >= 0.9) {
