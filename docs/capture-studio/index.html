@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Capture Studio &amp; CI Shot Lists — Photo Mode Pro Documentation</title>
+<meta name="description" content="Tools → Photo Mode Pro → Capture Studio opens a dockable editor window that drives the same camera, grade stack and relight rig as the runtime photo mode —…">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/capture-studio/">
+<meta property="og:title" content="Capture Studio &amp; CI Shot Lists — Photo Mode Pro Documentation">
+<meta property="og:description" content="Tools → Photo Mode Pro → Capture Studio opens a dockable editor window that drives the same camera, grade stack and relight rig as the runtime photo mode —…">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/capture-studio/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/" aria-current="page">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main" tabindex="-1">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Capture Studio &amp; CI Shot Lists</h1>
+
+<p><strong>Tools → Photo Mode Pro → Capture Studio</strong> opens a dockable editor window that
+drives the same camera, grade stack and relight rig as the runtime photo mode —
+in Edit Mode, without pressing Play. Compose shots, bookmark them, and render
+whole batches at real publishing resolutions. No other photo-mode asset has an
+editor side at all; no capture asset in the category offers CI-driven shot
+lists.</p>
+<p>In Play Mode with photo mode open, the studio binds to the live session: the
+window and the in-game UI edit the same shot.</p>
+<div class="admonition note">
+<p class="admonition-title">HDRP: Play Mode only</p>
+<p>HDRP's color grading does not apply reliably to Edit Mode camera renders,
+so on HDRP the studio (and the headless entry point) runs in Play Mode —
+the window says so instead of rendering wrong colors. Edit Mode capture is
+fully supported on URP and the Built-in pipeline.</p>
+</div>
+<h2 id="the-window">The window<a class="headerlink" href="#the-window" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Preview</strong> — a live render of the studio camera, letterboxed to the selected
+  output preset's aspect, with an optional 5% crop-safe-area overlay.</li>
+<li><strong>Camera</strong> — grab the Scene View camera with one click, or set position,
+  rotation and FOV numerically.</li>
+<li><strong>Grade</strong> — the full adjustment set (exposure, contrast, saturation,
+  temperature, vignette, grain, depth of field), applied through the same
+  pipeline backends as the runtime.</li>
+<li><strong>Light Rig</strong> — add key/fill/rim/practical/sun lights, orbit them around the
+  focus point, tune color and intensity. Studio rig objects are session-flagged:
+  they never dirty or save into your scene.</li>
+<li><strong>Shot List</strong> — bookmarks with apply/reorder/delete, saved into a
+  <code>PhotoModeShotList</code> asset.</li>
+<li><strong>Render</strong> — render the current view to any output preset, or <strong>Render All</strong>
+  to write the entire matrix.</li>
+</ul>
+<h2 id="camera-bookmarks">Camera bookmarks<a class="headerlink" href="#camera-bookmarks" title="Permanent link">¶</a></h2>
+<p>A bookmark stores everything a shot needs: camera pose and lens, the complete
+adjustment set, the focus point and the full light rig. <strong>Save View as
+Bookmark</strong> captures the current state; <strong>Apply</strong> restores it exactly — in Edit
+Mode or Play Mode.</p>
+<h2 id="output-presets">Output presets<a class="headerlink" href="#output-presets" title="Permanent link">¶</a></h2>
+<p><code>PhotoModeOutputPreset</code> assets define exact pixel targets: dimensions, PNG or
+16/32-bit EXR, supersampling, transparent background, and a watermark slot
+(texture, corner, offset, opacity, scale) composited <strong>at output resolution</strong>,
+never at preview resolution. The built-in set covers real targets:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Asset Store Key Image</td>
+<td>1950×1300</td>
+</tr>
+<tr>
+<td>Asset Store Card / Icon</td>
+<td>420×280 / 160×160</td>
+</tr>
+<tr>
+<td>Steam Capsules (Main / Small / Header / Library)</td>
+<td>616×353 / 231×87 / 460×215 / 600×900</td>
+</tr>
+<tr>
+<td>App Store Screenshot 6.5"</td>
+<td>1284×2778</td>
+</tr>
+<tr>
+<td>Play Store Screenshot / Feature Graphic</td>
+<td>1080×1920 / 1024×500</td>
+</tr>
+<tr>
+<td>Press Kit 4K</td>
+<td>3840×2160</td>
+</tr>
+<tr>
+<td>Wallpapers</td>
+<td>1920×1080, 2560×1440</td>
+</tr>
+</tbody>
+</table></div>
+<p>Create your own via <em>Assets → Create → Photo Mode Pro → Output Preset</em>.</p>
+<h2 id="shot-lists-the-render-matrix">Shot lists — the render matrix<a class="headerlink" href="#shot-lists-the-render-matrix" title="Permanent link">¶</a></h2>
+<p>A <code>PhotoModeShotList</code> asset is a matrix: <strong>bookmarks × grade presets × output
+presets</strong>. Leave the grade-preset list empty and each bookmark renders with its
+own saved look; add presets (Noir, Warm, …) and every bookmark renders once per
+look. File names are deterministic and collision-safe:
+<code>{list}_{bookmark}_{preset}_{output}.{png|exr}</code>.</p>
+<h2 id="headless-rendering-ci">Headless rendering (CI)<a class="headerlink" href="#headless-rendering-ci" title="Permanent link">¶</a></h2>
+<p>The same matrix renders from the command line — regenerate your entire store
+asset pack on every build:</p>
+<div class="codehilite"><pre><span></span><code>Unity -batchmode -quit -projectPath . <span class="se">^</span>
+<span class="se"> </span> -executeMethod PhotoModePro.Editor.CaptureStudio.PhotoModeHeadlessCapture.RenderShotList <span class="se">^</span>
+<span class="se"> </span> -photomode-shotlist Assets/Marketing/StoreSet.asset <span class="se">^</span>
+<span class="se"> </span> -photomode-capture-out Renders <span class="se">^</span>
+<span class="se"> </span> -photomode-capture-result TestResults/shotlist_result.json <span class="se">^</span>
+<span class="se"> </span> -photomode-scene Assets/Scenes/Showcase.unity
+</code></pre></div>
+<p>The JSON result mirrors the package self-test's shape: environment fields plus
+one record per shot with pass/fail, path, dimensions, format and wall time —
+ready for a CI gate:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Pass&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ProductVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Pipeline&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Urp&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Shots&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;StoreSet_Hero_KeyImage.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;Status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ok&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1950</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;Height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1300</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;Format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Png&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;WallTimeMs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">412</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>-photomode-scene</code> is optional — omit it to render whatever scene the project
+opens with.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/capture/"><span class="dir">Previous</span>Capture</a><a class="next" href="../../docs/render-layers/"><span class="dir">Next</span>Render Layers (AOV)</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#the-window">The window</a></li><li class="h2"><a href="#camera-bookmarks">Camera bookmarks</a></li><li class="h2"><a href="#output-presets">Output presets</a></li><li class="h2"><a href="#shot-lists-the-render-matrix">Shot lists — the render matrix</a></li><li class="h2"><a href="#headless-rendering-ci">Headless rendering (CI)</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>DanMaxPublishing</h2>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
+      </div>
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../demo/">WebGL demo</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Documentation</h2>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt); full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

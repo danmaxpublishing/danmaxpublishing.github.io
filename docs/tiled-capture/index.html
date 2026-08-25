@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Tiled Capture (Beyond the GPU Limit) — Photo Mode Pro Documentation</title>
+<meta name="description" content="GPUs cap single textures around 16K; Photo Mode Pro renders past that by splitting the frame into a grid of frustum-offset tiles and streaming them straight…">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/tiled-capture/">
+<meta property="og:title" content="Tiled Capture (Beyond the GPU Limit) — Photo Mode Pro Documentation">
+<meta property="og:description" content="GPUs cap single textures around 16K; Photo Mode Pro renders past that by splitting the frame into a grid of frustum-offset tiles and streaming them straight…">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/tiled-capture/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/" aria-current="page">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main" tabindex="-1">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Tiled Capture (Beyond the GPU Limit)</h1>
+
+<p>GPUs cap single textures around 16K; Photo Mode Pro renders past that by
+splitting the frame into a grid of frustum-offset tiles and streaming them
+straight into the PNG on disk — <strong>32,768 × 32,768 and beyond on commodity
+hardware</strong>, with peak memory bounded by one tile row, not the image.</p>
+<p>Other capture assets are supersampling wrappers capped by what the GPU can
+allocate in one texture. The one true tiler on GitHub is an Editor-only Unity
+Recorder plugin — and it does not solve post-processing across tile seams,
+which is the actually hard part. Photo Mode Pro does; the rules below are the
+engineering.</p>
+<h2 id="using-it">Using it<a class="headerlink" href="#using-it" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Runtime</strong> — Capture tab → the <strong>TILED</strong> row: 8K (7680×4320), 16K
+  (15360×8640) or 32K (30720×17280). The processing badge shows while the
+  grid renders; wall time, tile count and measured peak memory are logged.</li>
+<li><strong>Capture Studio / shot lists</strong> — tick <strong>Tiled</strong> on an output preset (or
+  just set dimensions beyond the GPU limit; the studio routes automatically).
+  Tiled outputs stream to PNG — EXR needs the whole frame in memory, so the
+  combination is reported rather than silently degraded.</li>
+<li><strong>Script</strong> — <code>PhotoModeTiledCapture.Capture(camera, adjustments, backend,
+  width, height, directory, fileName)</code> returns the path, tile count, wall
+  time and measured peak memory.</li>
+</ul>
+<h2 id="the-seam-rules">The seam rules<a class="headerlink" href="#the-seam-rules" title="Permanent link">¶</a></h2>
+<p>Screen-space post-processing is wrong at naive tile boundaries: a vignette
+evaluated per tile darkens every tile's edges; grain restarts its noise field
+at every seam; a depth-of-field kernel at a tile border blurs against nothing.
+Photo Mode Pro applies one rule per effect class:</p>
+<ol>
+<li><strong>Full-frame-UV effects</strong> (vignette, grain) are taken out of the pipeline
+   during tile renders and re-evaluated <strong>against full-frame coordinates</strong> in
+   a per-tile overlay pass — the falloff and the noise field are continuous
+   across seams <em>by construction</em>. The vignette uses the same falloff as the
+   pipeline's; grain uses the package's own full-frame noise field, so its
+   character differs marginally from the pipeline's texture-based grain.</li>
+<li><strong>Local-kernel effects</strong> (depth of field, bloom, sharpen) render with an
+   <strong>overlap margin sized from the effect's radius</strong> (64 px when depth of
+   field is active) and the margin is cropped away — every kernel sees real
+   context past the seam.</li>
+<li><strong>Effects that cannot be made seam-correct on a backend</strong> (a lens
+   distortion warps pixel positions per-frame and cannot be evaluated
+   per-tile) are <strong>disabled for tiled captures with a visible one-line
+   reason</strong> — never silently wrong.</li>
+</ol>
+<p>A regression test renders a tiled capture with strong vignette and grain and
+asserts pixel continuity across every seam, and a tiled 4×4 render is asserted
+to match a single-pass render of the same resolution within tolerance.</p>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">¶</a></h2>
+<ul>
+<li>Output is 8-bit RGBA PNG, written by the package's own scanline-streaming
+  encoder (pure Unity/BCL — no third-party code) so the full image never
+  exists in memory.</li>
+<li>Rendering pauses the game thread for the duration; a 32K capture takes on
+  the order of a minute depending on scene and disk.</li>
+<li>Motion-dependent effects (temporal AA) are not part of tile renders.</li>
+</ul>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/render-layers/"><span class="dir">Previous</span>Render Layers (AOV)</a><a class="next" href="../../docs/gallery/"><span class="dir">Next</span>Gallery</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#using-it">Using it</a></li><li class="h2"><a href="#the-seam-rules">The seam rules</a></li><li class="h2"><a href="#notes">Notes</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>DanMaxPublishing</h2>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
+      </div>
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../demo/">WebGL demo</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Documentation</h2>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt); full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

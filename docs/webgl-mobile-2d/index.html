@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>WebGL, Mobile &amp; 2D Games — Photo Mode Pro Documentation</title>
+<meta name="description" content="Version 1.1 extends Photo Mode Pro beyond desktop 3D: captures work in WebGL builds, the UI is usable with touch, and orthographic (2D) games get a photo…">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/webgl-mobile-2d/">
+<meta property="og:title" content="WebGL, Mobile &amp; 2D Games — Photo Mode Pro Documentation">
+<meta property="og:description" content="Version 1.1 extends Photo Mode Pro beyond desktop 3D: captures work in WebGL builds, the UI is usable with touch, and orthographic (2D) games get a photo…">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/webgl-mobile-2d/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/" aria-current="page">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main" tabindex="-1">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>WebGL, Mobile &amp; 2D Games</h1>
+
+<p>Version 1.1 extends Photo Mode Pro beyond desktop 3D: captures work in WebGL
+builds, the UI is usable with touch, and orthographic (2D) games get a photo
+mode that behaves like one.</p>
+<h2 id="webgl">WebGL<a class="headerlink" href="#webgl" title="Permanent link">¶</a></h2>
+<p>On WebGL there is no user-visible file system, so captures are delivered two
+ways at once:</p>
+<ul>
+<li><strong>Browser download</strong> — every captured photo is handed to the browser as a
+  regular file download the moment it is written. Tiled captures download too.</li>
+<li><strong>Persistent gallery</strong> — Unity's WebGL file system is backed by IndexedDB.
+  Photo Mode Pro flushes it after every write, so the in-game gallery (and your
+  saved looks) survive page reloads.</li>
+</ul>
+<p>What changes compared to desktop:</p>
+<ul>
+<li>The <em>save folder</em> row and the capture toast's <em>reveal in file browser</em>
+  action are hidden — there is no file browser to open. Everything else,
+  including render-layer EXR/PNG export and metadata sidecars, works the same
+  (layer files stay in the gallery's storage rather than downloading
+  individually).</li>
+<li>Super-sample and tiled resolutions are limited by the browser's GPU memory;
+  stay at or below 2× super-sampling for a typical WebGL build.</li>
+</ul>
+<p>No setup is required — the platform is detected at runtime.</p>
+<h2 id="mobile-touch">Mobile (touch)<a class="headerlink" href="#mobile-touch" title="Permanent link">¶</a></h2>
+<p>The UI and camera are drivable entirely by touch:</p>
+<ul>
+<li><strong>One-finger drag</strong> on the viewport looks around (in 2D it pans instead).</li>
+<li><strong>Pinch</strong> zooms (FOV in 3D, orthographic zoom in 2D).</li>
+<li><strong>Two-finger drag</strong> pans the camera.</li>
+<li>Panel controls (sliders, toggles, tabs) respond to taps as normal pointer
+  input; hit targets grow slightly when a touch screen is the active pointer.</li>
+</ul>
+<p>On narrow or portrait screens the hint-chip bar hides itself and the side
+panel clamps its width so the viewport stays usable. Touch input is additive:
+a connected gamepad or keyboard keeps working at the same time.</p>
+<p>Android is verified in-engine and in the Android emulator. iOS is expected to
+work through the same touch path but is not yet a supported claim — it is on
+the roadmap.</p>
+<h2 id="2d-orthographic-games">2D / orthographic games<a class="headerlink" href="#2d-orthographic-games" title="Permanent link">¶</a></h2>
+<p>When photo mode opens on an orthographic camera it adapts automatically —
+there is nothing to configure:</p>
+<ul>
+<li><strong>Pan instead of fly.</strong> Move input pans the image plane; pan speed tracks
+  the zoom level so framing feels consistent at any magnification. Look input
+  is ignored (a flat scene has no depth axis to swing) and roll still works
+  for dutch angles.</li>
+<li><strong>Zoom instead of FOV.</strong> The FOV slider relabels to <em>Zoom</em> and scales the
+  camera's orthographic size proportionally — lower is tighter, matching the
+  perspective slider's direction.</li>
+<li><strong>Orbit and the physical camera hide.</strong> Orbiting a flat scene only shows it
+  edge-on, and focal length/aperture have no meaning without a projection, so
+  both are hidden for the session.</li>
+</ul>
+<h3 id="hiding-2d-layers">Hiding 2D layers<a class="headerlink" href="#hiding-2d-layers" title="Permanent link">¶</a></h3>
+<p>Sorting layers cannot be culled with a camera mask, so Photo Mode Pro hides
+them by toggling renderers. List the sorting layer names you want the
+<em>Hide 2D Layers</em> toggle to affect in your <code>PhotoModeSettings</code> asset under
+<strong>Hidden Sorting Layer Names</strong> (for example a weather overlay or foreground
+parallax band). Every matching renderer's prior state is restored exactly on
+exit; if nothing in the scene matches, the toggle hides itself.</p>
+<p>The package ships with a small 2D demo scene (<code>PhotoMode2DDemo</code>) built
+entirely from generated sprites.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/theming/"><span class="dir">Previous</span>Theming the UI</a><a class="next" href="../../docs/integrations/"><span class="dir">Next</span>Integrations</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#webgl">WebGL</a></li><li class="h2"><a href="#mobile-touch">Mobile (touch)</a></li><li class="h2"><a href="#2d-orthographic-games">2D / orthographic games</a></li><li class="h3"><a href="#hiding-2d-layers">Hiding 2D layers</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>DanMaxPublishing</h2>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
+      </div>
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../demo/">WebGL demo</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Documentation</h2>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt); full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

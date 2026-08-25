@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Physical Camera — Photo Mode Pro Documentation</title>
+<meta name="description" content="Switch the Camera tab&#x27;s Physical Camera toggle on and the photo camera stops being a FOV slider and becomes a camera: focal length in millimeters on a real…">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/physical-camera/">
+<meta property="og:title" content="Physical Camera — Photo Mode Pro Documentation">
+<meta property="og:description" content="Switch the Camera tab&#x27;s Physical Camera toggle on and the photo camera stops being a FOV slider and becomes a camera: focal length in millimeters on a real…">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/physical-camera/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/" aria-current="page">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main" tabindex="-1">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Physical Camera</h1>
+
+<p>Switch the Camera tab's <strong>Physical Camera</strong> toggle on and the photo camera
+stops being a FOV slider and becomes a camera: focal length in millimeters on
+a real sensor, and an exposure triangle — f-stop, shutter speed, ISO — coupled
+the way a photographer expects. Unity's own physical camera properties drive
+exposure and depth of field <strong>under HDRP only</strong>; on URP and Built-in they are
+inert with respect to the post stack. Photo Mode Pro's model works on all
+three.</p>
+<h2 id="lens-and-sensor">Lens and sensor<a class="headerlink" href="#lens-and-sensor" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Focal Length</strong> (12–200 mm) and the <strong>sensor preset</strong> (Full Frame, APS-C,
+  Micro 4/3, Super 35, 16 mm) drive the field of view through real lens
+  geometry — 24 mm feels wide, 85 mm compresses a portrait, and the same lens
+  gets tighter on a crop sensor, exactly as it should.</li>
+<li>While the model is on, the FOV slider hides (the lens owns it); switch the
+  toggle off to return to direct FOV control.</li>
+</ul>
+<h2 id="the-exposure-triangle">The exposure triangle<a class="headerlink" href="#the-exposure-triangle" title="Permanent link">¶</a></h2>
+<p><strong>F-Stop</strong>, <strong>Shutter</strong> and <strong>ISO</strong> snap to the standard photographic stop
+sequences (f/0.7–f/16, 1/1000 s–1 s, ISO 100–6400) with a live <strong>EV</strong> readout.
+With <strong>Lock Exposure</strong> on (the default), the triangle is coupled: open the
+aperture two stops and the shutter compensates two stops the other way —
+constant exposure, different look. Each leg drives its photographic
+consequence:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>Drives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-stop</td>
+<td>Depth-of-field strength — the same public <code>Adjustments.Aperture</code> as always, so nothing breaks</td>
+</tr>
+<tr>
+<td>Shutter</td>
+<td>Motion-blur weight (where the pipeline offers the effect)</td>
+</tr>
+<tr>
+<td>ISO</td>
+<td>Film-grain intensity — base ISO is clean, ISO 6400 is gritty</td>
+</tr>
+<tr>
+<td>EV delta</td>
+<td>Exposure compensation when you unlock the triangle</td>
+</tr>
+</tbody>
+</table></div>
+<p>On pipelines that cannot express a coupling (the Built-in fallback has no
+depth of field, for example) the control stays visible and functional for the
+legs it can drive — reported through capabilities, never silently swallowed.</p>
+<ul>
+<li><strong>Blades</strong> shapes the bokeh via the aperture blade count where the pipeline
+  supports it (HDRP); the row hides elsewhere.</li>
+<li>On HDRP the photo camera itself runs in physical mode (focal length,
+  sensor, aperture, shutter, ISO and blade count on the camera), so HDRP's
+  own physical depth of field and exposure respond too.</li>
+</ul>
+<h2 id="exact-restore">Exact restore<a class="headerlink" href="#exact-restore" title="Permanent link">¶</a></h2>
+<p>The physical model only ever touches the photo camera — the clone that exists
+while photo mode is open. Your game's camera keeps its own properties,
+untouched, before, during and after; the model's state persists across photo
+sessions so your lens setup is still there next time.</p>
+<h2 id="scripting">Scripting<a class="headerlink" href="#scripting" title="Permanent link">¶</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">physical</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">controller</span><span class="p">.</span><span class="n">PhysicalCamera</span><span class="p">;</span>
+<span class="n">physical</span><span class="p">.</span><span class="n">Enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+<span class="n">physical</span><span class="p">.</span><span class="n">CaptureBaseEv</span><span class="p">();</span><span class="w">          </span><span class="c1">// lock the current exposure</span>
+<span class="n">physical</span><span class="p">.</span><span class="n">FocalLengthMm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">85f</span><span class="p">;</span>
+<span class="n">physical</span><span class="p">.</span><span class="n">SetAperture</span><span class="p">(</span><span class="mf">1.4f</span><span class="p">);</span><span class="w">        </span><span class="c1">// shutter compensates automatically</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">NotifyPhysicalCameraEdited</span><span class="p">();</span>
+</code></pre></div>
+<p><code>PhotoModeExposureTriangle</code> exposes the pure math (EV, compensation, stop
+snapping, lens geometry) if you want the relationships without the model.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/camera/"><span class="dir">Previous</span>Camera</a><a class="next" href="../../docs/relighting/"><span class="dir">Next</span>Runtime Relighting</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#lens-and-sensor">Lens and sensor</a></li><li class="h2"><a href="#the-exposure-triangle">The exposure triangle</a></li><li class="h2"><a href="#exact-restore">Exact restore</a></li><li class="h2"><a href="#scripting">Scripting</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>DanMaxPublishing</h2>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
+      </div>
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../demo/">WebGL demo</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Documentation</h2>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt); full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

@@ -26,7 +26,7 @@
   "name": "Photo Mode Pro",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Windows, macOS, Linux (Unity 2021.3 LTS or newer)",
-  "softwareVersion": "1.0.0",
+  "softwareVersion": "1.1.0",
   "description": "A AAA-style photo mode for Unity: pause the game, fly the camera, grade the shot, capture a supersampled PNG. URP, HDRP and Built-in from one prefab.",
   "image": "https://danmaxpublishing.github.io/assets/img/og-share.jpg",
   "url": "https://danmaxpublishing.github.io/photo-mode-pro/",
@@ -58,7 +58,7 @@
   <div class="hero-veil"></div>
   <div class="wrap center">
     <img class="product-mark" src="../assets/img/pmp-logo-mark.webp" alt="" width="76" height="76">
-    <p class="eyebrow" style="justify-content:center">Photo Mode Pro · v1.0.0</p>
+    <p class="eyebrow" style="justify-content:center">Photo Mode Pro · v1.1.0</p>
     <h1>One prefab. <em>Every pipeline.</em> <br>The photo mode your players expect.</h1>
     <p class="lead" style="margin-inline:auto">Press one button: the game pauses, a free
     camera takes over, a clean dark UI slides in, and a supersampled PNG lands on disk.
@@ -80,6 +80,48 @@
 
 <section>
   <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">New in 1.1</p>
+      <h2>Capture like an offline renderer, on any pipeline</h2>
+    </div>
+    <div class="grid grid-3 reveal-stagger" style="margin-bottom:56px">
+      <div class="card hoverable">
+        <h3>Relight the shot, live</h3>
+        <p>A six-light virtual rig players place while the game is paused: key, fill,
+        rim and practical presets in photometric units, orbit-and-aim gizmos, and a
+        scene dimmer so the new lighting reads. Everything restores exactly on exit.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>Export render layers</h3>
+        <p>Every capture can also write depth EXR, normals EXR, albedo, per-object ID
+        mattes with a JSON sidecar, and a clean-alpha pass. Unity documents this set
+        as HDRP-only; here it works on URP and Built-in too.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>Capture bigger than your GPU</h3>
+        <p>8K, 16K or 32K images rendered as tiles and streamed into one PNG.
+        Screen-space effects that would seam are suppressed with the reason shown,
+        and HDRP's auto-exposure is metered and locked so tiles match.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>A physical camera model</h3>
+        <p>Sensor presets, focal length, f-stop, shutter and ISO with real coupling:
+        stop down and the exposure compensates, slow the shutter and motion blur
+        follows, push ISO and grain rises. On HDRP it drives the native physical camera.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>An editor Capture Studio</h3>
+        <p>The same engine drives an editor window: bookmarks, shot lists across
+        resolutions and grades, and headless batch capture for CI. The screenshots on
+        this page came out of it.</p>
+      </div>
+      <div class="card hoverable">
+        <h3>Gallery, scrubbing, LUTs</h3>
+        <p>In-game gallery with reframe-to-shot, animation scrubbing while frozen,
+        RGB curves and an HSL qualifier, 24 LUT filters with .cube import and export,
+        histogram, focus peaking, zebras. WebGL, Android touch and 2D games included.</p>
+      </div>
+    </div>
     <div class="section-head">
       <p class="eyebrow">What you get</p>
       <h2>A feature players ask for, done properly</h2>

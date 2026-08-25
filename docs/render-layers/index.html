@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Render Layers (AOV Export) — Photo Mode Pro Documentation</title>
+<meta name="description" content="Beside every capture, Photo Mode Pro can export the render layers a compositor works with — depth, normals, albedo, object-ID mattes and alpha — as EXR and…">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/render-layers/">
+<meta property="og:title" content="Render Layers (AOV Export) — Photo Mode Pro Documentation">
+<meta property="og:description" content="Beside every capture, Photo Mode Pro can export the render layers a compositor works with — depth, normals, albedo, object-ID mattes and alpha — as EXR and…">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/render-layers/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/" aria-current="page">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main" tabindex="-1">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Render Layers (AOV Export)</h1>
+
+<p>Beside every capture, Photo Mode Pro can export the render layers a compositor
+works with — depth, normals, albedo, object-ID mattes and alpha — as EXR and
+PNG files. Unity itself ships arbitrary output variables (AOVs) <strong>HDRP-only</strong>;
+Photo Mode Pro brings the layer set to <strong>URP and the Built-in pipeline</strong>
+through its own capture path, with per-pipeline capability gating and zero
+changes to your renderer assets.</p>
+<h2 id="the-layers">The layers<a class="headerlink" href="#the-layers" title="Permanent link">¶</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>File</th>
+<th>Format</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Beauty</td>
+<td><code>photo.png</code></td>
+<td>PNG</td>
+<td>The normal graded capture.</td>
+</tr>
+<tr>
+<td>Depth</td>
+<td><code>photo_depth.exr</code></td>
+<td>32-bit float EXR</td>
+<td>Linear 0–1 view depth (1 = far plane).</td>
+</tr>
+<tr>
+<td>Normals</td>
+<td><code>photo_normal.exr</code></td>
+<td>16-bit half EXR</td>
+<td>World-space normals packed to 0–1, including material normal maps.</td>
+</tr>
+<tr>
+<td>Albedo</td>
+<td><code>photo_albedo.png</code></td>
+<td>PNG</td>
+<td>Unlit base color exactly as authored.</td>
+</tr>
+<tr>
+<td>Object IDs</td>
+<td><code>photo_id.png</code> + <code>photo_id_map.json</code></td>
+<td>PNG</td>
+<td>A distinct flat color per object, with a name→color sidecar.</td>
+</tr>
+<tr>
+<td>Alpha</td>
+<td><code>photo_alpha.png</code></td>
+<td>PNG</td>
+<td>The clean-alpha coverage of the shot as grayscale.</td>
+</tr>
+<tr>
+<td>Matte</td>
+<td><code>photo_matte.png</code></td>
+<td>PNG</td>
+<td>White-on-black selection matte by tag or layer mask (API / output presets).</td>
+</tr>
+<tr>
+<td>Motion Vectors</td>
+<td><code>photo_motion.exr</code></td>
+<td>16-bit half EXR</td>
+<td>HDRP only (Unity's AOV pass).</td>
+</tr>
+</tbody>
+</table></div>
+<p>Files are named from the beauty capture plus a layer suffix, with the same
+collision-safe counter naming as photos. Unity's EXR encoder writes
+single-part files, so layers are per-pass files by design — the naming keeps
+them grouped.</p>
+<h2 id="exporting">Exporting<a class="headerlink" href="#exporting" title="Permanent link">¶</a></h2>
+<p><strong>At runtime</strong> — Capture tab → <strong>Export Layers</strong>, then tick the layers you
+want. Unsupported layers on the active pipeline simply don't appear.</p>
+<p><strong>In the Capture Studio / shot lists</strong> — every output preset has a <em>Layers</em>
+mask (plus matte tag / layer-mask fields); "Render All" writes the layer set
+beside every shot in the matrix, headless runs included.</p>
+<p><strong>From script:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">LayerExportMask</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">PhotoModeRenderLayerMask</span><span class="p">.</span><span class="n">Depth</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">PhotoModeRenderLayerMask</span><span class="p">.</span><span class="n">Normal</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">PhotoModeRenderLayerMask</span><span class="p">.</span><span class="n">ObjectId</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">MatteTag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Player&quot;</span><span class="p">;</span><span class="w">      </span><span class="c1">// optional Matte layer selection</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">CapturePhoto</span><span class="p">();</span>
+</code></pre></div>
+<p><code>PhotoModeController.ActiveLayerCapabilities</code> reports what the active pipeline
+can produce.</p>
+<h2 id="in-the-compositor">In the compositor<a class="headerlink" href="#in-the-compositor" title="Permanent link">¶</a></h2>
+<p>The exported set is a standard multi-pass workflow — here is the classic
+routine in any node compositor (Nuke, Fusion, After Effects with plugins,
+Blender's compositor):</p>
+<ol>
+<li><strong>Relight from Normals + Depth.</strong> Feed <code>photo_normal.exr</code> into a relight
+   node (or compute <code>dot(N, L)</code> in an expression) to add a light that was
+   never in the scene; use <code>photo_depth.exr</code> to attenuate it by distance.</li>
+<li><strong>Depth-of-field in post.</strong> Drive a lens-blur node with
+   <code>photo_depth.exr</code> as the focus map — pick focus after the shot, at any
+   aperture, without re-rendering.</li>
+<li><strong>Pull a matte from Object IDs.</strong> Keying the exact color listed in
+   <code>photo_id_map.json</code> isolates one object; grade the subject and the
+   background separately, or cut the subject onto a new backdrop with
+   <code>photo_alpha.png</code>.</li>
+<li><strong>Rebuild the grade from Albedo.</strong> <code>photo_albedo.png</code> is the texture
+   color before lighting — divide the beauty by it for a lighting-only pass,
+   or use it as an ID-independent base for restyling.</li>
+</ol>
+<h2 id="per-pipeline-notes">Per-pipeline notes<a class="headerlink" href="#per-pipeline-notes" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>URP / Built-in</strong> — depth, normals, albedo, object IDs, alpha and mattes
+  all ship. The capture path executes directly on the graphics device: no
+  renderer feature is installed and your URP renderer asset is untouched
+  (byte-identical, asserted by test).</li>
+<li><strong>HDRP</strong> — albedo, normals, depth and motion vectors go through Unity's own
+  AOV pipeline; object IDs and mattes use the shared capture path. Alpha is
+  gated (HDRP has no clean-alpha capture, matching transparent capture).</li>
+<li>Albedo and normals read the standard material properties (<code>_MainTex</code> /
+  <code>_BaseMap</code>, <code>_BumpMap</code>); heavily custom shaders fall back to white albedo /
+  geometric normals for those objects.</li>
+</ul>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/capture-studio/"><span class="dir">Previous</span>Capture Studio &amp; Shot Lists</a><a class="next" href="../../docs/tiled-capture/"><span class="dir">Next</span>Tiled Capture</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#the-layers">The layers</a></li><li class="h2"><a href="#exporting">Exporting</a></li><li class="h2"><a href="#in-the-compositor">In the compositor</a></li><li class="h2"><a href="#per-pipeline-notes">Per-pipeline notes</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>DanMaxPublishing</h2>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
+      </div>
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../demo/">WebGL demo</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Documentation</h2>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt); full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

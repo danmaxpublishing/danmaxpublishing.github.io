@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>LUT Filters, Looks &amp; .cube Export — Photo Mode Pro Documentation</title>
+<meta name="description" content="The Presets tab carries 24 LUT filters — from Teal &amp; Orange and Bleach Bypass to Cyber Neon and Frostbite — with an intensity slider to dial each one in…">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/luts-and-looks/">
+<meta property="og:title" content="LUT Filters, Looks &amp; .cube Export — Photo Mode Pro Documentation">
+<meta property="og:description" content="The Presets tab carries 24 LUT filters — from Teal &amp; Orange and Bleach Bypass to Cyber Neon and Frostbite — with an intensity slider to dial each one in…">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/luts-and-looks/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/" aria-current="page">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main" tabindex="-1">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>LUT Filters, Looks &amp; .cube Export</h1>
+
+<h2 id="the-24-built-in-filters">The 24 built-in filters<a class="headerlink" href="#the-24-built-in-filters" title="Permanent link">¶</a></h2>
+<p>The Presets tab carries 24 LUT filters — from Teal &amp; Orange and Bleach Bypass
+to Cyber Neon and Frostbite — with an intensity slider to dial each one in.
+They are not hand-painted textures: every filter is an adjustment recipe baked
+through the package's own grade pipeline into a 33³ LUT at build time, and they
+apply through the pipeline-independent presenter, so a filter looks the same on
+URP, HDRP and Built-in.</p>
+<h2 id="custom-luts">Custom LUTs<a class="headerlink" href="#custom-luts" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>In the editor</strong> — create <em>Assets → Create → Photo Mode Pro → LUT Filter</em>
+  and assign any LUT strip texture (width = size², height = size). It appears
+  in the filter list automatically.</li>
+<li><strong>At runtime</strong> — drop <code>.cube</code> files or strip PNGs into the <code>LUTs</code> folder
+  next to your photos and press <strong>IMPORT LUTS</strong>: industry-standard cube files
+  from DaVinci Resolve, Premiere or anywhere else load directly.</li>
+</ul>
+<h2 id="exporting-your-look-as-cube">Exporting your look as .cube<a class="headerlink" href="#exporting-your-look-as-cube" title="Permanent link">¶</a></h2>
+<p><strong>EXPORT .CUBE</strong> bakes the current adjustment chain — exposure, contrast,
+curves, tint, balance, everything color — into a 33³ LUT and writes an
+industry-standard <code>.cube</code> file to the <code>LUTs</code> folder. Import is table stakes;
+the export is the engineering half: grade a shot in photo mode, then carry
+that exact look into DaVinci, Premiere, OBS or another Unity project.</p>
+<p>A round-trip test guards the fidelity: bake → write → re-parse → applying the
+parsed LUT reproduces the baked look exactly at every grid point.</p>
+<h2 id="my-looks-runtime-user-presets">My Looks (runtime user presets)<a class="headerlink" href="#my-looks-runtime-user-presets" title="Permanent link">¶</a></h2>
+<p>Players can save their own looks — the full adjustment set plus the relight
+rig — name them, reload them and delete them from the Presets tab. Looks are
+plain JSON files in a <code>Looks</code> folder beside the photos; the files are the
+export format. Copy a <code>.look.json</code> to another machine or project and it loads
+as-is; the LUT filter travels by name.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/presets/"><span class="dir">Previous</span>Presets</a><a class="next" href="../../docs/capture/"><span class="dir">Next</span>Capture</a></nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#the-24-built-in-filters">The 24 built-in filters</a></li><li class="h2"><a href="#custom-luts">Custom LUTs</a></li><li class="h2"><a href="#exporting-your-look-as-cube">Exporting your look as .cube</a></li><li class="h2"><a href="#my-looks-runtime-user-presets">My Looks (runtime user presets)</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>DanMaxPublishing</h2>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
+      </div>
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../demo/">WebGL demo</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Documentation</h2>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt); full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>
