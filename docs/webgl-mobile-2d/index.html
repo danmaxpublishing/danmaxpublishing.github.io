@@ -52,14 +52,19 @@
 builds, the UI is usable with touch, and orthographic (2D) games get a photo
 mode that behaves like one.</p>
 <h2 id="webgl">WebGL<a class="headerlink" href="#webgl" title="Permanent link">¶</a></h2>
-<p>On WebGL there is no user-visible file system, so captures are delivered two
-ways at once:</p>
+<p>On WebGL there is no user-visible file system, so captures land in the
+<strong>persistent in-game gallery</strong>: Unity's WebGL file system is backed by
+IndexedDB, and Photo Mode Pro flushes it after every write <em>and every
+delete</em>, so the gallery (and your saved looks) survive page reloads.</p>
+<p>Downloading is explicit, from the gallery, when the player wants it:</p>
 <ul>
-<li><strong>Browser download</strong> — every captured photo is handed to the browser as a
-  regular file download the moment it is written. Tiled captures download too.</li>
-<li><strong>Persistent gallery</strong> — Unity's WebGL file system is backed by IndexedDB.
-  Photo Mode Pro flushes it after every write, so the in-game gallery (and your
-  saved looks) survive page reloads.</li>
+<li><strong>Download button</strong> (WebGL only) — with photos selected (or none selected
+  for everything on the device) the gallery shows <strong>DOWNLOAD ALL</strong> /
+  <strong>DOWNLOAD X IMAGES</strong>. Exactly one image downloads as a plain PNG; several
+  download as a single zip named <code>PhotoModePro_Captures_&lt;timestamp&gt;.zip</code>.</li>
+<li><strong>Multi-select</strong> — long-press any thumbnail for one second to enter
+  selection mode, then click to tick more photos; Esc, CANCEL or unticking
+  the last photo leaves selection mode.</li>
 </ul>
 <p>What changes compared to desktop:</p>
 <ul>

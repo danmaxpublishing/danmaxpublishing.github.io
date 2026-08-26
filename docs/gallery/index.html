@@ -53,11 +53,20 @@ grid with paging, favorites, newest/oldest/favorites-first sorting, a
 fullscreen viewer, and per-photo capture metadata. Fully gamepad-navigable
 like every other tab.</p>
 <ul>
-<li><strong>Open full-size</strong> — activate a selected thumbnail to view the photo
-  fullscreen; close with the confirm/cancel button or a click.</li>
+<li><strong>Open full-size</strong> — click a thumbnail once to select it, again to view it
+  fullscreen; the viewer pages with prev/next, shows an index counter and the
+  photo's filename and capture time, and closes with CLOSE or Esc.</li>
+<li><strong>Multi-select</strong> — long-press any thumbnail for one second to enter
+  selection mode (the held photo is ticked); click toggles further photos;
+  Esc, CANCEL or unticking the last photo exits.</li>
 <li><strong>Favorite / Delete</strong> — favorites sort to the front in FAVS mode; deleting
   removes the photo, its metadata and any exported render layers that belong
-  to it.</li>
+  to it. Every delete is two-step: the first press arms the button as an
+  inline confirmation with a visible 3.5-second countdown, the second press
+  executes — there is no way to lose photos to a single slip.</li>
+<li><strong>Adaptive grid</strong> — thumbnails keep each photo's true aspect ratio in a
+  three-column grid (rows size to their tallest cell, 12 photos per page),
+  so portrait, square and ultrawide shots all read correctly.</li>
 <li><strong>Go To Shot</strong> — every capture stores its camera position, rotation and
   lens in a sidecar; one press re-frames the live photo camera to exactly
   where a saved shot was taken, ready to re-shoot with a different look.</li>
