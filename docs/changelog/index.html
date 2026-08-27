@@ -62,6 +62,10 @@
   render: unsupported sliders are disabled with an explanatory notice.</li>
 <li>WebGL: deleting a photo now persists across page reloads (the gallery
   flushes IndexedDB on delete).</li>
+<li>Dragging a light's on-screen marker now keeps the marker under the cursor:
+  the pointer is projected onto the light's orbit sphere instead of mapping
+  raw pixel deltas to angles (whose screen direction flipped with the camera
+  view, making markers orbit away from the mouse).</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">¶</a></h3>
 <ul>
