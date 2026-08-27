@@ -65,7 +65,10 @@
 <li>Dragging a light's on-screen marker now keeps the marker under the cursor:
   the pointer is projected onto the light's orbit sphere instead of mapping
   raw pixel deltas to angles (whose screen direction flipped with the camera
-  view, making markers orbit away from the mouse).</li>
+  view, making markers orbit away from the mouse). The drag also locks onto
+  the hemisphere the light starts on, so grazing the sphere's silhouette -
+  common when repositioning a light from above - no longer teleports the
+  light across its orbit (often into the ground) mid-drag.</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">¶</a></h3>
 <ul>
