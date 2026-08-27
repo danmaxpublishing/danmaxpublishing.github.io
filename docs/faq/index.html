@@ -53,7 +53,7 @@
 <a href="../upgrade-guide/">Upgrade Guide</a>.</p>
 <h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">¶</a></h2>
 <h3 id="how-long-does-it-take-to-add-photo-mode-to-my-game">How long does it take to add photo mode to my game?<a class="headerlink" href="#how-long-does-it-take-to-add-photo-mode-to-my-game" title="Permanent link">¶</a></h3>
-<p>About 15 minutes. Drag the generated <code>PhotoModePro.prefab</code> into your scene,
+<p>About 10 minutes. Drag the generated <code>PhotoModePro.prefab</code> into your scene,
 add your HUD canvases and player root(s) on the <code>PhotoModeController</code>
 component, and press your toggle key in Play mode. The
 <a href="../quick-start/">Quick Start</a> walks through every step.</p>
@@ -92,7 +92,7 @@ missing TMP essentials) before they cost you time.</p>
 <p>By default yes: <code>timeScale = 0</code> with audio paused, and everything restored
 exactly on exit. A non-pausing "unscaled" mode is available on the settings
 asset for games that must keep simulating. Audio pausing is controlled
-separately via <code>PhotoModeSettings.audioPauseMode</code>
+separately via <code>PhotoModeSettings.AudioPauseMode</code>
 (<code>AudioListenerPause</code> or <code>None</code> for mixer-snapshot-driven games).</p>
 <h2 id="compatibility">Compatibility<a class="headerlink" href="#compatibility" title="Permanent link">¶</a></h2>
 <h3 id="which-unity-versions-and-render-pipelines-are-supported">Which Unity versions and render pipelines are supported?<a class="headerlink" href="#which-unity-versions-and-render-pipelines-are-supported" title="Permanent link">¶</a></h3>
@@ -134,7 +134,7 @@ Setup Wizard includes a Cinemachine check. See
 <h3 id="where-are-photos-saved">Where are photos saved?<a class="headerlink" href="#where-are-photos-saved" title="Permanent link">¶</a></h3>
 <p><code>{Application.persistentDataPath}/Photos</code> by default, as timestamped,
 collision-safe PNGs. Override the folder via
-<code>PhotoModeSettings.customSavePath</code>. In-game, clicking the capture toast (or
+<code>PhotoModeSettings.CustomSavePath</code>. In-game, clicking the capture toast (or
 the save-path row on the CAPTURE tab) opens the folder (on Windows with the
 new photo selected). See <a href="../capture/">Capture</a>.</p>
 <h3 id="why-is-the-transparent-bg-toggle-missing-on-hdrp">Why is the Transparent BG toggle missing on HDRP?<a class="headerlink" href="#why-is-the-transparent-bg-toggle-missing-on-hdrp" title="Permanent link">¶</a></h3>

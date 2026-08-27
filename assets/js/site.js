@@ -253,6 +253,11 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
         img.alt = altFor(tab);
         img.classList.remove("fading");
       };
+      loader.onerror = function () {
+        // Failed load (offline, dropped connection): unhide the current image
+        // instead of leaving the stage faded out with no recovery.
+        if (token === loadToken) img.classList.remove("fading");
+      };
       loader.src = src;
     }
 
@@ -442,6 +447,10 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     });
 
     searchBox.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        setResultsOpen(false);
+        return;
+      }
       var links = resultsEl.querySelectorAll("a");
       if (!links.length) return;
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -460,8 +469,6 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       } else if (e.key === "Enter" && selIdx >= 0) {
         e.preventDefault();
         links[selIdx].click();
-      } else if (e.key === "Escape") {
-        setResultsOpen(false);
       }
     });
 

@@ -14,7 +14,7 @@
   --ink: #e9eef7;
   --ink-strong: #ffffff;
   --muted: #92a2bc;
-  --muted-2: #6b7c98;
+  --muted-2: #7b8dab;
   --cyan: #22d3ee;
   --cyan-soft: rgba(34, 211, 238, 0.12);
   --cyan-line: rgba(34, 211, 238, 0.35);
@@ -22,7 +22,7 @@
   --orange-soft: rgba(249, 115, 22, 0.12);
   --ok: #34d399;
   --warn: #fbbf24;
-  --no: #5c6c86;
+  --no: #7e8fa9;
 
   /* Type */
   --font-sans: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system,
@@ -1513,7 +1513,8 @@ details.qa .qa-body p + p {
   font-family: var(--font-sans);
 }
 
-pre:hover .copy-btn {
+pre:hover .copy-btn,
+.copy-btn:focus-visible {
   opacity: 1;
 }
 

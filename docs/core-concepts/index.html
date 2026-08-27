@@ -70,8 +70,8 @@ in order:</p>
 <ol>
 <li>Records the current <code>Time.timeScale</code>, <code>AudioListener.pause</code>, cursor visibility,
    cursor lock state and the main camera's enabled flag.</li>
-<li>Pauses the game per <code>PhotoModeSettings.pauseMode</code> (<code>TimeScaleZero</code> by default,
-   or <code>Unscaled</code> to keep the game running) and audio per <code>audioPauseMode</code>.</li>
+<li>Pauses the game per <code>PhotoModeSettings.PauseMode</code> (<code>TimeScaleZero</code> by default,
+   or <code>Unscaled</code> to keep the game running) and audio per <code>AudioPauseMode</code>.</li>
 <li>Clones the camera tagged <code>MainCamera</code> into a free photo camera (carrying over
    URP/HDRP camera data) and disables the original.</li>
 <li>Creates the effects backend for the active render pipeline and applies the
@@ -107,32 +107,32 @@ every image tweak in <strong>natural units</strong>. No pipeline types anywhere:
 </thead>
 <tbody>
 <tr>
-<td><code>exposureEv</code></td>
+<td><code>ExposureEv</code></td>
 <td>EV, −3 .. +3</td>
 <td>0</td>
 </tr>
 <tr>
-<td><code>contrast</code>, <code>saturation</code>, <code>temperature</code></td>
+<td><code>Contrast</code>, <code>Saturation</code>, <code>Temperature</code></td>
 <td>−100 .. +100</td>
 <td>0</td>
 </tr>
 <tr>
-<td><code>vignette</code>, <code>filmGrain</code></td>
+<td><code>Vignette</code>, <code>FilmGrain</code></td>
 <td>0 .. 1</td>
 <td>0</td>
 </tr>
 <tr>
-<td><code>depthOfFieldEnabled</code></td>
+<td><code>DepthOfFieldEnabled</code></td>
 <td>bool</td>
 <td>off</td>
 </tr>
 <tr>
-<td><code>focusDistance</code></td>
+<td><code>FocusDistance</code></td>
 <td>meters</td>
 <td>10</td>
 </tr>
 <tr>
-<td><code>aperture</code></td>
+<td><code>Aperture</code></td>
 <td>f-number (applied clamped to f/0.7–f/16)</td>
 <td>f/5.6</td>
 </tr>
@@ -148,7 +148,7 @@ is still there. If you write fields from script, call
 implementations ship in the box: URP volume, HDRP volume (physical-camera depth of
 field), Post Processing Stack v2, and a minimal Built-in fallback shader.
 Selection is automatic from the active render pipeline; force one via
-<code>PhotoModeSettings.backendOverride</code> if you must.</p>
+<code>PhotoModeSettings.BackendOverride</code> if you must.</p>
 <p>Each backend reports <code>EffectCapabilities</code> flags (<code>Exposure</code>, <code>Contrast</code>,
 <code>Saturation</code>, <code>Temperature</code>, <code>Vignette</code>, <code>Grain</code>, <code>DepthOfField</code>,
 <code>TransparentCapture</code>). <strong>The UI hides any control whose capability is missing</strong>, so
@@ -172,8 +172,8 @@ in; <code>ApplyPreset(null)</code> resets to the neutral "Clean" state. See
 <a href="../presets/">Presets</a>.</p>
 <h2 id="the-ui-prefab-and-theme">The UI prefab and theme<a class="headerlink" href="#the-ui-prefab-and-theme" title="Permanent link">¶</a></h2>
 <p>The photo mode UI is an ordinary UGUI prefab (<code>PhotoModeUIController</code>) that the
-controller instantiates on enter and destroys on exit. It has four categories
-(Camera, Effects, Presets, Capture) cycled with <strong>Q/E</strong> or <strong>LB/RB</strong>, full
+controller instantiates on enter and destroys on exit. It has six categories
+(Camera, Light, Effects, Presets, Capture, Gallery) cycled with <strong>Q/E</strong> or <strong>LB/RB</strong>, full
 keyboard/gamepad navigation, and a single row of hotkey hint chips along the
 bottom edge of the screen. Every color, sprite, font, motion parameter and UI
 sound comes from one <code>PhotoModeUITheme</code> asset; swap it to reskin everything.
@@ -185,7 +185,7 @@ anti-aliasing and dynamic resolution disabled for the shot so the output is
 artifact-free and exactly the requested size. The result is read back with
 <code>AsyncGPUReadback</code> where the platform supports it, encoded to PNG with a
 timestamped, collision-safe file name, and saved to
-<code>{persistentDataPath}/Photos</code> (or <code>PhotoModeSettings.customSavePath</code>). A
+<code>{persistentDataPath}/Photos</code> (or <code>PhotoModeSettings.CustomSavePath</code>). A
 thumbnail toast confirms the shot, and <code>OnPhotoCaptured(path, thumbnail)</code> fires
 for your own code. Heavy supersampled captures show a "PROCESSING…" badge that
 never appears in the photo. Full details in <a href="../capture/">Capturing photos</a>;

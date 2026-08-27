@@ -215,7 +215,7 @@ every render pipeline, at runtime and in the editor.</p>
 </ul>
 <h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">¶</a></h3>
 <ul>
-<li><code>PhotoModeAdjustments.ApertureMin</code>/<code>ApertureMax</code> constants changed from 1/32 to
+<li><code>PhotoModeAdjustments.APERTURE_MIN</code>/<code>APERTURE_MAX</code> constants changed from 1/32 to
   <strong>0.7/16</strong> (see the aperture fix above). Existing presets need no action: values
   outside the range clamp when applied.</li>
 <li>Additive scene loads no longer auto-close photo mode (streamed chunks are
@@ -230,7 +230,7 @@ every render pipeline, at runtime and in the editor.</p>
   2021.3 LTS; the package is verified on 2021.3, 2022.3 and 6000.3, on URP 12/14/17,
   Built-in (PPv2 and fallback) and HDRP, with the new Input System, the legacy
   Input Manager and Active Input Handling = Both.</li>
-<li><code>PhotoModeSettings.audioPauseMode</code> (<code>AudioPauseMode.AudioListenerPause</code> /
+<li><code>PhotoModeSettings.AudioPauseMode</code> (<code>AudioPauseMode.AudioListenerPause</code> /
   <code>AudioPauseMode.None</code>): with <code>None</code> the package never touches audio, so
   mixer-snapshot-based games can drive their own transitions from the enter/exit
   events. <strong>Migration note:</strong> this replaces the <code>pauseAudio</code> bool; projects that
@@ -299,13 +299,13 @@ every render pipeline, at runtime and in the editor.</p>
   checkmark. Mouse clicks clear the EventSystem selection, so the focus ring
   appears only during keyboard/gamepad navigation (and sliders now show it).</li>
 <li>Wheel zoom updates the FOV slider and readout live (two-way sync; roll too).</li>
-<li>The FOV slider range follows <code>PhotoModeSettings.minFov/maxFov</code> instead of the
+<li>The FOV slider range follows <code>PhotoModeSettings.MinFov/MaxFov</code> instead of the
   hardcoded 10–120.</li>
 <li>The Focus Dist slider uses a logarithmic mapping over 0.1–100 m (half the
   travel covers the visibly-focus-pulling 0.1–3 m); the readout stays in meters.</li>
 <li>Focus Dist and Aperture rows hide while Depth of Field is off.</li>
 <li>HDRP: Focus Dist and Aperture sliders now work — FOV smoothing was silently
-  resetting the physical camera every frame (<code>fieldOfView</code> writes); the camera
+  resetting the physical camera every frame (<code>FieldOfView</code> writes); the camera
   is now driven via <code>focalLength</code> while physical properties are in use.</li>
 <li>Capture feedback (white flash, shutter sound, thumbnail toast) is exempt from
   Hide UI on every pipeline: the root canvas stays enabled and only the chrome
@@ -316,7 +316,7 @@ every render pipeline, at runtime and in the editor.</p>
   PPv2 look) and PPv2 vignette response is boosted toward the URP look.</li>
 <li>The demo character no longer scale-pops when jumping or after Hide Player:
   the animator now uses de-scaled copies of the imported clips.</li>
-<li>Sprint (Shift) now multiplies Z/C roll speed by the same <code>sprintMultiplier</code>
+<li>Sprint (Shift) now multiplies Z/C roll speed by the same <code>SprintMultiplier</code>
   as movement.</li>
 </ul>
 <h3 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">¶</a></h3>
@@ -351,7 +351,7 @@ every render pipeline, at runtime and in the editor.</p>
   whole categories — for unsupported effects; gamepad navigation never lands on
   a dead control.</li>
 <li><strong>Backend selection</strong>: automatic detection from the active render pipeline
-  asset, with a manual <code>PhotoModeSettings.backendOverride</code>
+  asset, with a manual <code>PhotoModeSettings.BackendOverride</code>
   (<code>Auto</code>/<code>Urp</code>/<code>Hdrp</code>/<code>PostProcessingV2</code>/<code>BuiltInFallback</code>). An unavailable
   forced backend logs one warning and falls back to Auto.</li>
 <li><code>package.json</code> (<code>com.danmax.photomodepro</code>) so the asset folder can be consumed

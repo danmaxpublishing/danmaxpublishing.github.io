@@ -72,7 +72,7 @@ is frozen) and allocates nothing per frame.</p>
 </table></div>
 <p>Switch in the UI's <strong>Camera</strong> tab (Fly / Orbit buttons) or from script. Switching
 preserves the current framing. The starting mode comes from
-<code>PhotoModeSettings.defaultCameraMode</code>.</p>
+<code>PhotoModeSettings.DefaultCameraMode</code>.</p>
 <h2 id="controls">Controls<a class="headerlink" href="#controls" title="Permanent link">¶</a></h2>
 <div class="table-scroll"><table>
 <thead>
@@ -113,10 +113,10 @@ preserves the current framing. The starting mode comes from
 <p>Notes:</p>
 <ul>
 <li><strong>Sprint</strong> multiplies both move speed and roll speed by
-  <code>PhotoModeSettings.sprintMultiplier</code>.</li>
+  <code>PhotoModeSettings.SprintMultiplier</code>.</li>
 <li><strong>Wheel zoom</strong> only acts when the pointer is <em>not</em> over the UI (over the side
   panel the wheel scrolls the panel). It moves the FOV slider live, two-way.</li>
-<li>The FOV slider range follows <code>PhotoModeSettings.minFov</code> / <code>maxFov</code>
+<li>The FOV slider range follows <code>PhotoModeSettings.MinFov</code> / <code>MaxFov</code>
   (10–120° by default).</li>
 </ul>
 <h2 id="limits-sphere-clamp-and-collision">Limits: sphere clamp and collision<a class="headerlink" href="#limits-sphere-clamp-and-collision" title="Permanent link">¶</a></h2>
@@ -130,19 +130,19 @@ preserves the current framing. The starting mode comes from
 </thead>
 <tbody>
 <tr>
-<td><code>maxDistance</code></td>
+<td><code>MaxDistance</code></td>
 <td>Max distance from the activation point, in meters (sphere clamp). Default 15; <code>0</code> = unlimited.</td>
 </tr>
 <tr>
-<td><code>enableCollision</code></td>
+<td><code>EnableCollision</code></td>
 <td>Sphere-cast the camera against geometry so it cannot clip through walls. Off by default.</td>
 </tr>
 <tr>
-<td><code>collisionRadius</code></td>
+<td><code>CollisionRadius</code></td>
 <td>Radius of that sphere cast (default 0.2 m).</td>
 </tr>
 <tr>
-<td><code>collisionMask</code></td>
+<td><code>CollisionMask</code></td>
 <td>Layers the camera collides with.</td>
 </tr>
 </tbody>
@@ -163,7 +163,7 @@ mode is active, and <code>null</code> otherwise:</p>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cam</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">cam</span><span class="p">.</span><span class="n">Mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeCameraMode</span><span class="p">.</span><span class="n">Orbit</span><span class="p">;</span><span class="w">  </span><span class="c1">// or call cam.SetMode(...)</span>
-<span class="w">    </span><span class="n">cam</span><span class="p">.</span><span class="n">Fov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">35f</span><span class="p">;</span><span class="w">                          </span><span class="c1">// clamped to settings.minFov..maxFov</span>
+<span class="w">    </span><span class="n">cam</span><span class="p">.</span><span class="n">Fov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">35f</span><span class="p">;</span><span class="w">                          </span><span class="c1">// clamped to settings.MinFov..MaxFov</span>
 <span class="w">    </span><span class="n">cam</span><span class="p">.</span><span class="n">Roll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10f</span><span class="p">;</span><span class="w">                         </span><span class="c1">// degrees, wrapped to -180..180</span>
 <span class="w">    </span><span class="n">cam</span><span class="p">.</span><span class="n">MoveSpeed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">12f</span><span class="p">;</span><span class="w">                    </span><span class="c1">// meters/second, min 0.1</span>
 
@@ -176,11 +176,11 @@ need to read its pose or projection.</p>
 <div class="admonition warning">
 <p class="admonition-title">Physical cameras (HDRP)</p>
 <p>While the camera uses physical properties, the controller drives zoom via
-<code>focalLength</code> instead of <code>fieldOfView</code>. Writing <code>fieldOfView</code> would silently
+<code>focalLength</code> instead of <code>FieldOfView</code>. Writing <code>FieldOfView</code> would silently
 switch the camera back to non-physical mode and break HDRP's depth of field.
 Use the <code>Fov</code> property and let the controller pick the right path.</p>
 </div>
-<p>Position and rotation are smoothed exponentially (<code>PhotoModeSettings.smoothing</code>,
+<p>Position and rotation are smoothed exponentially (<code>PhotoModeSettings.Smoothing</code>,
 <code>0</code> disables smoothing), so script writes to <code>Fov</code>/<code>Roll</code> ease in rather than
 snapping.</p>
 <p>Related: <a href="../effects/">Image adjustments</a> ·

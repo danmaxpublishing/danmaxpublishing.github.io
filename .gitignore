@@ -2,3 +2,5 @@ Thumbs.db
 .DS_Store
 *.pyc
 __pycache__/
+Logs/
+TASK.md

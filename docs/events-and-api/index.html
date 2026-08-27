@@ -134,7 +134,7 @@ on the exit frame. <code>ExitedThisFrame</code> is true only during that single 
 <h2 id="audio-mixer-snapshots-instead-of-audiolistenerpause">Audio: mixer snapshots instead of <code>AudioListener.pause</code><a class="headerlink" href="#audio-mixer-snapshots-instead-of-audiolistenerpause" title="Permanent link">¶</a></h2>
 <p>By default photo mode sets <code>AudioListener.pause</code> on enter and restores the prior
 value exactly on exit. If your game drives audio through mixer snapshots, set
-<code>PhotoModeSettings.audioPauseMode</code> to <code>AudioPauseMode.None</code> (the package then
+<code>PhotoModeSettings.AudioPauseMode</code> to <code>AudioPauseMode.None</code> (the package then
 never touches audio) and transition in your own handlers:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine.Audio</span><span class="p">;</span>

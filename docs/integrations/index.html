@@ -112,10 +112,10 @@ axes, which also drive camera movement. See the
 <a href="../support-matrix/">support matrix</a>.</p>
 </div>
 <p>Key and gamepad bindings live on the <a href="../core-concepts/">settings asset</a>
-(<code>toggleKey</code>/<code>toggleButton</code>, <code>captureKey</code>/<code>captureButton</code>,
-<code>hideUiKey</code>/<code>hideUiButton</code>).</p>
+(<code>ToggleKey</code>/<code>ToggleButton</code>, <code>CaptureKey</code>/<code>CaptureButton</code>,
+<code>HideUiKey</code>/<code>HideUiButton</code>).</p>
 <h2 id="audio">Audio<a class="headerlink" href="#audio" title="Permanent link">¶</a></h2>
-<p><code>PhotoModeSettings.audioPauseMode</code> picks the strategy:</p>
+<p><code>PhotoModeSettings.AudioPauseMode</code> picks the strategy:</p>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -186,7 +186,7 @@ machine:</p>
   use the <code>ExitedThisFrame</code> guard; see
   <a href="../events-and-api/">Events &amp; API</a>.</li>
 <li><strong>Hide your HUD:</strong> add your HUD canvases to the controller's
-  <strong>Game Ui Canvases</strong> list (or tag them and set <code>gameUiTag</code>) so photo mode can
+  <strong>Game Ui Canvases</strong> list (or tag them and set <code>GameUiTag</code>) so photo mode can
   hide them; they are restored exactly on exit.</li>
 <li><strong>Scene changes:</strong> replacing or unloading a scene while photo mode is open
   auto-closes it cleanly, so loading screens and level transitions need no special

@@ -55,7 +55,7 @@ thumbnail toast confirms it.</p>
 <h2 id="supersampling">Supersampling<a class="headerlink" href="#supersampling" title="Permanent link">¶</a></h2>
 <p>The <strong>Capture</strong> tab offers <strong>1× / 2× / 4×</strong> output resolution
 (<code>PhotoModeController.Supersample</code>, default from
-<code>PhotoModeSettings.defaultSupersample</code>). A 4× capture of a 1080p view renders at
+<code>PhotoModeSettings.DefaultSupersample</code>). A 4× capture of a 1080p view renders at
 7680×4320. Temporal anti-aliasing and dynamic resolution are disabled for the
 duration of every capture, so the output is artifact-free and exactly the
 requested size.</p>
@@ -79,11 +79,11 @@ synchronous fallback elsewhere.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>PhotoModeSettings.customSavePath</code> empty (default)</td>
+<td><code>PhotoModeSettings.CustomSavePath</code> empty (default)</td>
 <td><code>{Application.persistentDataPath}/Photos</code></td>
 </tr>
 <tr>
-<td><code>customSavePath</code> set</td>
+<td><code>CustomSavePath</code> set</td>
 <td>that directory, used verbatim</td>
 </tr>
 </tbody>
@@ -127,17 +127,17 @@ useful for compositing screenshots over other art.</p>
 <tr>
 <td>Hide Game UI</td>
 <td>Capture tab</td>
-<td>Hides the canvases registered on the controller (<code>GameUiCanvases</code> list + <code>gameUiTag</code>). On by default when <code>autoHideGameUi</code> is set.</td>
+<td>Hides the canvases registered on the controller (<code>GameUiCanvases</code> list + <code>GameUiTag</code>). On by default when <code>AutoHideGameUi</code> is set.</td>
 </tr>
 <tr>
 <td>Hide Player</td>
 <td>Capture tab</td>
-<td>Disables the renderers of the registered player objects (<code>PlayerObjects</code> list + <code>playerTag</code>). Animator/physics state is untouched, so unhiding never pops.</td>
+<td>Disables the renderers of the registered player objects (<code>PlayerObjects</code> list + <code>PlayerTag</code>). Animator/physics state is untouched, so unhiding never pops.</td>
 </tr>
 <tr>
 <td>Hide Layers</td>
 <td>Capture tab</td>
-<td>Removes <code>PhotoModeSettings.hiddenLayers</code> from the photo camera's culling mask.</td>
+<td>Removes <code>PhotoModeSettings.HiddenLayers</code> from the photo camera's culling mask.</td>
 </tr>
 </tbody>
 </table></div>

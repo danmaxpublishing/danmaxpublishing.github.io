@@ -98,19 +98,19 @@ loop uses unscaled time deliberately, gate it yourself from the controller's
 <p><strong>Symptom:</strong> Game audio stays paused after exiting photo mode, or never
 pauses on enter, typically in games that drive audio through mixer
 snapshots.</p>
-<p><strong>Cause:</strong> <code>PhotoModeSettings.audioPauseMode</code> controls this. The default,
+<p><strong>Cause:</strong> <code>PhotoModeSettings.AudioPauseMode</code> controls this. The default,
 <code>AudioListenerPause</code>, sets <code>AudioListener.pause</code> on enter and restores the
 prior value exactly on exit; if your own code also writes
 <code>AudioListener.pause</code>, or your audio runs through snapshot transitions, the
 two systems fight.</p>
-<p><strong>Fix:</strong> Set <code>audioPauseMode</code> to <code>None</code> (the package then never touches
+<p><strong>Fix:</strong> Set <code>AudioPauseMode</code> to <code>None</code> (the package then never touches
 audio) and transition your own snapshots from the events:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">controller</span><span class="p">.</span><span class="n">OnEntered</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pausedSnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
 <span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">gameplaySnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Upgrading from 0.8.x</p>
-<p><code>audioPauseMode</code> replaced the old <code>pauseAudio</code> bool in 0.9.0. Projects
+<p><code>AudioPauseMode</code> replaced the old <code>pauseAudio</code> bool in 0.9.0. Projects
 that had <em>unchecked</em> <code>pauseAudio</code> must select <code>None</code> once on their
 settings asset; see the <a href="../upgrade-guide/">Upgrade Guide</a>.</p>
 </div>
@@ -142,11 +142,11 @@ mask.</p>
 <p><strong>Cause:</strong> Focus rings extend a few pixels beyond each control; without
 enough inner content padding the scroll viewport's mask clips them. The
 1.0.0 regression had a subtler cause: the hover/selection scale-up (theme
-<code>hoverScale</code>) pushed rings on full-width controls past the original padding.</p>
+<code>HoverScale</code>) pushed rings on full-width controls past the original padding.</p>
 <p><strong>Fix:</strong> Fixed in 0.9.0 and finally in 1.0.0 (padding is now computed from
 the ring size <em>and</em> the theme's selection scale, and regeneration-proof
 regression tests guard it). Update the package. If it persists: you are
-likely using a custom theme with a large <code>hoverScale</code>; reduce it, or rebuild
+likely using a custom theme with a large <code>HoverScale</code>; reduce it, or rebuild
 the UI prefab via <strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</strong>.</p>
 <h2 id="keyboardgamepad-selection-scrolls-out-of-view">Keyboard/gamepad selection scrolls out of view<a class="headerlink" href="#keyboardgamepad-selection-scrolls-out-of-view" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> Arrowing down a long tab (e.g. Effects) moves the selection
@@ -204,12 +204,12 @@ did not hide.</p>
 <h2 id="slider-changes-dont-show-in-hdrp">Slider changes don't show in HDRP<a class="headerlink" href="#slider-changes-dont-show-in-hdrp" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> On HDRP, the Focus Dist and Aperture sliders have no effect.
 <em>(Phase 2 items 37, 38)</em></p>
-<p><strong>Cause:</strong> FOV smoothing wrote <code>Camera.fieldOfView</code> every frame, which
+<p><strong>Cause:</strong> FOV smoothing wrote <code>Camera.FieldOfView</code> every frame, which
 silently resets <code>usePhysicalProperties</code>, so HDRP's physical-camera depth of
 field never saw the values.</p>
 <p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. The camera is now driven via
 <code>focalLength</code> while physical properties are in use. If a custom camera
-script of yours writes <code>fieldOfView</code> on the photo camera every frame, it
+script of yours writes <code>FieldOfView</code> on the photo camera every frame, it
 will reintroduce the problem; drive <code>focalLength</code> instead on physical
 cameras.</p>
 <h2 id="film-grain-or-vignette-looks-different-across-pipelines">Film grain or vignette looks different across pipelines<a class="headerlink" href="#film-grain-or-vignette-looks-different-across-pipelines" title="Permanent link">¶</a></h2>
@@ -343,7 +343,7 @@ and maps to the same state, with no API break. See
 file browser with the new photo selected (Explorer reveal on Windows; folder
 open elsewhere). The save-path row on the CAPTURE tab is clickable too.</p>
 <h2 id="the-fov-slider-ignores-my-minmax-fov-settings">The FOV slider ignores my Min/Max FOV settings<a class="headerlink" href="#the-fov-slider-ignores-my-minmax-fov-settings" title="Permanent link">¶</a></h2>
-<p><strong>Symptom:</strong> <code>PhotoModeSettings.minFov/maxFov</code> limit wheel zoom but the FOV
+<p><strong>Symptom:</strong> <code>PhotoModeSettings.MinFov/MaxFov</code> limit wheel zoom but the FOV
 slider still runs 10–120. <em>(Phase 2 item 14)</em></p>
 <p><strong>Cause:</strong> Pre-0.8.1, the slider range was hardcoded.</p>
 <p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. The slider range is read from
@@ -353,7 +353,7 @@ the settings asset at UI bind time.</p>
 <em>(Phase 2 item 8)</em></p>
 <p><strong>Cause:</strong> Pre-0.8.1, the sprint multiplier applied to movement only.</p>
 <p><strong>Fix:</strong> Fixed in 0.8.1; update the package. Roll now uses the same
-<code>sprintMultiplier</code>. (0.8.1 also added the missing "Space/Ctrl · Up/Down" and
+<code>SprintMultiplier</code>. (0.8.1 also added the missing "Space/Ctrl · Up/Down" and
 "Z/C · Roll" hint chips, Phase 2 item 7.)</p>
 <h2 id="hint-text-is-hard-to-read-over-bright-surfaces">Hint text is hard to read over bright surfaces<a class="headerlink" href="#hint-text-is-hard-to-read-over-bright-surfaces" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> Floating hint labels, toolbar Q/E hints or the toast filename
@@ -370,7 +370,7 @@ photo-mode UI building blocks.</p>
 (<strong>Enable Collision</strong> on <code>PhotoModeSettings</code>) with no in-game toggle.</p>
 <p><strong>Fix:</strong> Set it on the settings asset. See <a href="../camera/">Camera</a>.</p>
 <h2 id="my-forced-backend-override-is-ignored">My forced backend override is ignored<a class="headerlink" href="#my-forced-backend-override-is-ignored" title="Permanent link">¶</a></h2>
-<p><strong>Symptom:</strong> You set <code>PhotoModeSettings.backendOverride</code> but a different
+<p><strong>Symptom:</strong> You set <code>PhotoModeSettings.BackendOverride</code> but a different
 backend runs, with a warning in the console.</p>
 <p><strong>Cause:</strong> The forced backend is unavailable in the project (e.g. forcing
 <code>Hdrp</code> in a URP project, or <code>PostProcessingV2</code> without the package

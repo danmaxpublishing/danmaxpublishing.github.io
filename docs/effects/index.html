@@ -64,55 +64,55 @@ pipeline-agnostic units, and is sticky for the play session.</p>
 <tbody>
 <tr>
 <td>Exposure</td>
-<td><code>exposureEv</code></td>
+<td><code>ExposureEv</code></td>
 <td>EV, −3 .. +3</td>
 <td>Relative exposure compensation; identical semantics on every pipeline (on HDRP it maps to post-exposure, so it never fights auto-exposure).</td>
 </tr>
 <tr>
 <td>Contrast</td>
-<td><code>contrast</code></td>
+<td><code>Contrast</code></td>
 <td>−100 .. +100</td>
 <td>0 is neutral.</td>
 </tr>
 <tr>
 <td>Saturation</td>
-<td><code>saturation</code></td>
+<td><code>Saturation</code></td>
 <td>−100 .. +100</td>
 <td>−100 is grayscale.</td>
 </tr>
 <tr>
 <td>Temperature</td>
-<td><code>temperature</code></td>
+<td><code>Temperature</code></td>
 <td>−100 (cool) .. +100 (warm)</td>
 <td>0 is neutral.</td>
 </tr>
 <tr>
 <td>Vignette</td>
-<td><code>vignette</code></td>
+<td><code>Vignette</code></td>
 <td>0 .. 1</td>
 <td>Edge softness differs slightly per pipeline.</td>
 </tr>
 <tr>
 <td>Grain</td>
-<td><code>filmGrain</code></td>
+<td><code>FilmGrain</code></td>
 <td>0 .. 1</td>
 <td>Response normalized across pipelines; subtle character differences remain.</td>
 </tr>
 <tr>
 <td>Depth of Field</td>
-<td><code>depthOfFieldEnabled</code></td>
+<td><code>DepthOfFieldEnabled</code></td>
 <td>toggle</td>
 <td>The two rows below hide while this is off.</td>
 </tr>
 <tr>
 <td>Focus Dist</td>
-<td><code>focusDistance</code></td>
+<td><code>FocusDistance</code></td>
 <td>meters, 0.1 .. 100 (slider)</td>
 <td>Logarithmic slider: half the travel covers the visibly focus-pulling 0.1–3 m. The readout stays in meters.</td>
 </tr>
 <tr>
 <td>Aperture</td>
-<td><code>aperture</code></td>
+<td><code>Aperture</code></td>
 <td>f-number, f/0.7 .. f/16 (slider)</td>
 <td>See below.</td>
 </tr>
@@ -127,9 +127,9 @@ bigger bokeh; f/0.7 is the widest aperture HDRP's physical camera accepts, and
 beyond ~f/16 the blur is sub-pixel at game scales.</p>
 <div class="admonition note">
 <p class="admonition-title">Clamping</p>
-<p><code>PhotoModeAdjustments.aperture</code> still accepts <strong>any positive value</strong> from
+<p><code>PhotoModeAdjustments.Aperture</code> still accepts <strong>any positive value</strong> from
 script, and old presets keep loading unchanged, but the effect backends
-clamp into <code>[PhotoModeAdjustments.ApertureMin, ApertureMax]</code> (0.7–16) when
+clamp into <code>[PhotoModeAdjustments.APERTURE_MIN, APERTURE_MAX]</code> (0.7–16) when
 applying. A preset saved at f/22 simply renders as f/16.</p>
 </div>
 <h2 id="per-pipeline-availability">Per-pipeline availability<a class="headerlink" href="#per-pipeline-availability" title="Permanent link">¶</a></h2>
@@ -152,12 +152,12 @@ effects dirty (re-applied next frame) and flips the preset label to "Custom":</p
 
 <span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
 
-<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">exposureEv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">;</span>
-<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">saturation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">100f</span><span class="p">;</span><span class="w">   </span><span class="c1">// grayscale</span>
-<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">vignette</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.35f</span><span class="p">;</span>
-<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">depthOfFieldEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
-<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">focusDistance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.5f</span><span class="p">;</span><span class="w"> </span><span class="c1">// meters</span>
-<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">aperture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.4f</span><span class="p">;</span><span class="w">      </span><span class="c1">// f-stops</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">ExposureEv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">Saturation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">100f</span><span class="p">;</span><span class="w">   </span><span class="c1">// grayscale</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">Vignette</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.35f</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">DepthOfFieldEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">FocusDistance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.5f</span><span class="p">;</span><span class="w"> </span><span class="c1">// meters</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">Adjustments</span><span class="p">.</span><span class="n">Aperture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.4f</span><span class="p">;</span><span class="w">      </span><span class="c1">// f-stops</span>
 
 <span class="n">controller</span><span class="p">.</span><span class="n">NotifyAdjustmentsEdited</span><span class="p">();</span>
 </code></pre></div>

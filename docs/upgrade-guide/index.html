@@ -61,10 +61,25 @@ you must do. The full change list lives in the <a href="../changelog/">Changelog
    <strong>Tools &gt; Photo Mode Pro &gt; Build Demo Assets</strong>.</li>
 </ol>
 </div>
+<h2 id="to-11x">To 1.1.x<a class="headerlink" href="#to-11x" title="Permanent link">¶</a></h2>
+<p>No breaking API changes and no action required. Two behavioral changes to be
+aware of:</p>
+<h3 id="scene-dim-also-dims-ambient-light-and-backgrounds">Scene Dim also dims ambient light and backgrounds<a class="headerlink" href="#scene-dim-also-dims-ambient-light-and-backgrounds" title="Permanent link">¶</a></h3>
+<p>The relighting panel's <strong>Scene Dim</strong> now scales the ambient/reflection
+environment and solid-color camera backgrounds along with the scene's lights
+(previously only the lights dimmed, so outdoor scenes stayed bright and rig
+lights could not read through). Everything is still restored exactly on exit.
+Only act if you tuned screenshots against the old lights-only behavior:
+re-check your dim percentage.</p>
+<h3 id="webgl-captures-save-to-the-gallery-instead-of-downloading">WebGL captures save to the Gallery instead of downloading<a class="headerlink" href="#webgl-captures-save-to-the-gallery-instead-of-downloading" title="Permanent link">¶</a></h3>
+<p>On WebGL, captures no longer trigger a browser download per photo; they save
+to the in-game Gallery (persisted in IndexedDB), and the Gallery's
+<strong>DOWNLOAD</strong> button exports one PNG or a zip of several. If your players
+relied on the per-capture download prompt, point them at the Gallery button.</p>
 <h2 id="to-100">To 1.0.0<a class="headerlink" href="#to-100" title="Permanent link">¶</a></h2>
 <p>No breaking API changes. Two behavioral changes and new editor tooling:</p>
 <h3 id="aperture-range-and-mapping">Aperture range and mapping<a class="headerlink" href="#aperture-range-and-mapping" title="Permanent link">¶</a></h3>
-<p>The aperture constants changed: <code>ApertureMin</code>/<code>ApertureMax</code> are now
+<p>The aperture constants changed: <code>APERTURE_MIN</code>/<code>APERTURE_MAX</code> are now
 <strong>0.7/16</strong> (previously 1/32), and the slider uses a perceptual log-stop
 mapping so its full travel produces visible depth-of-field change.</p>
 <ul>
@@ -98,9 +113,9 @@ scene under a mismatched pipeline offers a one-click rebuild. A first-import
 Welcome window appears once per machine and is never re-shown across
 updates.</p>
 <h2 id="to-090">To 0.9.0<a class="headerlink" href="#to-090" title="Permanent link">¶</a></h2>
-<h3 id="pauseaudio-replaced-by-audiopausemode"><code>pauseAudio</code> replaced by <code>audioPauseMode</code><a class="headerlink" href="#pauseaudio-replaced-by-audiopausemode" title="Permanent link">¶</a></h3>
+<h3 id="pauseaudio-replaced-by-audiopausemode"><code>pauseAudio</code> replaced by <code>AudioPauseMode</code><a class="headerlink" href="#pauseaudio-replaced-by-audiopausemode" title="Permanent link">¶</a></h3>
 <p>The <code>pauseAudio</code> bool on <code>PhotoModeSettings</code> was replaced by the
-<code>audioPauseMode</code> enum (<code>AudioPauseMode.AudioListenerPause</code> /
+<code>AudioPauseMode</code> enum (<code>AudioPauseMode.AudioListenerPause</code> /
 <code>AudioPauseMode.None</code>).</p>
 <ul>
 <li>Old serialized assets fall back to the default, <code>AudioListenerPause</code>
@@ -146,18 +161,18 @@ handlers). Purely additive; nothing to migrate. See the
   do not need the camera can simply discard the argument.</li>
 </ul>
 <p>Projects that only <em>use</em> the built-in backends are unaffected. Backend
-selection is automatic, with a manual <code>PhotoModeSettings.backendOverride</code>
+selection is automatic, with a manual <code>PhotoModeSettings.BackendOverride</code>
 if you need to force one. See <a href="../effects/">Effects</a> and
 <a href="../pipelines/">Pipelines</a>.</p>
 <h2 id="coming-from-06x-or-07x">Coming from 0.6.x or 0.7.x<a class="headerlink" href="#coming-from-06x-or-07x" title="Permanent link">¶</a></h2>
-<p>Apply the steps above in order (0.8.0 → 0.9.0 → 1.0.0). In practice, unless
+<p>Apply the steps above in order (0.8.0 → 0.9.0 → 1.0.0 → 1.1.x). In practice, unless
 you wrote a custom effects backend or unchecked <code>pauseAudio</code>, upgrading is:
 import, reimport, run the Self-Test, and rebuild the demo if you modified
 it. If anything misbehaves afterwards, start with
 <a href="../troubleshooting/">Troubleshooting</a>.</p>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/changelog/"><span class="dir">Previous</span>Changelog</a></nav>
   </main>
-  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#to-100">To 1.0.0</a></li><li class="h3"><a href="#aperture-range-and-mapping">Aperture range and mapping</a></li><li class="h3"><a href="#ui-layout-hint-chips-and-toolbar">UI layout: hint chips and toolbar</a></li><li class="h3"><a href="#new-editor-menus">New editor menus</a></li><li class="h2"><a href="#to-090">To 0.9.0</a></li><li class="h3"><a href="#pauseaudio-replaced-by-audiopausemode">pauseAudio replaced by audioPauseMode</a></li><li class="h3"><a href="#none-preset-button-removed">NONE preset button removed</a></li><li class="h3"><a href="#minimum-unity-version-drops-to-20213">Minimum Unity version drops to 2021.3</a></li><li class="h2"><a href="#to-080">To 0.8.0</a></li><li class="h3"><a href="#breaking-iphotomodeeffectsbackend-custom-backend-implementors-only">Breaking: IPhotoModeEffectsBackend (custom backend implementors only)</a></li><li class="h2"><a href="#coming-from-06x-or-07x">Coming from 0.6.x or 0.7.x</a></li></ul></aside>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#to-11x">To 1.1.x</a></li><li class="h3"><a href="#scene-dim-also-dims-ambient-light-and-backgrounds">Scene Dim also dims ambient light and backgrounds</a></li><li class="h3"><a href="#webgl-captures-save-to-the-gallery-instead-of-downloading">WebGL captures save to the Gallery instead of downloading</a></li><li class="h2"><a href="#to-100">To 1.0.0</a></li><li class="h3"><a href="#aperture-range-and-mapping">Aperture range and mapping</a></li><li class="h3"><a href="#ui-layout-hint-chips-and-toolbar">UI layout: hint chips and toolbar</a></li><li class="h3"><a href="#new-editor-menus">New editor menus</a></li><li class="h2"><a href="#to-090">To 0.9.0</a></li><li class="h3"><a href="#pauseaudio-replaced-by-audiopausemode">pauseAudio replaced by AudioPauseMode</a></li><li class="h3"><a href="#none-preset-button-removed">NONE preset button removed</a></li><li class="h3"><a href="#minimum-unity-version-drops-to-20213">Minimum Unity version drops to 2021.3</a></li><li class="h2"><a href="#to-080">To 0.8.0</a></li><li class="h3"><a href="#breaking-iphotomodeeffectsbackend-custom-backend-implementors-only">Breaking: IPhotoModeEffectsBackend (custom backend implementors only)</a></li><li class="h2"><a href="#coming-from-06x-or-07x">Coming from 0.6.x or 0.7.x</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">

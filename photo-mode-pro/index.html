@@ -68,7 +68,7 @@
       <a class="btn btn-orange" href="../demo/">▶ Try it in your browser</a>
       <a class="btn btn-ghost" href="../docs/quick-start/">Quick Start guide</a>
     </div>
-    <p class="meta-note">Unity 2021.3 LTS → Unity 6 · URP, HDRP &amp; Built-in · Mono &amp; IL2CPP · desktop standalone</p>
+    <p class="meta-note">Unity 2021.3 LTS → Unity 6 · URP, HDRP &amp; Built-in · Mono &amp; IL2CPP · desktop, WebGL &amp; mobile touch</p>
     <figure class="shot reveal" style="margin-top:48px">
       <div class="frame glow">
         <img src="../assets/img/shots/ui_overlay.webp" alt="Photo Mode Pro in the demo scene: camera panel with fly/orbit toggle, FOV, roll and speed sliders, capture dock and hotkey hint chips" width="1800" height="1012" data-lightbox data-caption="The photo mode UI, captured from the real product.">
@@ -445,8 +445,11 @@ PhotoModeController.Instance.OnPhotoCaptured += (path, thumb) =>
     <details class="qa">
       <summary>What platforms are supported?</summary>
       <div class="qa-body"><p>Windows, macOS and Linux standalone (Mono + IL2CPP), Unity
-      2021.3 LTS through Unity 6. WebGL capture-to-disk is not supported; mobile touch UI
-      and consoles are untested, so the store page doesn't claim them.</p></div>
+      2021.3 LTS through Unity 6. Since v1.1, WebGL is supported (captures save to the
+      in-game gallery, with a download button for PNGs or a zip) and Android/iOS get a
+      touch UI with gesture camera controls. Consoles are untested, so the store page
+      doesn't claim them. Details in the <a href="../docs/support-matrix/">support
+      matrix</a>.</p></div>
     </details>
     <details class="qa">
       <summary>Can players use it with a gamepad only?</summary>
