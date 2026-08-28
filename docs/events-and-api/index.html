@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Events &amp; Scripting — Photo Mode Pro Documentation</title>
-<meta name="description" content="Everything in the UI is also available from script. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the…">
+<meta name="description" content="Everything in the UI is also available from script. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the static…">
 <link rel="canonical" href="https://danmaxpublishing.github.io/docs/events-and-api/">
 <meta property="og:title" content="Events &amp; Scripting — Photo Mode Pro Documentation">
-<meta property="og:description" content="Everything in the UI is also available from script. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the…">
+<meta property="og:description" content="Everything in the UI is also available from script. The whole public surface lives on PhotoModeController (namespace PhotoModePro ), reached via the static…">
 <meta property="og:url" content="https://danmaxpublishing.github.io/docs/events-and-api/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="DanMaxPublishing">
@@ -42,15 +42,17 @@
       <input type="search" placeholder="Search docs…" aria-label="Search documentation">
       <div class="results" role="listbox"></div>
     </div>
-    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/" aria-current="page">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/" aria-current="page">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li><li><a href="../../docs/blog/">Blog</a></li></ul></div>
   </aside>
   <main class="docs-article" id="main" tabindex="-1">
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
     <h1>Events &amp; Scripting</h1>
 
 <p>Everything in the UI is also available from script. The whole public surface lives on
-<code>PhotoModeController</code> (namespace <code>PhotoModePro</code>), reached via the null-safe
-static <code>PhotoModeController.Instance</code>.</p>
+<code>PhotoModeController</code> (namespace <code>PhotoModePro</code>), reached via the static
+<code>PhotoModeController.Instance</code>. <code>Instance</code> is assigned in the controller's
+<code>OnEnable</code>, so it can still be null in your own <code>Awake</code>/<code>OnEnable</code>; subscribe
+from <code>Start()</code> or null-check first.</p>
 <h2 id="lifecycle-events">Lifecycle events<a class="headerlink" href="#lifecycle-events" title="Permanent link">¶</a></h2>
 <div class="table-scroll"><table>
 <thead>
@@ -74,7 +76,7 @@ static <code>PhotoModeController.Instance</code>.</p>
 <tr>
 <td><code>OnPhotoCaptured</code></td>
 <td><code>Action&lt;string, Texture2D&gt;</code></td>
-<td>A photo was saved (path and thumbnail).</td>
+<td>A photo was saved (path and thumbnail). The thumbnail is owned by photo mode and destroyed on the next capture or on exit (copy it to keep it), and can be null even for a saved photo.</td>
 </tr>
 <tr>
 <td><code>OnAdjustmentsReplaced</code></td>
@@ -90,11 +92,16 @@ fires first, then the UnityEvent.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
 
-<span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
+<span class="k">void</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// From Start(), Instance is already assigned (it is set in the</span>
+<span class="w">    </span><span class="c1">// controller&#39;s OnEnable).</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">;</span>
 
-<span class="n">controller</span><span class="p">.</span><span class="n">OnEntered</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Photo mode open&quot;</span><span class="p">);</span>
-<span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Photo mode closed&quot;</span><span class="p">);</span>
-<span class="n">controller</span><span class="p">.</span><span class="n">OnPhotoCaptured</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">thumb</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Saved {path}&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">controller</span><span class="p">.</span><span class="n">OnEntered</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Photo mode open&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Photo mode closed&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">controller</span><span class="p">.</span><span class="n">OnPhotoCaptured</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">thumb</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Saved {path}&quot;</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <h2 id="enter-exit-from-a-pause-menu">Enter / exit from a pause menu<a class="headerlink" href="#enter-exit-from-a-pause-menu" title="Permanent link">¶</a></h2>
 <p><code>EnterPhotoMode()</code>, <code>ExitPhotoMode()</code> and <code>TogglePhotoMode()</code> are plain public
@@ -107,9 +114,11 @@ methods. Wire them to a button or call them from your game-state machine:</p>
 <span class="w">    </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">EnterPhotoMode</span><span class="p">();</span>
 <span class="p">}</span>
 
-<span class="k">void</span><span class="w"> </span><span class="nf">Awake</span><span class="p">()</span>
+<span class="k">void</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="c1">// Reopen the pause menu when the player leaves photo mode.</span>
+<span class="w">    </span><span class="c1">// Subscribed from Start(): Instance is not assigned until the</span>
+<span class="w">    </span><span class="c1">// controller&#39;s OnEnable has run.</span>
 <span class="w">    </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">OnExited</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">pauseMenu</span><span class="p">.</span><span class="n">Show</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -182,7 +191,7 @@ prediction of the backend that would be selected right now:</p>
 <tbody>
 <tr>
 <td><code>Instance</code></td>
-<td>Null-safe static accessor to the active controller.</td>
+<td>Static accessor to the active controller. Null until the controller's <code>OnEnable</code> runs, so use it from <code>Start()</code> or null-check.</td>
 </tr>
 <tr>
 <td><code>IsActive</code> / <code>IsCapturing</code> / <code>ExitedThisFrame</code></td>

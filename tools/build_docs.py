@@ -56,13 +56,16 @@ NAV = [
     ("troubleshooting.md", "troubleshooting", "Troubleshooting", "Help"),
     ("changelog.md", "changelog", "Changelog", "Help"),
     ("upgrade-guide.md", "upgrade-guide", "Upgrade Guide", "Help"),
+    ("blog/index.md", "blog", "Blog", "Help"),
 ]
 
 # Map source .md paths (as referenced in links) to slugs.
 MD_TO_SLUG = {}
 for src, slug, _, _ in NAV:
     MD_TO_SLUG[src] = slug
-    MD_TO_SLUG[src.split("/")[-1]] = slug  # bare-name links from how-to/ pages
+    # Bare-name links from how-to/ pages; first NAV entry wins so
+    # blog/index.md cannot claim the docs home's bare "index.md".
+    MD_TO_SLUG.setdefault(src.split("/")[-1], slug)
 
 MD_EXTENSIONS = [
     "tables",

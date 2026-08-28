@@ -109,8 +109,8 @@
     <div class="section-head">
       <p class="eyebrow">Assets</p>
       <h2>The catalog</h2>
-      <p class="lead">One asset is out so far and more are in the works. Each one ships
-      when it's finished, not when a deadline says so.</p>
+      <p class="lead">The first asset is on its way to the Asset Store and more are in
+      the works. Each one ships when it's finished, not when a deadline says so.</p>
     </div>
     <div class="grid grid-2 reveal-stagger">
       <article class="card hoverable card-flush">
@@ -121,7 +121,7 @@
           <div class="card-body">
             <div class="badge-row">
               <span class="badge badge-orange">Coming soon to the Asset Store</span>
-              <span class="badge">v1.1.4</span>
+              <span class="badge">v1.1.6</span>
             </div>
             <h3><img class="h3-mark" src="./assets/img/pmp-logo-mark.webp" alt="" width="22" height="22">Photo Mode Pro</h3>
             <p>A AAA-style, player-facing photo mode: pause, fly, grade, capture a
@@ -195,29 +195,31 @@
     </div>
     <div class="grid grid-3 reveal-stagger">
       <div class="card">
+        <span class="badge badge-cyan">v1.1.6 · 2026-08-28</span>
+        <h3 style="margin-top:14px">Demo import &amp; capture fidelity fixes</h3>
+        <p>The demo scenes now import clean on legacy-input, Built-in and HDRP
+        projects, captures keep the game's MSAA level and flatten alpha on
+        opaque PNGs, gallery browsing reuses cached metadata instead of
+        rescanning the folder, and hotkeys stand down while a text field has
+        focus.</p>
+        <p style="margin-top:10px"><a href="./docs/changelog/">Full changelog →</a></p>
+      </div>
+      <div class="card">
+        <span class="badge badge-cyan">v1.1.5 · 2026-08-28</span>
+        <h3 style="margin-top:14px">Compatibility &amp; capture fixes</h3>
+        <p>The package compiles again on Unity 2021.3 and 2022.1 with HDRP 12/13,
+        a failed capture now says so on screen instead of only in the console,
+        Post Processing v2 pauses temporal anti-aliasing for the shot, and URP
+        cameras keep their custom renderer in the preview and in captures.</p>
+        <p style="margin-top:10px"><a href="./docs/changelog/">Full changelog →</a></p>
+      </div>
+      <div class="card">
         <span class="badge badge-cyan">v1.1.4 · 2026-08-28</span>
         <h3 style="margin-top:14px">Robustness &amp; relighting fixes</h3>
         <p>Photo mode recovers cleanly if opening fails, effects survive custom
         Volume Mask setups on URP and HDRP, the scene dimmer darkens skyboxes
         too, gallery browsing no longer freezes on 4K captures, and gamepad
         focus can no longer strand on a closed panel.</p>
-        <p style="margin-top:10px"><a href="./docs/changelog/">Full changelog →</a></p>
-      </div>
-      <div class="card">
-        <span class="badge badge-cyan">v1.1.3 · 2026-08-28</span>
-        <h3 style="margin-top:14px">Capture &amp; gallery fixes</h3>
-        <p>A wide bug-hunt pass: gallery "go to shot" reproduces the saved photo
-        exactly, render-layer exports match the beauty pass, exported .cube LUTs
-        are clean color transforms, and the package compiles on every Unity
-        2021.3 patch release.</p>
-        <p style="margin-top:10px"><a href="./docs/changelog/">Full changelog →</a></p>
-      </div>
-      <div class="card">
-        <span class="badge badge-cyan">v1.1.2 · 2026-08-28</span>
-        <h3 style="margin-top:14px">Tiled capture &amp; touch fixes</h3>
-        <p>Tiled 8K–32K captures now handle 2D cameras and custom projections
-        without seam banding, runtime supersampling respects the GPU texture
-        limit, and touch input holds up over long sessions.</p>
         <p style="margin-top:10px"><a href="./docs/changelog/">Full changelog →</a></p>
       </div>
     </div>

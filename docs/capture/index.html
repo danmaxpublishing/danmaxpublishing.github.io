@@ -42,7 +42,7 @@
       <input type="search" placeholder="Search docs…" aria-label="Search documentation">
       <div class="results" role="listbox"></div>
     </div>
-    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/" aria-current="page">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li></ul></div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/" aria-current="page">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li><li><a href="../../docs/blog/">Blog</a></li></ul></div>
   </aside>
   <main class="docs-article" id="main" tabindex="-1">
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
@@ -148,17 +148,26 @@ useful for compositing screenshots over other art.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
 
-<span class="k">void</span><span class="w"> </span><span class="nf">OnEnable</span><span class="p">()</span>
+<span class="k">void</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span>
 <span class="p">{</span>
+<span class="w">    </span><span class="c1">// Instance is assigned in the controller&#39;s OnEnable, so subscribe from</span>
+<span class="w">    </span><span class="c1">// Start() (or null-check first) rather than Awake/OnEnable.</span>
 <span class="w">    </span><span class="n">PhotoModeController</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">OnPhotoCaptured</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">HandlePhoto</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="k">void</span><span class="w"> </span><span class="nf">HandlePhoto</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">Texture2D</span><span class="w"> </span><span class="n">thumbnail</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Photo saved to {path}&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="c1">// e.g. push the thumbnail into your gallery UI, or upload the file.</span>
+<span class="w">    </span><span class="c1">// The thumbnail belongs to photo mode and is destroyed on the next</span>
+<span class="w">    </span><span class="c1">// capture (or on exit); copy it before keeping a reference. To use the</span>
+<span class="w">    </span><span class="c1">// full image, load the saved file at `path` instead.</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>The thumbnail is owned by photo mode: it is destroyed on the next capture or
+when photo mode exits, so copy it (for example with <code>Graphics.CopyTexture</code> into
+a texture you own) if you want to keep it past the event. It can also be <code>null</code>
+for a successfully saved photo when rendering the small preview failed, so
+null-check before using it.</p>
 <p>The same event exists as a UnityEvent (<code>On Photo Captured</code>) on the controller for
 Inspector wiring. <code>IsCapturing</code> is true while a capture is in flight.
 <code>ExitPhotoMode()</code> no-ops during that window, and the toggle key is ignored.</p>
