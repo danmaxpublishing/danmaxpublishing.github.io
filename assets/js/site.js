@@ -60,9 +60,27 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
   var navToggle = document.querySelector(".nav-toggle");
   var navLinks = document.querySelector(".nav-links");
   if (navToggle && navLinks) {
-    navToggle.addEventListener("click", function () {
-      var open = navLinks.classList.toggle("open");
+    var setNavOpen = function (open) {
+      navLinks.classList.toggle("open", open);
       navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+    navToggle.addEventListener("click", function () {
+      setNavOpen(!navLinks.classList.contains("open"));
+    });
+    // Escape and outside-click dismiss the menu like any dropdown — without
+    // this, keyboard users must Shift-Tab back to the toggle to close it and
+    // taps on the page content leave the menu covering the top of the page.
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && navLinks.classList.contains("open")) {
+        setNavOpen(false);
+        navToggle.focus();
+      }
+    });
+    document.addEventListener("click", function (e) {
+      if (navLinks.classList.contains("open")
+          && !closestFrom(e.target, ".site-nav")) {
+        setNavOpen(false);
+      }
     });
   }
 
@@ -96,6 +114,8 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
   function closeLightbox() {
     if (!lightbox || !lightbox.classList.contains("open")) return;
     lightbox.classList.remove("open");
+    // Re-enable page scroll (locked while the modal was open).
+    document.body.style.overflow = "";
     if (lightboxOpener && document.contains(lightboxOpener)) {
       lightboxOpener.focus();
     }
@@ -143,6 +163,9 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     capEl.style.display = cap ? "" : "none";
     lightboxOpener = target;
     lb.classList.add("open");
+    // Lock page scroll behind the modal: wheel/PageDown would otherwise
+    // scroll the document underneath, so closing lands somewhere else.
+    document.body.style.overflow = "hidden";
     lb.querySelector(".lightbox-close").focus();
   });
 
@@ -229,20 +252,30 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       return "Demo scene with the " + tab.textContent.trim() + " preset";
     }
 
-    function selectTab(tab, moveFocus) {
+    // Tab state (aria-selected, the stage's label) commits only once the
+    // tab's image is actually shown: committing before the load meant a failed
+    // load left the panel claiming one preset while displaying another.
+    function commitTabState(tab) {
       tabs.forEach(function (t) {
         var selected = t === tab;
         t.setAttribute("aria-selected", selected ? "true" : "false");
         t.tabIndex = selected ? 0 : -1;
       });
       stage.setAttribute("aria-labelledby", tab.id);
+    }
+
+    function selectTab(tab, moveFocus) {
       if (moveFocus) tab.focus();
       var src = tab.getAttribute("data-src");
-      if (!src || img.getAttribute("src") === src) return;
+      if (!src || img.getAttribute("src") === src) {
+        commitTabState(tab);
+        return;
+      }
       var token = ++loadToken; // rapid clicks: only the latest request lands
       if (reducedMotion) {
         img.src = src;
         img.alt = altFor(tab);
+        commitTabState(tab);
         return;
       }
       img.classList.add("fading");
@@ -252,6 +285,7 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
         img.src = src;
         img.alt = altFor(tab);
         img.classList.remove("fading");
+        commitTabState(tab);
       };
       loader.onerror = function () {
         // Failed load (offline, dropped connection): unhide the current image
@@ -354,10 +388,17 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       }
     }
 
+    var indexPromise = null;
     function loadIndex() {
       if (index) return Promise.resolve(index);
-      return fetch(root + "assets/search-index.json")
+      // Cache the in-flight promise (typing fast must not fire parallel
+      // fetches), check r.ok (a 404's HTML body would throw in r.json()),
+      // and never cache a FAILED fetch — one offline blip would otherwise
+      // return "No results." for the rest of the session.
+      if (indexPromise) return indexPromise;
+      indexPromise = fetch(root + "assets/search-index.json")
         .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
           return r.json();
         })
         .then(function (data) {
@@ -365,9 +406,10 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
           return index;
         })
         .catch(function () {
-          index = [];
-          return index;
+          indexPromise = null;
+          return [];
         });
+      return indexPromise;
     }
 
     function score(entry, terms) {
@@ -466,9 +508,11 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
         links[selIdx].setAttribute("aria-selected", "true");
         searchBox.setAttribute("aria-activedescendant", links[selIdx].id);
         links[selIdx].scrollIntoView({ block: "nearest" });
-      } else if (e.key === "Enter" && selIdx >= 0) {
+      } else if (e.key === "Enter" && links.length > 0) {
+        // Standard combobox behavior: Enter with no arrow-key selection opens
+        // the FIRST result (also the mobile keyboard's "Search/Go" action).
         e.preventDefault();
-        links[selIdx].click();
+        links[selIdx >= 0 ? selIdx : 0].click();
       }
     });
 

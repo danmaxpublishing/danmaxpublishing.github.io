@@ -27,7 +27,7 @@
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
     <ul class="nav-links" id="site-menu">
       <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
-      <li><a href="../../docs/" aria-current="page">Docs</a></li>
+      <li><a href="../../docs/" aria-current="true">Docs</a></li>
       <li><a href="../../roadmap/">Roadmap</a></li>
       <li><a href="../../support/">Support</a></li>
       <li><a href="../../about/">About</a></li>
@@ -50,8 +50,117 @@
 
 <p>All notable changes to Photo Mode Pro are documented here. The format follows
 <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="111-2026-08-26">[1.1.1] - 2026-08-26<a class="headerlink" href="#111-2026-08-26" title="Permanent link">¶</a></h2>
+<h2 id="112-2026-08-28">[1.1.2] - 2026-08-28<a class="headerlink" href="#112-2026-08-28" title="Permanent link">¶</a></h2>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">¶</a></h3>
+<ul>
+<li>An undeclared GameUiTag/PlayerTag no longer wedges the game mid-enter
+  (paused, camera off): the tag lookup warns and hides nothing instead.</li>
+<li>Gallery "go to shot" now lands exactly on the saved pose in Orbit mode
+  (teleport switches to Fly so the orbit solver can't drag the camera off).</li>
+<li>Orthographic (2D) cameras get a correct tiled 8K/16K/32K capture; the tiled
+  path previously always built a perspective frustum.</li>
+<li>Tiled capture restores custom camera projections (oblique near planes,
+  jitter) instead of discarding them, deletes the partial PNG a failed run
+  used to leave in the gallery, and no longer bands lens distortion, bloom,
+  chromatic aberration or motion blur at seams on PPv2/Built-in.</li>
+<li>HDRP AOV layer exports release their GPU buffers (one full-resolution
+  buffer leaked per layer per capture).</li>
+<li>Runtime supersample is clamped to the GPU texture limit (4× on 5K/8K
+  displays produced failed captures).</li>
+<li>Cycling the gallery sort while multi-selecting can no longer retarget the
+  ticks at different photos before a delete; sorting now exits selection mode.</li>
+<li>Hiding the UI while the fullscreen photo viewer was open no longer loses
+  the toolbar for the rest of the session.</li>
+<li>The capture flash shows with reduce-motion themes; the keyboard/gamepad
+  focus ring and click sounds also survive reduce-motion now.</li>
+<li>Saved looks no longer overwrite an existing "Look N" file after deleting a
+  non-last look; a free name is picked.</li>
+<li>Imported .cube/PNG LUT strips and saved looks are bilinear-filtered like
+  the built-in filters (red/green banding fixed), and focus peaking compares
+  raw pixels so LUTs/tilt-shift can't flood the overlay.</li>
+<li>Scene Dim no longer scales camera-background alpha (semi-transparent skies
+  in alpha-preserving captures), and an early scene-light restore no longer
+  leaves later dims half-applied.</li>
+<li>2D rigidbodies freeze during Unscaled-pause photo sessions like 3D ones.</li>
+<li>Touch: UI-blocked touch ids can't leak anymore (blocking stopped working or
+  swallowed drags after repeated sessions), and two-finger pan speed is
+  frame-rate independent.</li>
+<li>Restoring a replaced Input System module re-enables only the actions that
+  were enabled before, and photo mode's own UI actions are disabled on exit.</li>
+<li>Layer exports keep double-sided geometry (no backface holes), fail cleanly
+  when a layer shader is stripped, escape object names properly in the
+  object-ID sidecar, and collision-suffixed files pair with their own sidecar
+  and are handled by the gallery and delete.</li>
+<li>Photo file timestamps and the viewer caption use the invariant culture
+  (non-Gregorian system calendars broke filename ordering).</li>
+<li>URP/HDRP curve editing no longer strands one native curve texture per
+  channel per edit.</li>
+<li>Demo: campfire flames rise instead of streaming sideways, the flicker
+  yields to photo-mode Scene Dim, toggle rows are clickable across the whole
+  row, outlined text actually renders its outline, the orbit camera no longer
+  consumes the exit-frame mouse delta, and critters can't overshoot waypoints
+  on frame hitches.</li>
+<li>Editor: shot lists with a null grade/bookmark slot can't render mislabeled
+  or mis-posed shots anymore; rebuilding demo assets on HDRP keeps the
+  shipped LUT filters instead of silently overwriting them with no-ops;
+  "Add Photo Mode To Scene" warns before adding a second controller;
+  unticking the welcome window's "don't show again" is respected.</li>
+<li>Gallery "go to shot" lands exactly in Fly mode too: a pose beyond
+  MaxDistance re-centers the roam pivot instead of snapping back to the
+  sphere edge next frame.</li>
+<li>Render-layer exports use the beauty capture's GPU-limit-clamped supersample
+  (no more mismatched or failed layers on 5K displays), and the photo's
+  metadata records the factor actually used.</li>
+<li>HDRP depth/normal/motion-vector layer exports render at full float
+  precision — the AOV buffers were 8-bit sRGB, which quantized depth to 256
+  levels and clamped negative motion vectors to zero.</li>
+<li>Layer exports skip ShadowsOnly shadow proxies and draw only each LODGroup's
+  LOD0, instead of z-fighting every LOD level into the depth and ID layers.</li>
+<li>Tiled captures disable temporal AA during tile renders (per-tile ghosting),
+  preserve physical-camera lens shift and custom projections via clip-space
+  cropping of the real projection, and on HDRP the exposure probe no longer
+  cancels the user's EV grade out of the tiled file.</li>
+<li>PPv2: closing photo mode no longer destroys a PostProcessLayer the buyer's
+  own camera already had, and the volume-layer bit added on enter is reverted.</li>
+<li>Applying a saved look re-seeds the Light page (scene-dim slider included);
+  deleting a shared/renamed look deletes the file it was loaded from; nudging
+  a light's hue/saturation keeps the color's brightness instead of forcing it
+  to full.</li>
+<li>Additive scene unloads (world streaming) no longer force photo mode closed;
+  only the controller's own scene or the active scene going away does.</li>
+<li>Escape / gamepad East closes the fullscreen gallery viewer.</li>
+<li>The physical camera's lens FOV is no longer fought by the Min/MaxFov roam
+  clamp (long lenses held their focal length while rendering at MinFov).</li>
+<li>"Save current look" bakes LUTs without scene fog tinting the strip, and
+  sharpen no longer paints inverted-contrast halos inside the tilt-shift band.</li>
+<li>Capture and gallery thumbnails downscale in steps (no moiré from
+  supersampled captures), and undecodable gallery photos are not re-read and
+  re-decoded on every page fill.</li>
+<li>Photo files are created exclusively, so two game instances sharing one save
+  folder can no longer overwrite each other's capture in the same second.</li>
+<li>A second PhotoModeController that gets re-enabled after the duplicate guard
+  disabled it is disabled again instead of double-driving one toggle press.</li>
+<li>Editor: the Capture Studio rebinds when photo mode opens or closes
+  mid-Play-Mode, keeps its owned session's grade out of the Scene/Game views
+  between renders, registers Undo before Edit-Mode scene dims, persists its
+  output folder and shot list per project, stops preview rendering while its
+  tab is hidden, reports layer exports dropped by the tiled path, and the
+  welcome window's opt-in shows at most once per editor session. Run
+  Self-Test and the wizard's Rebuild Demo confirm before replacing the open
+  scene; the pipeline-mismatch prompt covers the exterior and interior demo
+  scenes and rebuilds the demo it fired for; generated third-party materials
+  no longer collide across same-named packs; the demo builders create their
+  asset folders on UPM installs.</li>
+<li>Demo: the character animates from actual movement (no treadmill against
+  walls) and won't consume a scripted jump while spawning in the air; the
+  follow camera keeps its authored pitch; 2D parallax bands no longer lag the
+  camera by a frame.</li>
+<li>Docs: the offline QuickStart's platform table reflects shipped WebGL and
+  Android touch support, uses the PascalCase API names, mentions all four
+  demo scenes, and agrees with itself on the 10-minute integration estimate.</li>
+</ul>
+<h2 id="111-2026-08-26">[1.1.1] - 2026-08-26<a class="headerlink" href="#111-2026-08-26" title="Permanent link">¶</a></h2>
+<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">¶</a></h3>
 <ul>
 <li>Right panel no longer jumps toward a selected control when you click one -
   scroll-follow now runs only for keyboard/gamepad navigation, never for
@@ -173,7 +282,7 @@ every render pipeline, at runtime and in the editor.</p>
   (quick start, how-tos, integrations, per-pipeline notes, FAQ, troubleshooting,
   API reference) plus an offline quick start in the package root.</li>
 </ul>
-<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">¶</a></h3>
+<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Aperture slider dead zone</strong>: the slider was linear in f-stops while
   depth-of-field blur scales with 1/f-number, so everything visible happened below
@@ -253,7 +362,7 @@ every render pipeline, at runtime and in the editor.</p>
   High) opens photo mode, applies a preset, captures at 2x and verifies the PNG —
   run as part of the release checks.</li>
 </ul>
-<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">¶</a></h3>
+<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">¶</a></h3>
 <ul>
 <li>Arrow/D-pad navigation is live the moment photo mode opens: the first control
   of the active tab is auto-selected (focus ring visible), and pressing a
@@ -288,7 +397,7 @@ every render pipeline, at runtime and in the editor.</p>
   release test suite. No per-frame work besides the toggle poll while closed.</li>
 </ul>
 <h2 id="081-2026-06-12">[0.8.1] - 2026-06-12<a class="headerlink" href="#081-2026-06-12" title="Permanent link">¶</a></h2>
-<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">¶</a></h3>
+<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">¶</a></h3>
 <ul>
 <li>All side-panel pages now live in a shared ScrollRect with a slim scrollbar;
   the mouse wheel scrolls the panel when the pointer is over UI and zooms the
@@ -444,7 +553,7 @@ every render pipeline, at runtime and in the editor.</p>
 </ul>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/troubleshooting/"><span class="dir">Previous</span>Troubleshooting</a><a class="next" href="../../docs/upgrade-guide/"><span class="dir">Next</span>Upgrade Guide</a></nav>
   </main>
-  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#111-2026-08-26">[1.1.1] - 2026-08-26</a></li><li class="h3"><a href="#fixed">Fixed</a></li><li class="h3"><a href="#changed">Changed</a></li><li class="h2"><a href="#110-2026-08-25">[1.1.0] - 2026-08-25</a></li><li class="h3"><a href="#added">Added</a></li><li class="h3"><a href="#changed_1">Changed</a></li><li class="h3"><a href="#known-limitations">Known limitations</a></li><li class="h2"><a href="#100-2026-06-13">[1.0.0] - 2026-06-13</a></li><li class="h3"><a href="#added_1">Added</a></li><li class="h3"><a href="#fixed_1">Fixed</a></li><li class="h3"><a href="#fixed-qa-pass">Fixed (QA pass)</a></li><li class="h3"><a href="#changed_2">Changed</a></li><li class="h2"><a href="#090-2026-06-12">[0.9.0] - 2026-06-12</a></li><li class="h3"><a href="#added_2">Added</a></li><li class="h3"><a href="#fixed_2">Fixed</a></li><li class="h3"><a href="#performance">Performance</a></li><li class="h2"><a href="#081-2026-06-12">[0.8.1] - 2026-06-12</a></li><li class="h3"><a href="#fixed_3">Fixed</a></li><li class="h3"><a href="#added_3">Added</a></li><li class="h2"><a href="#080-2026-06-12">[0.8.0] - 2026-06-12</a></li><li class="h3"><a href="#added_4">Added</a></li><li class="h3"><a href="#changed_3">Changed</a></li><li class="h3"><a href="#known-limitations_1">Known limitations</a></li><li class="h2"><a href="#070-2026-06-11">[0.7.0] - 2026-06-11</a></li><li class="h3"><a href="#added_5">Added</a></li><li class="h3"><a href="#removed">Removed</a></li><li class="h2"><a href="#060-2026-06-11">[0.6.0] - 2026-06-11</a></li><li class="h3"><a href="#added_6">Added</a></li></ul></aside>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#112-2026-08-28">[1.1.2] - 2026-08-28</a></li><li class="h3"><a href="#fixed">Fixed</a></li><li class="h2"><a href="#111-2026-08-26">[1.1.1] - 2026-08-26</a></li><li class="h3"><a href="#fixed_1">Fixed</a></li><li class="h3"><a href="#changed">Changed</a></li><li class="h2"><a href="#110-2026-08-25">[1.1.0] - 2026-08-25</a></li><li class="h3"><a href="#added">Added</a></li><li class="h3"><a href="#changed_1">Changed</a></li><li class="h3"><a href="#known-limitations">Known limitations</a></li><li class="h2"><a href="#100-2026-06-13">[1.0.0] - 2026-06-13</a></li><li class="h3"><a href="#added_1">Added</a></li><li class="h3"><a href="#fixed_2">Fixed</a></li><li class="h3"><a href="#fixed-qa-pass">Fixed (QA pass)</a></li><li class="h3"><a href="#changed_2">Changed</a></li><li class="h2"><a href="#090-2026-06-12">[0.9.0] - 2026-06-12</a></li><li class="h3"><a href="#added_2">Added</a></li><li class="h3"><a href="#fixed_3">Fixed</a></li><li class="h3"><a href="#performance">Performance</a></li><li class="h2"><a href="#081-2026-06-12">[0.8.1] - 2026-06-12</a></li><li class="h3"><a href="#fixed_4">Fixed</a></li><li class="h3"><a href="#added_3">Added</a></li><li class="h2"><a href="#080-2026-06-12">[0.8.0] - 2026-06-12</a></li><li class="h3"><a href="#added_4">Added</a></li><li class="h3"><a href="#changed_3">Changed</a></li><li class="h3"><a href="#known-limitations_1">Known limitations</a></li><li class="h2"><a href="#070-2026-06-11">[0.7.0] - 2026-06-11</a></li><li class="h3"><a href="#added_5">Added</a></li><li class="h3"><a href="#removed">Removed</a></li><li class="h2"><a href="#060-2026-06-11">[0.6.0] - 2026-06-11</a></li><li class="h3"><a href="#added_6">Added</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">

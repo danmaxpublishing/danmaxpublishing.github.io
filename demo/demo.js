@@ -13,7 +13,10 @@
   function fail(message) {
     if (progress.parentElement) progress.parentElement.style.display = "none";
     status.className = "demo-error";
-    status.textContent = "The demo could not start: " + message +
+    // The loader can reject with an Error object rather than a string;
+    // concatenating that directly would print "[object Object]".
+    var text = message && message.message ? message.message : String(message);
+    status.textContent = "The demo could not start: " + text +
       ". Try desktop Chrome, Edge or Firefox with WebGL 2 enabled.";
   }
 
@@ -33,7 +36,15 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "DanMaxPublishing",
     productName: "Photo Mode Pro Demo",
-    productVersion: "1.1.1"
+    productVersion: "1.1.1",
+    // Post-startup loader faults (WebGL context lost, memory growth failure)
+    // are reported through this banner; without it they go only to the
+    // console and the canvas just freezes with no on-page message.
+    showBanner: function (message, type) {
+      if (type === "error") {
+        fail(message);
+      }
+    }
   }, function (p) {
     progress.style.width = (p * 100) + "%";
     if (p >= 0.9) {

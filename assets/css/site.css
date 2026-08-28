@@ -132,6 +132,16 @@ code {
   white-space: nowrap;
 }
 
+/* Long identifiers must be able to break on narrow phones: with the body's
+   overflow-x clipped, a nowrap identifier wider than the column would be cut
+   off with no way to scroll to the hidden tail. */
+@media (max-width: 600px) {
+  code {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
 pre {
   background: var(--bg-1);
   border: 1px solid var(--line);
@@ -1325,7 +1335,8 @@ details.qa .qa-body p + p {
 
 .docs-article h2:hover .headerlink,
 .docs-article h3:hover .headerlink,
-.docs-article h4:hover .headerlink {
+.docs-article h4:hover .headerlink,
+.docs-article .headerlink:focus-visible {
   opacity: 1;
 }
 

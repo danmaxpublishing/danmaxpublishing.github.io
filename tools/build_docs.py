@@ -102,8 +102,14 @@ def nav_html(active_slug: str, root: str) -> str:
 
 def site_chrome_top(title: str, description: str, root: str, active: str,
                     url: str = "") -> str:
-    def cur(name: str) -> str:
-        return ' aria-current="page"' if name == active else ""
+    def cur(name: str, target: str = "") -> str:
+        if name != active:
+            return ""
+        # aria-current="page" only when the nav link IS this page; on section
+        # subpages (docs/faq/ under the Docs link) the link marks the section
+        # with "true" so screen readers don't hear two different "current page"
+        # links (the top-nav one and the sidebar's).
+        return ' aria-current="page"' if url == target else ' aria-current="true"'
 
     canonical = f"https://danmaxpublishing.github.io/{url}"
     csp = ("default-src 'none'; script-src 'self'; "
@@ -138,11 +144,11 @@ def site_chrome_top(title: str, description: str, root: str, active: str,
     <a class="brand" href="{root}"><img src="{root}assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
     <ul class="nav-links" id="site-menu">
-      <li><a href="{root}photo-mode-pro/"{cur('product')}>Photo Mode Pro</a></li>
-      <li><a href="{root}docs/"{cur('docs')}>Docs</a></li>
-      <li><a href="{root}roadmap/"{cur('roadmap')}>Roadmap</a></li>
-      <li><a href="{root}support/"{cur('support')}>Support</a></li>
-      <li><a href="{root}about/"{cur('about')}>About</a></li>
+      <li><a href="{root}photo-mode-pro/"{cur('product', 'photo-mode-pro/')}>Photo Mode Pro</a></li>
+      <li><a href="{root}docs/"{cur('docs', 'docs/')}>Docs</a></li>
+      <li><a href="{root}roadmap/"{cur('roadmap', 'roadmap/')}>Roadmap</a></li>
+      <li><a href="{root}support/"{cur('support', 'support/')}>Support</a></li>
+      <li><a href="{root}about/"{cur('about', 'about/')}>About</a></li>
       <li class="nav-cta"><a class="btn btn-primary btn-sm" href="{root}photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
     </ul>
   </div>

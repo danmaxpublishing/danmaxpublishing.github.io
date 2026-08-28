@@ -29,4 +29,4 @@ is committed; the site itself has no build step.
 
 ## Deploying
 
-Push to `master`. GitHub Pages publishes the repository root.
+Push to `main`. GitHub Pages publishes the repository root.
