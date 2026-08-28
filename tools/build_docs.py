@@ -254,6 +254,12 @@ def trim_words(text: str, limit: int) -> str:
     return cut + "…"
 
 
+# The "b" field is match-only (site.js renders titles, never bodies), so it
+# indexes the whole section text; the cap only guards against a runaway page
+# bloating the JSON.
+SEARCH_BODY_LIMIT = 4000
+
+
 def build_search_entries(body: str, page_title: str, url: str) -> list:
     """One entry per h2 section plus one for the page lead."""
     entries = []
@@ -261,14 +267,14 @@ def build_search_entries(body: str, page_title: str, url: str) -> list:
     parts = re.split(f"({h2_re})", body, flags=re.S)
     # re.split with capture groups inside the wrapper group yields
     # [before, whole-h2, id, inner, section, whole-h2, id, inner, section, ...]
-    lead = trim_words(strip_tags(parts[0]), 400)
+    lead = trim_words(strip_tags(parts[0]), SEARCH_BODY_LIMIT)
     if lead:
         entries.append({"t": page_title, "s": PRODUCT + " docs", "u": url, "b": lead})
     for i in range(1, len(parts), 4):
         hid = parts[i + 1]
         heading = strip_tags(parts[i + 2]).replace("¶", "").strip()
         section_body = trim_words(
-            strip_tags(parts[i + 3] if i + 3 < len(parts) else ""), 400
+            strip_tags(parts[i + 3] if i + 3 < len(parts) else ""), SEARCH_BODY_LIMIT
         )
         entries.append(
             {"t": heading, "s": page_title, "u": f"{url}#{hid}", "b": section_body}

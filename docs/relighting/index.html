@@ -144,6 +144,15 @@ of illumination, invisible against daylight. Darkening the frame with negative
 exposure does not help: exposure attenuates the rig's own contribution
 equally. Dim the scene instead and the rig owns the light; even modest
 intensities read like studio strobes against a dimmed base.</p>
+<p>The dimmer also darkens the sky. Skybox scenes get a session copy of the
+skybox material with its exposure (or tint) scaled down; skybox-less scenes
+have their solid-color camera backgrounds scaled instead. One exception: a
+custom skybox shader that exposes no <code>_Exposure</code>, <code>_Tint</code>, <code>_TintColor</code> or
+<code>_Color</code> property cannot be dimmed and keeps its authored brightness.</p>
+<p>The slider scales realtime lighting only. Baked lights — and the baked half of
+Mixed lights — live in the lightmaps, which the dimmer cannot touch, so their
+contribution stays at full brightness (a warning is logged when the scene
+contains such lights).</p>
 <p>Everything the dimmer touches is snapshotted on first use and restored exactly
 on exit. The dim level is saved into Capture Studio bookmarks and user looks,
 so a relit shot reproduces with its intended base.</p>

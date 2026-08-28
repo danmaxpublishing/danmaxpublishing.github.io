@@ -40,7 +40,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "DanMaxPublishing",
     productName: "Photo Mode Pro Demo",
-    productVersion: "1.1.1",
+    productVersion: "1.1.4",
     // Post-startup loader faults (WebGL context lost, memory growth failure)
     // are reported through this banner; without it they go only to the
     // console and the canvas just freezes with no on-page message.

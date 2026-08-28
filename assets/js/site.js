@@ -725,6 +725,10 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     // Ambient decoration for the marketing pages only; reading-heavy docs
     // pages shouldn't pay for a persistent full-viewport animation.
     if (document.querySelector(".docs-shell")) return;
+    // Neither should the demo page: particles would paint over the Unity
+    // canvas, spend frame budget the game needs, and clicks into the game
+    // would fire spark bursts.
+    if (document.getElementById("unity-canvas")) return;
 
     var canvas = document.createElement("canvas");
     canvas.className = "fx-embers";

@@ -50,8 +50,96 @@
 
 <p>All notable changes to Photo Mode Pro are documented here. The format follows
 <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="113-2026-08-28">[1.1.3] - 2026-08-28<a class="headerlink" href="#113-2026-08-28" title="Permanent link">¶</a></h2>
+<h2 id="114-2026-08-28">[1.1.4] - 2026-08-28<a class="headerlink" href="#114-2026-08-28" title="Permanent link">¶</a></h2>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">¶</a></h3>
+<ul>
+<li>A failure while photo mode opens (a throwing custom UI prefab, an effects
+  backend that cannot initialize) no longer wedges the game at timeScale 0
+  with the main camera disabled: the enter sequence now rolls back everything
+  it committed and logs the cause.</li>
+<li>Re-entering photo mode restores session-sticky extras: the LUT filter,
+  tilt-shift, sharpen, HSL qualifier and the histogram/peaking/zebra overlays
+  now apply on the first frame instead of waiting for a slider touch.</li>
+<li>Closing photo mode no longer overwrites a timeScale or audio pause the game
+  itself set while the session was open (an expiring slow-mo timer, a pause
+  on focus loss); photo mode only restores values it still owns.</li>
+<li>Layer exports and the capture sidecar use the camera pose from the moment
+  the shutter fired, so flicking the mouse right after a shot can no longer
+  produce depth/normal/ID files that do not line up with the beauty photo.</li>
+<li>URP and HDRP projects whose camera Volume Mask excludes the Default layer
+  get photo effects again: the session volume now follows the photo camera's
+  mask (exposure, contrast, depth of field, bloom and curves were silently
+  dead in such projects).</li>
+<li>Exported .cube LUTs match the preview in more projects: the bake pins scene
+  auto-exposure for its one render and copies the game camera's volume mask
+  and trigger onto the bake camera, so dedicated-layer grades are included.</li>
+<li>Depth, normal and ID/matte layers cut out URP alpha-tested materials at the
+  authored cutoff instead of the square of it, so foliage and hair
+  silhouettes match the beauty photo.</li>
+<li>Legacy Animation components freeze during Unscaled-pause photo sessions
+  like everything else (rotating pickups and windmill props no longer drift
+  between the photo and its layer exports).</li>
+<li>Gamepad and keyboard navigation can no longer die after closing the
+  fullscreen viewer or confirming a delete: focus stranded on a deactivated
+  control is detected and reseated.</li>
+<li>The gallery fills thumbnails a couple per frame instead of decoding every
+  photo on the page synchronously, so browsing pages of 4K captures no
+  longer freezes the UI for seconds; transient decode failures also retry on
+  the next gallery refresh instead of leaving blank tiles all session.</li>
+<li>Shared .look.json files are validated on load: non-finite or out-of-range
+  values are clamped to their documented ranges, names render inert instead
+  of as rich-text markup, and re-saving a renamed look no longer resurrects
+  it after a delete.</li>
+<li>The legacy input backend survives projects whose default InputManager axes
+  were renamed or removed (one warning instead of an exception every frame),
+  and gamepad sticks ease in smoothly from the deadzone edge instead of
+  jumping to 15 percent deflection.</li>
+<li>The physical camera's shutter time now actually drives the motion-blur
+  adjustment as documented.</li>
+<li>A full disk during a capture no longer litters the Photos folder with up to
+  a thousand zero-byte PNGs while retrying name collisions, and looks or
+  presets named after Windows reserved device names (CON, AUX, COM1) save
+  correctly.</li>
+<li>Scene dim handles more scenes correctly: the rendered skybox dims with the
+  world (a sunset HDRI no longer floats at full brightness over a blacked-out
+  scene), buyer edits made through TrackSceneLight survive slider moves,
+  baked-only lights produce a clear one-time warning instead of a slider that
+  looks broken, rig lights on Built-in raise the pixel-light budget for the
+  session so they keep shadows, and the early-restore API also restores
+  ambient and backgrounds.</li>
+<li>HDRP rig spot lights get their 60 percent flat core on Unity 2021/2022
+  (innerSpotPercent was left at its default of zero there).</li>
+<li>The relight rig root now lives in the photo session's scene, so unloading a
+  streamed chunk mid-session no longer destroys the rig lights while the UI
+  still lists them.</li>
+<li>Capture Studio: bookmarks in orthographic (2D) projects record and restore
+  the zoom level, renders apply the same TAA bracket as runtime captures,
+  per-project window state uses a stable key (the old hash could collide
+  between projects or change across Unity upgrades), headless runs exit
+  nonzero on failed shots, and the editor no longer re-reads package.json
+  from disk on every repaint.</li>
+<li>The demo scene builders stop overwriting tuned camera settings on rebuild:
+  accepting the pipeline-mismatch prompt now preserves existing values as the
+  forest builder always did.</li>
+<li>The package declares its uGUI and built-in module dependencies, so UPM
+  installs into a bare project compile out of the box.</li>
+<li>Undecodable photos show a proper broken-tile treatment instead of a solid
+  white square, oversized LUT/preset imports are rejected before decoding
+  (an out-of-memory risk on WebGL and mobile), the fullscreen viewer no
+  longer keeps a CPU copy of the displayed photo, and runtime theme swaps
+  restyle focus rings, UI audio and derived tints along with everything
+  else.</li>
+</ul>
+<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">¶</a></h3>
+<ul>
+<li>Buyer-authored LUT Filter assets are validated at apply time: a strip whose
+  width is not the square of its height is skipped with a clear warning
+  instead of grading the image with garbage.</li>
+<li>The scrub-target label shows a position indicator (TARGET 2/5) and an
+  ellipsis on truncation so long clone names remain distinguishable.</li>
+</ul>
+<h2 id="113-2026-08-28">[1.1.3] - 2026-08-28<a class="headerlink" href="#113-2026-08-28" title="Permanent link">¶</a></h2>
+<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">¶</a></h3>
 <ul>
 <li>Gallery "go to shot" reproduces physical-lens photos exactly: the saved FOV
   is applied through the lens path instead of being clamped into the roam
@@ -109,7 +197,7 @@
   after the browser releases pointer lock.</li>
 </ul>
 <h2 id="112-2026-08-28">[1.1.2] - 2026-08-28<a class="headerlink" href="#112-2026-08-28" title="Permanent link">¶</a></h2>
-<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">¶</a></h3>
+<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">¶</a></h3>
 <ul>
 <li>An undeclared GameUiTag/PlayerTag no longer wedges the game mid-enter
   (paused, camera off): the tag lookup warns and hides nothing instead.</li>
@@ -218,7 +306,7 @@
   demo scenes, and agrees with itself on the 10-minute integration estimate.</li>
 </ul>
 <h2 id="111-2026-08-26">[1.1.1] - 2026-08-26<a class="headerlink" href="#111-2026-08-26" title="Permanent link">¶</a></h2>
-<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">¶</a></h3>
+<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">¶</a></h3>
 <ul>
 <li>Right panel no longer jumps toward a selected control when you click one -
   scroll-follow now runs only for keyboard/gamepad navigation, never for
@@ -238,7 +326,7 @@
   live, unbounded X / Y / Z position rows with step buttons (Distance stays
   as a radial control; positions still save as before).</li>
 </ul>
-<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">¶</a></h3>
+<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">¶</a></h3>
 <ul>
 <li>WebGL captures save to the in-game Gallery only - no more automatic browser
   download per capture. A gallery Download button ("DOWNLOAD ALL" /
@@ -300,7 +388,7 @@ every render pipeline, at runtime and in the editor.</p>
 <li>Two new demo scenes (cinematic exterior, interior product set) plus a 2D
   demo scene built from generated sprites.</li>
 </ul>
-<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">¶</a></h3>
+<h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">¶</a></h3>
 <ul>
 <li>The scene-light dimmer now also scales ambient light, reflection intensity
   and solid-color camera backgrounds (on HDRP it scales lights only - the
@@ -340,7 +428,7 @@ every render pipeline, at runtime and in the editor.</p>
   (quick start, how-tos, integrations, per-pipeline notes, FAQ, troubleshooting,
   API reference) plus an offline quick start in the package root.</li>
 </ul>
-<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">¶</a></h3>
+<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Aperture slider dead zone</strong>: the slider was linear in f-stops while
   depth-of-field blur scales with 1/f-number, so everything visible happened below
@@ -380,7 +468,7 @@ every render pipeline, at runtime and in the editor.</p>
 <li>The capture thumbnail no longer leaks in UI-less (pure API) integrations, and
   its ownership is documented on <code>OnPhotoCaptured</code>.</li>
 </ul>
-<h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">¶</a></h3>
+<h3 id="changed_3">Changed<a class="headerlink" href="#changed_3" title="Permanent link">¶</a></h3>
 <ul>
 <li><code>PhotoModeAdjustments.APERTURE_MIN</code>/<code>APERTURE_MAX</code> constants changed from 1/32 to
   <strong>0.7/16</strong> (see the aperture fix above). Existing presets need no action: values
@@ -420,7 +508,7 @@ every render pipeline, at runtime and in the editor.</p>
   High) opens photo mode, applies a preset, captures at 2x and verifies the PNG —
   run as part of the release checks.</li>
 </ul>
-<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">¶</a></h3>
+<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">¶</a></h3>
 <ul>
 <li>Arrow/D-pad navigation is live the moment photo mode opens: the first control
   of the active tab is auto-selected (focus ring visible), and pressing a
@@ -455,7 +543,7 @@ every render pipeline, at runtime and in the editor.</p>
   release test suite. No per-frame work besides the toggle poll while closed.</li>
 </ul>
 <h2 id="081-2026-06-12">[0.8.1] - 2026-06-12<a class="headerlink" href="#081-2026-06-12" title="Permanent link">¶</a></h2>
-<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">¶</a></h3>
+<h3 id="fixed_6">Fixed<a class="headerlink" href="#fixed_6" title="Permanent link">¶</a></h3>
 <ul>
 <li>All side-panel pages now live in a shared ScrollRect with a slim scrollbar;
   the mouse wheel scrolls the panel when the pointer is over UI and zooms the
@@ -528,7 +616,7 @@ every render pipeline, at runtime and in the editor.</p>
   duration of every capture and dynamic resolution is forced off, so 1x/2x/4x
   supersampled output is artifact-free and exactly the requested size.</li>
 </ul>
-<h3 id="changed_3">Changed<a class="headerlink" href="#changed_3" title="Permanent link">¶</a></h3>
+<h3 id="changed_4">Changed<a class="headerlink" href="#changed_4" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Breaking for custom backend implementors</strong>: <code>IPhotoModeEffectsBackend</code> gains
   <code>EffectCapabilities Capabilities { get; }</code> and <code>Initialize()</code> is now
@@ -611,7 +699,7 @@ every render pipeline, at runtime and in the editor.</p>
 </ul>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/troubleshooting/"><span class="dir">Previous</span>Troubleshooting</a><a class="next" href="../../docs/upgrade-guide/"><span class="dir">Next</span>Upgrade Guide</a></nav>
   </main>
-  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#113-2026-08-28">[1.1.3] - 2026-08-28</a></li><li class="h3"><a href="#fixed">Fixed</a></li><li class="h2"><a href="#112-2026-08-28">[1.1.2] - 2026-08-28</a></li><li class="h3"><a href="#fixed_1">Fixed</a></li><li class="h2"><a href="#111-2026-08-26">[1.1.1] - 2026-08-26</a></li><li class="h3"><a href="#fixed_2">Fixed</a></li><li class="h3"><a href="#changed">Changed</a></li><li class="h2"><a href="#110-2026-08-25">[1.1.0] - 2026-08-25</a></li><li class="h3"><a href="#added">Added</a></li><li class="h3"><a href="#changed_1">Changed</a></li><li class="h3"><a href="#known-limitations">Known limitations</a></li><li class="h2"><a href="#100-2026-06-13">[1.0.0] - 2026-06-13</a></li><li class="h3"><a href="#added_1">Added</a></li><li class="h3"><a href="#fixed_3">Fixed</a></li><li class="h3"><a href="#fixed-qa-pass">Fixed (QA pass)</a></li><li class="h3"><a href="#changed_2">Changed</a></li><li class="h2"><a href="#090-2026-06-12">[0.9.0] - 2026-06-12</a></li><li class="h3"><a href="#added_2">Added</a></li><li class="h3"><a href="#fixed_4">Fixed</a></li><li class="h3"><a href="#performance">Performance</a></li><li class="h2"><a href="#081-2026-06-12">[0.8.1] - 2026-06-12</a></li><li class="h3"><a href="#fixed_5">Fixed</a></li><li class="h3"><a href="#added_3">Added</a></li><li class="h2"><a href="#080-2026-06-12">[0.8.0] - 2026-06-12</a></li><li class="h3"><a href="#added_4">Added</a></li><li class="h3"><a href="#changed_3">Changed</a></li><li class="h3"><a href="#known-limitations_1">Known limitations</a></li><li class="h2"><a href="#070-2026-06-11">[0.7.0] - 2026-06-11</a></li><li class="h3"><a href="#added_5">Added</a></li><li class="h3"><a href="#removed">Removed</a></li><li class="h2"><a href="#060-2026-06-11">[0.6.0] - 2026-06-11</a></li><li class="h3"><a href="#added_6">Added</a></li></ul></aside>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#114-2026-08-28">[1.1.4] - 2026-08-28</a></li><li class="h3"><a href="#fixed">Fixed</a></li><li class="h3"><a href="#changed">Changed</a></li><li class="h2"><a href="#113-2026-08-28">[1.1.3] - 2026-08-28</a></li><li class="h3"><a href="#fixed_1">Fixed</a></li><li class="h2"><a href="#112-2026-08-28">[1.1.2] - 2026-08-28</a></li><li class="h3"><a href="#fixed_2">Fixed</a></li><li class="h2"><a href="#111-2026-08-26">[1.1.1] - 2026-08-26</a></li><li class="h3"><a href="#fixed_3">Fixed</a></li><li class="h3"><a href="#changed_1">Changed</a></li><li class="h2"><a href="#110-2026-08-25">[1.1.0] - 2026-08-25</a></li><li class="h3"><a href="#added">Added</a></li><li class="h3"><a href="#changed_2">Changed</a></li><li class="h3"><a href="#known-limitations">Known limitations</a></li><li class="h2"><a href="#100-2026-06-13">[1.0.0] - 2026-06-13</a></li><li class="h3"><a href="#added_1">Added</a></li><li class="h3"><a href="#fixed_4">Fixed</a></li><li class="h3"><a href="#fixed-qa-pass">Fixed (QA pass)</a></li><li class="h3"><a href="#changed_3">Changed</a></li><li class="h2"><a href="#090-2026-06-12">[0.9.0] - 2026-06-12</a></li><li class="h3"><a href="#added_2">Added</a></li><li class="h3"><a href="#fixed_5">Fixed</a></li><li class="h3"><a href="#performance">Performance</a></li><li class="h2"><a href="#081-2026-06-12">[0.8.1] - 2026-06-12</a></li><li class="h3"><a href="#fixed_6">Fixed</a></li><li class="h3"><a href="#added_3">Added</a></li><li class="h2"><a href="#080-2026-06-12">[0.8.0] - 2026-06-12</a></li><li class="h3"><a href="#added_4">Added</a></li><li class="h3"><a href="#changed_4">Changed</a></li><li class="h3"><a href="#known-limitations_1">Known limitations</a></li><li class="h2"><a href="#070-2026-06-11">[0.7.0] - 2026-06-11</a></li><li class="h3"><a href="#added_5">Added</a></li><li class="h3"><a href="#removed">Removed</a></li><li class="h2"><a href="#060-2026-06-11">[0.6.0] - 2026-06-11</a></li><li class="h3"><a href="#added_6">Added</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">

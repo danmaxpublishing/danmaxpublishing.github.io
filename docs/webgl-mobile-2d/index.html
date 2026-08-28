@@ -61,7 +61,10 @@ delete</em>, so the gallery (and your saved looks) survive page reloads.</p>
 <li><strong>Download button</strong> (WebGL only) — with photos selected (or none selected
   for everything on the device) the gallery shows <strong>DOWNLOAD ALL</strong> /
   <strong>DOWNLOAD X IMAGES</strong>. Exactly one image downloads as a plain PNG; several
-  download as a single zip named <code>PhotoModePro_Captures_&lt;timestamp&gt;.zip</code>.</li>
+  download as one or more zip archives named
+  <code>PhotoModePro_Captures_&lt;timestamp&gt;.zip</code> (split into <code>_part1</code>, <code>_part2</code>…
+  zips for very large selections, so no single archive risks running the
+  browser out of memory).</li>
 <li><strong>Multi-select</strong> — long-press any thumbnail for one second to enter
   selection mode, then click to tick more photos; Esc, CANCEL or unticking
   the last photo leaves selection mode.</li>

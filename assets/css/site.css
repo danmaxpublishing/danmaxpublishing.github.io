@@ -401,24 +401,43 @@ section.tight {
 }
 
 @media (max-width: 880px) {
-  .nav-toggle {
+  html.js .nav-toggle {
     display: block;
   }
 
   .nav-links {
-    position: fixed;
-    inset: var(--nav-h) 0 auto 0;
     flex-direction: column;
     align-items: stretch;
     gap: 2px;
+  }
+
+  /* The hamburger dropdown needs JS to open; without scripting the links
+     stay in flow as a plain stacked list so the site is still navigable. */
+  html.js .nav-links {
+    position: fixed;
+    inset: var(--nav-h) 0 auto 0;
     background: var(--bg-1);
     border-bottom: 1px solid var(--line);
     padding: 10px 16px 16px;
     display: none;
   }
 
-  .nav-links.open {
+  html.js .nav-links.open {
     display: flex;
+  }
+
+  html:not(.js) .site-nav {
+    position: static;
+    height: auto;
+  }
+
+  html:not(.js) .site-nav .bar {
+    flex-wrap: wrap;
+    padding-block: 12px;
+  }
+
+  html:not(.js) .nav-links {
+    flex-basis: 100%;
   }
 
   .nav-cta {
@@ -1431,10 +1450,12 @@ details.qa .qa-body p + p {
 }
 
 /* JS-only controls: without scripting the docs search box accepts typing but
-   can never produce results, and the email Copy buttons do nothing — hide
-   them until the js root class lands. */
+   can never produce results, the email Copy buttons do nothing, and the
+   preset-gallery tabs never swap the image — hide them until the js root
+   class lands. */
 html:not(.js) .docs-search,
-html:not(.js) [data-copy-email] {
+html:not(.js) [data-copy-email],
+html:not(.js) .preset-tabs {
   display: none;
 }
 
