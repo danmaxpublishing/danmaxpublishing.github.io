@@ -167,7 +167,9 @@ prediction of the backend that would be selected right now:</p>
 <span class="kt">bool</span><span class="w"> </span><span class="n">canTransparent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">caps</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">EffectCapabilities</span><span class="p">.</span><span class="n">TransparentCapture</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 </code></pre></div>
 <p>Flags: <code>Exposure</code>, <code>Contrast</code>, <code>Saturation</code>, <code>Temperature</code>, <code>Vignette</code>, <code>Grain</code>,
-<code>DepthOfField</code>, <code>TransparentCapture</code>. The matrix per pipeline is on
+<code>DepthOfField</code>, <code>TransparentCapture</code>, <code>Bloom</code>, <code>ChromaticAberration</code>,
+<code>LensDistortion</code>, <code>TiltShift</code>, <code>Sharpen</code>, <code>MotionBlur</code>, <code>Tint</code>, <code>ColorBalance</code>,
+<code>Curves</code>, <code>HslQualifier</code>. The matrix per pipeline is on
 <a href="../pipelines/">Pipelines</a>.</p>
 <h2 id="quick-reference">Quick reference<a class="headerlink" href="#quick-reference" title="Permanent link">¶</a></h2>
 <div class="table-scroll"><table>
@@ -217,6 +219,38 @@ prediction of the backend that would be selected right now:</p>
 <tr>
 <td><code>ActiveCapabilities</code></td>
 <td>Effects backend capability flags.</td>
+</tr>
+<tr>
+<td><code>LightRig</code> / <code>ActiveLightingCapabilities</code> / <code>LightPresets</code></td>
+<td>The relight rig, its live capability flags and the Light-tab presets; see <a href="../relighting/">Relighting</a>.</td>
+</tr>
+<tr>
+<td><code>Scrubber</code></td>
+<td>The animator/Timeline/rigidbody scrubber (freeze, scrub to a frame, exact restore on exit); see <a href="../scrubbing/">Scrubbing</a>.</td>
+</tr>
+<tr>
+<td><code>PhysicalCamera</code> + <code>NotifyPhysicalCameraEdited()</code></td>
+<td>The physical camera model (drives FOV, aperture, grain, exposure); see <a href="../physical-camera/">Physical camera</a>.</td>
+</tr>
+<tr>
+<td><code>CaptureTiledPhoto(width, height)</code></td>
+<td>Beyond-GPU-limit tiled capture; see <a href="../tiled-capture/">Tiled capture</a>.</td>
+</tr>
+<tr>
+<td><code>LayerExportMask</code> / <code>MatteTag</code> / <code>MatteLayers</code> / <code>ActiveLayerCapabilities</code></td>
+<td>Render-layer export (depth, normals, mattes, …) and what the active pipeline can produce; see <a href="../render-layers/">Render layers</a>.</td>
+</tr>
+<tr>
+<td><code>LutFilters</code> / <code>ResolveActiveLutStrip()</code></td>
+<td>The LUT filter list and the active LUT's strip texture; see <a href="../luts-and-looks/">LUTs &amp; looks</a>.</td>
+</tr>
+<tr>
+<td><code>FocusPeaking</code> / <code>ClippingZebras</code> / <code>HistogramVisible</code></td>
+<td>Preview-only composition overlays (never captured); see <a href="../camera/">Free camera</a>.</td>
+</tr>
+<tr>
+<td><code>ReframeFromMetadata(metadata)</code></td>
+<td>Re-frames the photo camera from a saved photo's metadata (the gallery's "go to shot").</td>
 </tr>
 </tbody>
 </table></div>

@@ -1430,6 +1430,21 @@ details.qa .qa-body p + p {
   margin-bottom: 24px;
 }
 
+/* JS-only controls: without scripting the docs search box accepts typing but
+   can never produce results, and the email Copy buttons do nothing — hide
+   them until the js root class lands. */
+html:not(.js) .docs-search,
+html:not(.js) [data-copy-email] {
+  display: none;
+}
+
+/* De-emphasis for the unannounced-teaser card. A class (not an inline
+   opacity) so it composes with the reveal-stagger animation instead of
+   overriding its opacity keyframe. */
+.card-muted {
+  filter: brightness(0.92);
+}
+
 .docs-search input {
   width: 100%;
   background: var(--bg-2);
@@ -2026,6 +2041,14 @@ a.card-link {
 @media print {
   html {
     scroll-padding-top: 0;
+  }
+
+  /* The scroll-reveal observer never fires during print layout; without this
+     reset every not-yet-revealed section prints as a blank gap. */
+  .js .reveal,
+  .js .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   body {

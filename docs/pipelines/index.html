@@ -114,6 +114,76 @@ flags to scripts).</p>
 <td>—</td>
 </tr>
 <tr>
+<td>Bloom</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Chromatic aberration</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Lens distortion</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Tint</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Color balance</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>RGB curves</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Motion blur</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Tilt-shift</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Sharpen</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>HSL qualifier</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
 <td>Transparent capture</td>
 <td>✓</td>
 <td>—</td>
@@ -122,6 +192,9 @@ flags to scripts).</p>
 </tr>
 </tbody>
 </table></div>
+<p>Tilt-shift, sharpen and the HSL qualifier render through the package's own
+pipeline-independent presenter pass, which is why every backend has them; LUT
+filters take the same path and are likewise available on all four backends.</p>
 <h2 id="urp">URP<a class="headerlink" href="#urp" title="Permanent link">¶</a></h2>
 <ul>
 <li>Effects run through a code-built global <code>Volume</code> at very high priority. No
@@ -155,15 +228,21 @@ flags to scripts).</p>
 <h2 id="built-in-with-post-processing-stack-v2">Built-in with Post Processing Stack v2<a class="headerlink" href="#built-in-with-post-processing-stack-v2" title="Permanent link">¶</a></h2>
 <ul>
 <li>The backend creates its own <code>PostProcessVolume</code>, profile and <code>PostProcessLayer</code>
-  on the photo camera, giving the full adjustment set.</li>
+  on the photo camera, giving the full adjustment set except <strong>RGB curves</strong> and
+  <strong>motion blur</strong>: PPv2's motion blur needs motion vectors a frozen scene does
+  not produce, and its spline-based curves predate the <code>TextureCurve</code> model the
+  package drives. Both controls hide automatically on PPv2.</li>
 <li>PPv2's vignette reads weaker than URP's at the same intensity, so the slider
   value is boosted internally toward the URP look; expect subtle character
   differences between pipelines at identical slider values.</li>
 </ul>
 <h2 id="built-in-fallback-no-ppv2">Built-in fallback (no PPv2)<a class="headerlink" href="#built-in-fallback-no-ppv2" title="Permanent link">¶</a></h2>
 <ul>
-<li>A single internal full-screen shader provides exposure, contrast, saturation
-  and vignette. Temperature, film grain and depth of field are unavailable and
+<li>An internal full-screen shader provides exposure, contrast, saturation,
+  vignette and tint, and the pipeline-independent presenter adds tilt-shift,
+  sharpen, the HSL qualifier and LUT filters; transparent capture also works.
+  Temperature, film grain, depth of field, bloom, chromatic aberration, lens
+  distortion, color balance, RGB curves and motion blur are unavailable and
   their controls hide automatically.</li>
 <li>Install <code>com.unity.postprocessing</code> for the full set; the Setup Wizard's
   effects-backend check links you straight to the Package Manager.</li>

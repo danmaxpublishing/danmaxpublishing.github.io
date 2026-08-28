@@ -119,6 +119,42 @@ preserves the current framing. The starting mode comes from
 <li>The FOV slider range follows <code>PhotoModeSettings.MinFov</code> / <code>MaxFov</code>
   (10–120° by default).</li>
 </ul>
+<h2 id="composition-aids">Composition aids<a class="headerlink" href="#composition-aids" title="Permanent link">¶</a></h2>
+<p>The <strong>Camera</strong> tab carries a row of framing aids:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Aid</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Guides</strong></td>
+<td>Cycles composition guide overlays: off, thirds, golden ratio, diagonal.</td>
+</tr>
+<tr>
+<td><strong>Horizon</strong></td>
+<td>A center line that counter-rotates with the camera's roll and changes color when the horizon is level (within half a degree).</td>
+</tr>
+<tr>
+<td><strong>Histogram</strong></td>
+<td>A live luminance histogram of the current frame.</td>
+</tr>
+<tr>
+<td><strong>Focus peaking</strong></td>
+<td>Highlights in-focus edges, for nailing focus with depth of field.</td>
+</tr>
+<tr>
+<td><strong>Clipping zebras</strong></td>
+<td>Stripes over blown-out (clipped) areas of the frame.</td>
+</tr>
+</tbody>
+</table></div>
+<p>All of these are <strong>preview-only overlays — they never appear in captured
+photos</strong>. From script, <code>FocusPeaking</code>, <code>ClippingZebras</code> and <code>HistogramVisible</code>
+on <code>PhotoModeController</code> toggle the same aids; see
+<a href="../events-and-api/">Events &amp; API</a>.</p>
 <h2 id="limits-sphere-clamp-and-collision">Limits: sphere clamp and collision<a class="headerlink" href="#limits-sphere-clamp-and-collision" title="Permanent link">¶</a></h2>
 <p>Both are configured on the <a href="../core-concepts/">settings asset</a>:</p>
 <div class="table-scroll"><table>
@@ -187,7 +223,7 @@ snapping.</p>
 <a href="../capture/">Capturing photos</a> · <a href="../events-and-api/">Events &amp; API</a></p>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/core-concepts/"><span class="dir">Previous</span>Core Concepts</a><a class="next" href="../../docs/physical-camera/"><span class="dir">Next</span>Physical Camera</a></nav>
   </main>
-  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#fly-vs-orbit">Fly vs orbit</a></li><li class="h2"><a href="#controls">Controls</a></li><li class="h2"><a href="#limits-sphere-clamp-and-collision">Limits: sphere clamp and collision</a></li><li class="h2"><a href="#driving-the-camera-from-script">Driving the camera from script</a></li></ul></aside>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#fly-vs-orbit">Fly vs orbit</a></li><li class="h2"><a href="#controls">Controls</a></li><li class="h2"><a href="#composition-aids">Composition aids</a></li><li class="h2"><a href="#limits-sphere-clamp-and-collision">Limits: sphere clamp and collision</a></li><li class="h2"><a href="#driving-the-camera-from-script">Driving the camera from script</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">

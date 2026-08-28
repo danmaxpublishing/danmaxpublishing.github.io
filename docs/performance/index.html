@@ -92,7 +92,8 @@ during heavy supersampled captures (and never appears in the captured photo).</p
 <ul>
 <li>Repeated open/close cycles are leak-gated in the test suite: zero net
   scene-object growth and zero Unity-object growth over 100 cycles.</li>
-<li>The UI prefab is instantiated on first open and reused afterwards.</li>
+<li>The UI prefab is instantiated on each enter and destroyed on exit, so photo
+  mode holds no UI memory while closed; the leak gate above covers the cycle.</li>
 </ul>
 <h2 id="tips">Tips<a class="headerlink" href="#tips" title="Permanent link">¶</a></h2>
 <ul>

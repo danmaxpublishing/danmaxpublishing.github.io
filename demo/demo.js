@@ -11,6 +11,10 @@
   var fsBtn = document.getElementById("btn-fullscreen");
 
   function fail(message) {
+    // Post-startup faults arrive after the overlay was hidden; bring it back
+    // so the message is actually visible over the frozen canvas.
+    loading.style.display = "flex";
+    fsBtn.disabled = true;
     if (progress.parentElement) progress.parentElement.style.display = "none";
     status.className = "demo-error";
     // The loader can reject with an Error object rather than a string;

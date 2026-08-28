@@ -226,9 +226,10 @@ nature of the stacks; see <a href="../pipelines/">Pipelines</a>.</p>
 <p><strong>Symptom:</strong> Temperature, film grain and depth of field don't appear in the
 UI on Built-in.</p>
 <p><strong>Cause:</strong> <code>com.unity.postprocessing</code> (Post Processing Stack v2) is not
-installed, so the minimal fallback backend is active. It supports exposure,
-contrast, saturation and vignette only, and unsupported controls hide
-automatically.</p>
+installed, so the built-in fallback backend is active. It supports exposure,
+contrast, saturation, vignette, tint, tilt-shift, sharpen, the HSL qualifier,
+LUT filters and transparent capture; unsupported controls (temperature, film
+grain, depth of field and the rest) hide automatically.</p>
 <p><strong>Fix:</strong> Install Post Processing Stack v2 for the full adjustment set. The
 Setup Wizard's effects-backend check points this out. See
 <a href="../pipelines/">Pipelines</a> for the capability matrix.</p>

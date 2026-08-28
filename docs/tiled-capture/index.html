@@ -82,14 +82,16 @@ Photo Mode Pro applies one rule per effect class:</p>
    across seams <em>by construction</em>. The vignette uses the same falloff as the
    pipeline's; grain uses the package's own full-frame noise field, so its
    character differs marginally from the pipeline's texture-based grain.</li>
-<li><strong>Local-kernel effects</strong> (depth of field, bloom, sharpen) render with an
-   <strong>overlap margin sized from the effect's radius</strong> (64 px when depth of
-   field is active) and the margin is cropped away — every kernel sees real
-   context past the seam.</li>
-<li><strong>Effects that cannot be made seam-correct on a backend</strong> (a lens
-   distortion warps pixel positions per-frame and cannot be evaluated
-   per-tile) are <strong>disabled for tiled captures with a visible one-line
-   reason</strong> — never silently wrong.</li>
+<li><strong>Depth of field</strong> renders with an <strong>overlap margin</strong> (64 px) that is
+   cropped away — the blur kernel sees real context past the seam instead of
+   blurring against nothing.</li>
+<li><strong>Effects that cannot be made seam-correct</strong> are <strong>disabled for tiled
+   output</strong> rather than rendered wrong: bloom, chromatic aberration, lens
+   distortion and motion blur are turned off during the tile renders (a bloom
+   halo or a distortion warp evaluated per tile would repeat at every seam).
+   The presenter-pass extras — sharpen, tilt-shift, the HSL qualifier — and
+   LUT filters are likewise <strong>not applied to tiled output</strong>. All of these
+   still appear in normal (non-tiled) captures.</li>
 </ol>
 <p>A regression test renders a tiled capture with strong vignette and grain and
 asserts pixel continuity across every seam, and a tiled 4×4 render is asserted

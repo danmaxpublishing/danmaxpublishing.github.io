@@ -91,14 +91,23 @@ photo mode opens, the whole panel wears your skin. At runtime you can also set
 <td><code>DimTextColor</code></td>
 <td>Hints and value readouts.</td>
 </tr>
+<tr>
+<td><code>DestructiveColor</code></td>
+<td>Destructive action labels and glyphs (delete, clear).</td>
+</tr>
+<tr>
+<td><code>DestructiveControlColor</code></td>
+<td>Background of destructive controls (delete, clear).</td>
+</tr>
 </tbody>
 </table></div>
 <h3 id="sprites-and-icons">Sprites and icons<a class="headerlink" href="#sprites-and-icons" title="Permanent link">¶</a></h3>
 <p><code>PanelSprite</code>, <code>ControlSprite</code> and <code>HandleSprite</code> override the builder defaults
 (null keeps them). The generated 9-sliced sprites (<code>RoundedPanelSprite</code>,
 <code>RoundedControlSprite</code>, <code>GlowSprite</code>, <code>KnobSprite</code>, <code>RingSprite</code>) and the
-category icons (<code>CameraIcon</code>, <code>EffectsIcon</code>, <code>PresetsIcon</code>, <code>CaptureIcon</code>,
-<code>SnapIcon</code>) can each be replaced with your own art.</p>
+category icons (<code>CameraIcon</code>, <code>LightIcon</code>, <code>EffectsIcon</code>, <code>PresetsIcon</code>,
+<code>CaptureIcon</code>, <code>GalleryIcon</code>, <code>SnapIcon</code>) can each be replaced with your own
+art.</p>
 <h3 id="typography">Typography<a class="headerlink" href="#typography" title="Permanent link">¶</a></h3>
 <p><code>TmpFont</code> sets the TextMeshPro font asset for all labels (null falls back to the
 TMP default). <code>TmpOutlineMaterial</code> is an optional TMP material with a black

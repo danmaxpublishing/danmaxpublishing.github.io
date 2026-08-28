@@ -59,7 +59,7 @@ window and the in-game UI edit the same shot.</p>
 <div class="admonition note">
 <p class="admonition-title">HDRP: Play Mode only</p>
 <p>HDRP's color grading does not apply reliably to Edit Mode camera renders
-(verified again for 1.1.1 with the StandardRequest pipeline-render API),
+(verified with the StandardRequest pipeline-render API),
 so on HDRP the studio (and the headless entry point) runs in Play Mode —
 the window says so instead of rendering wrong colors. For an exact grade
 preview on HDRP, open photo mode so the studio binds to the live session.</p>
@@ -151,7 +151,7 @@ one record per shot with pass/fail, path, dimensions, format and wall time —
 ready for a CI gate:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;Pass&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;ProductVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.1.1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ProductVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.1.3&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;Pipeline&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Urp&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;Shots&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;StoreSet_Hero_KeyImage.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;Status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ok&quot;</span><span class="p">,</span>

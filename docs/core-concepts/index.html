@@ -151,7 +151,9 @@ Selection is automatic from the active render pipeline; force one via
 <code>PhotoModeSettings.BackendOverride</code> if you must.</p>
 <p>Each backend reports <code>EffectCapabilities</code> flags (<code>Exposure</code>, <code>Contrast</code>,
 <code>Saturation</code>, <code>Temperature</code>, <code>Vignette</code>, <code>Grain</code>, <code>DepthOfField</code>,
-<code>TransparentCapture</code>). <strong>The UI hides any control whose capability is missing</strong>, so
+<code>TransparentCapture</code>, <code>Bloom</code>, <code>ChromaticAberration</code>, <code>LensDistortion</code>,
+<code>TiltShift</code>, <code>Sharpen</code>, <code>MotionBlur</code>, <code>Tint</code>, <code>ColorBalance</code>, <code>Curves</code>,
+<code>HslQualifier</code>). <strong>The UI hides any control whose capability is missing</strong>, so
 players never touch a dead slider, and gamepad navigation never lands on one.
 Scripts read the same flags via <code>PhotoModeController.ActiveCapabilities</code>. That
 works even while photo mode is closed, where it returns a prediction for the

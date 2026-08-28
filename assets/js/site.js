@@ -54,7 +54,22 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       }
     });
   }
-  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var reducedMotion = motionMq.matches;
+  // A mid-session OS "reduce motion" toggle should bring relief without a
+  // reload — the ambient effects are the very thing a visitor may be
+  // reacting to. Features register a handler; the shared flag stays live.
+  var motionChangeHandlers = [];
+  function onReducedMotionChange(fn) { motionChangeHandlers.push(fn); }
+  function handleMotionChange() {
+    reducedMotion = motionMq.matches;
+    motionChangeHandlers.forEach(function (fn) { fn(reducedMotion); });
+  }
+  if (typeof motionMq.addEventListener === "function") {
+    motionMq.addEventListener("change", handleMotionChange);
+  } else if (typeof motionMq.addListener === "function") {
+    motionMq.addListener(handleMotionChange); // older Safari
+  }
 
   /* ---------------- Mobile nav ---------------- */
   var navToggle = document.querySelector(".nav-toggle");
@@ -106,6 +121,14 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       el.classList.add("in");
     });
   }
+  if (revealables.length) {
+    onReducedMotionChange(function (reduced) {
+      if (!reduced) return;
+      revealables.forEach(function (el) {
+        el.classList.add("in");
+      });
+    });
+  }
 
   /* ---------------- Lightbox ---------------- */
   var lightbox = null;
@@ -148,10 +171,7 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     return lightbox;
   }
 
-  document.addEventListener("click", function (e) {
-    var target = closestFrom(e.target, "[data-lightbox]");
-    if (!target) return;
-    e.preventDefault();
+  function openLightboxFrom(target) {
     var img = target.tagName === "IMG" ? target : target.querySelector("img");
     if (!img) return;
     var lb = ensureLightbox();
@@ -167,6 +187,32 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     // scroll the document underneath, so closing lands somewhere else.
     document.body.style.overflow = "hidden";
     lb.querySelector(".lightbox-close").focus();
+  }
+
+  document.addEventListener("click", function (e) {
+    var target = closestFrom(e.target, "[data-lightbox]");
+    if (!target) return;
+    e.preventDefault();
+    openLightboxFrom(target);
+  });
+
+  // The triggers are plain <img>/<figure> elements; without this they are
+  // unreachable by keyboard even though the page promises "click to enlarge"
+  // (WCAG 2.1.1). Applied from JS: without JS the lightbox doesn't exist, so
+  // static markup rightly carries no button semantics.
+  document.querySelectorAll("[data-lightbox]").forEach(function (el) {
+    el.setAttribute("tabindex", "0");
+    el.setAttribute("role", "button");
+    var img = el.tagName === "IMG" ? el : el.querySelector("img");
+    el.setAttribute("aria-label",
+      "View larger image" + (img && img.alt ? ": " + img.alt : ""));
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    var target = closestFrom(e.target, "[data-lightbox]");
+    if (!target) return;
+    e.preventDefault();
+    openLightboxFrom(target);
   });
 
   /* ---------------- Before/after compare sliders ---------------- */
@@ -268,6 +314,10 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       if (moveFocus) tab.focus();
       var src = tab.getAttribute("data-src");
       if (!src || img.getAttribute("src") === src) {
+        // Cancel any in-flight older load so it cannot land after this
+        // (already-shown) selection, and clear a leftover fade.
+        ++loadToken;
+        img.classList.remove("fading");
         commitTabState(tab);
         return;
       }
@@ -470,6 +520,9 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
       }
       loadIndex().then(function (idx) {
         if (searchBox.value.trim().toLowerCase() !== q) return; // stale query
+        // Slow index fetch: don't pop the dropdown open over other content
+        // after the user has already left the field.
+        if (document.activeElement !== searchBox) return;
         var terms = q.split(/\s+/);
         var matches = idx
           .map(function (entry) {
@@ -493,6 +546,9 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
         setResultsOpen(false);
         return;
       }
+      // A closed dropdown may still hold stale anchors from an earlier
+      // query; acting on them would navigate to an invisible result.
+      if (!resultsEl.classList.contains("open")) return;
       var links = resultsEl.querySelectorAll("a");
       if (!links.length) return;
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -587,6 +643,13 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
           }
         });
         frame.appendChild(btn);
+        onReducedMotionChange(function (reduced) {
+          if (!reduced || v.paused) return;
+          v.dataset.userPaused = "1";
+          v.pause();
+          btn.textContent = "▶";
+          btn.setAttribute("aria-label", "Play animation");
+        });
       });
       if ("IntersectionObserver" in window) {
         // Pause offscreen loops; resume when they scroll back in — unless the
@@ -631,8 +694,9 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
   })();
 
   /* ---------------- Button press ripple ---------------- */
-  if (!reducedMotion) {
+  {
     document.addEventListener("pointerdown", function (e) {
+      if (reducedMotion) return; // live check: OS toggle applies immediately
       var btn = closestFrom(e.target, ".btn");
       if (!btn) return;
       var rect = btn.getBoundingClientRect();
@@ -716,6 +780,7 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
     }, { passive: true });
 
     window.addEventListener("pointerdown", function (e) {
+      if (rafId === null) return; // loop stopped (hidden tab / reduced motion)
       // A small ember burst under every press; capped so rapid clicks stay cheap.
       var n = Math.min(10, 60 - sparks.length);
       for (var j = 0; j < n; j++) {
@@ -783,7 +848,19 @@ var MAILING_LIST_URL = "https://buttondown.com/api/emails/embed-subscribe/danmax
           cancelAnimationFrame(rafId);
           rafId = null;
         }
-      } else if (rafId === null) {
+      } else if (rafId === null && !reducedMotion) {
+        tick();
+      }
+    });
+    onReducedMotionChange(function (reduced) {
+      if (reduced) {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+        canvas.style.display = "none";
+      } else if (rafId === null && !document.hidden) {
+        canvas.style.display = "";
         tick();
       }
     });
