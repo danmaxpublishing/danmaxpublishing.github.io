@@ -40,7 +40,9 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "DanMaxPublishing",
     productName: "Photo Mode Pro Demo",
-    productVersion: "1.1.4",
+    // Tracks the version the deployed Build/ binaries were built from,
+    // not the docs version — update only alongside a rebuilt player.
+    productVersion: "1.1.1",
     // Post-startup loader faults (WebGL context lost, memory growth failure)
     // are reported through this banner; without it they go only to the
     // console and the canvas just freezes with no on-page message.

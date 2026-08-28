@@ -57,18 +57,39 @@ is reskinnable and gamepad-ready.</p>
 <li><strong>One-component integration</strong>: drop the configured prefab into a scene (or use
   the Setup Wizard's <em>Add Photo Mode To Scene</em> button) and press your toggle key.</li>
 <li><strong>Free camera</strong> with fly and orbit modes, sprint, roll, FOV zoom, optional
-  collision and a configurable wander radius.</li>
-<li><strong>Image adjustments in natural units</strong>: exposure (EV), contrast, saturation,
-  temperature, vignette, film grain and bokeh depth of field with a perceptual
-  f-stop slider.</li>
-<li><strong>Six filter presets</strong> (Clean, Noir, Vivid, Warm, Cool, Vintage) plus your own
-  preset assets and an automatic <em>Custom</em> state.</li>
-<li><strong>Supersampled capture</strong> at 1×/2×/4× with async GPU readback, PNG output,
-  optional transparent background, thumbnail toast and a capture event for your
-  own pipelines.</li>
+  collision and a configurable wander radius — plus Animator/Timeline scrubbing
+  to step the frozen scene to the exact frame you want.</li>
+<li><strong>A full grade stack in natural units</strong>: exposure (EV), contrast, saturation,
+  temperature, tint, vignette, film grain, bloom, chromatic aberration, lens
+  distortion, color balance, RGB curves, motion blur, tilt-shift, sharpen, an
+  HSL qualifier and bokeh depth of field with a perceptual f-stop slider
+  (per-pipeline availability in the <a href="pipelines/">pipeline notes</a>).</li>
+<li><strong>Runtime relighting</strong>: up to six photo lights (key, fill, rim and more) you
+  orbit around your subject, with scene-light dimming — all torn down and
+  restored exactly on exit.</li>
+<li><strong>Physical camera</strong>: focal length in millimeters on real sensor presets and a
+  coupled f-stop / shutter / ISO exposure triangle with a live EV readout, on
+  all three pipelines.</li>
+<li><strong>Six filter presets</strong> (Clean, Noir, Vivid, Warm, Cool, Vintage) and <strong>24 LUT
+  filters</strong> with an intensity slider, plus <code>.cube</code> import and export of your
+  current look, your own preset assets and an automatic <em>Custom</em> state.</li>
+<li><strong>Supersampled and tiled capture</strong>: 1×/2×/4× supersampling with async GPU
+  readback, and tiled 8K/16K/32K capture past the GPU texture limit; PNG
+  output, optional transparent background, thumbnail toast and a capture event
+  for your own pipelines.</li>
+<li><strong>Render layer (AOV) export</strong>: depth, normals, albedo, object-ID mattes and
+  alpha beside every capture — on URP and Built-in as well as HDRP.</li>
+<li><strong>In-game gallery</strong>: favorites, multi-select, two-step delete, per-photo
+  metadata and <em>Go To Shot</em>, which re-frames the camera to where a saved photo
+  was taken.</li>
+<li><strong>Capture Studio</strong>: a dockable editor window that composes and renders shot
+  lists in Edit Mode, with a headless command-line entry point for CI.</li>
 <li><strong>All three render pipelines</strong>: URP, HDRP and Built-in (Post Processing Stack
   v2 or a minimal fallback). The backend is detected automatically, and controls
   hide themselves when the active pipeline can't apply an effect.</li>
+<li><strong>WebGL, Android touch and 2D games</strong>: WebGL captures persist in the gallery
+  across page reloads and download on demand, the UI works with touch gestures,
+  and orthographic games get a pan/zoom camera that behaves like one.</li>
 <li><strong>Both input systems</strong>: the new Input System, the legacy Input Manager, or
   <em>Both</em>. Keyboard + mouse and gamepad, with full UI navigation.</li>
 <li><strong>Zero per-frame GC allocations</strong> while open and idle or dragging sliders, and

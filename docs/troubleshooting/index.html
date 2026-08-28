@@ -204,12 +204,12 @@ did not hide.</p>
 <h2 id="slider-changes-dont-show-in-hdrp">Slider changes don't show in HDRP<a class="headerlink" href="#slider-changes-dont-show-in-hdrp" title="Permanent link">¶</a></h2>
 <p><strong>Symptom:</strong> On HDRP, the Focus Dist and Aperture sliders have no effect.
 <em>(Phase 2 items 37, 38)</em></p>
-<p><strong>Cause:</strong> FOV smoothing wrote <code>Camera.FieldOfView</code> every frame, which
+<p><strong>Cause:</strong> FOV smoothing wrote <code>Camera.fieldOfView</code> every frame, which
 silently resets <code>usePhysicalProperties</code>, so HDRP's physical-camera depth of
 field never saw the values.</p>
 <p><strong>Fix:</strong> Fixed in 0.8.1. Update the package. The camera is now driven via
 <code>focalLength</code> while physical properties are in use. If a custom camera
-script of yours writes <code>FieldOfView</code> on the photo camera every frame, it
+script of yours writes <code>fieldOfView</code> on the photo camera every frame, it
 will reintroduce the problem; drive <code>focalLength</code> instead on physical
 cameras.</p>
 <h2 id="film-grain-or-vignette-looks-different-across-pipelines">Film grain or vignette looks different across pipelines<a class="headerlink" href="#film-grain-or-vignette-looks-different-across-pipelines" title="Permanent link">¶</a></h2>
