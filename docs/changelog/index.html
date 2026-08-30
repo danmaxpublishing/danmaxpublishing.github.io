@@ -50,8 +50,60 @@
 
 <p>All notable changes to Photo Mode Pro are documented here. The format follows
 <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="117-2026-08-28">[1.1.7] - 2026-08-28<a class="headerlink" href="#117-2026-08-28" title="Permanent link">¶</a></h2>
+<h2 id="118-2026-08-30">[1.1.8] - 2026-08-30<a class="headerlink" href="#118-2026-08-30" title="Permanent link">¶</a></h2>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">¶</a></h3>
+<ul>
+<li>Capture integrity: quitting mid-save can no longer leave a truncated photo
+  (writes go to a temp name and rename on completion, with a drain on quit),
+  transparent captures un-premultiply alpha so composites have no dark
+  fringes (runtime and Capture Studio), a stalled disk write times out and
+  fails the capture instead of wedging the session, overlapping captures on
+  one camera are refused instead of corrupting its state, and a save-path
+  change mid-capture no longer splits a photo's layer files across folders.</li>
+<li>Scrubbing fidelity: animation events and gameplay callbacks no longer fire
+  into the frozen world while scrubbing, Cloth and NavMeshAgents freeze with
+  everything else, trails stop emitting while frozen, rigidbody restores
+  respect host changes made mid-session, stale scrub targets from an earlier
+  session are refused, and a new RefreshFreeze() catches late-spawned objects.</li>
+<li>HDRP exposure correctness: entering photo mode no longer darkens scenes
+  that use physical-camera exposure, and exposure-triangle changes no longer
+  apply twice; URP/PPv2 depth of field now honors the physical lens focal
+  length so bokeh matches HDRP.</li>
+<li>Gallery safety: capturing while the fullscreen viewer is open can no longer
+  make DELETE remove a different photo than displayed, huge or foreign files
+  in the photos folder no longer risk out-of-memory on gallery fill or viewer
+  open (size budgets with thumbnail degrade), deletes with locked layer files
+  no longer orphan them, and externally overwritten photos refresh their
+  thumbnails.</li>
+<li>WebGL and mobile: tiled 16K/32K is refused on platforms that cannot survive
+  it (8K remains and now yields between rows), gallery downloads include each
+  photo's render-layer files and metadata sidecar, and the Android photo
+  delivery limitation is documented.</li>
+<li>UI polish: right-clicks no longer trigger holds, button feedback or focus
+  loss, GO TO SHOT syncs the FLY/ORBIT highlight and the physical-camera
+  lens, negative-zero readouts are gone, the scrub slider shows seconds and
+  opens at the frozen pose, near-black light gizmos stay visible, and slider
+  ranges match the light model everywhere including Capture Studio.</li>
+<li>Capture Studio: EXR exports no longer clip HDR through sharpen or LUTs,
+  transparent shots composite cleanly, the preview shows the same grade stack
+  as the final render, watermark-on-transparent is reported, and window state
+  survives domain reloads.</li>
+<li>Editor tooling: the self-test now detects wrong-pipeline materials, the
+  setup wizard probes and rebuilds every demo (not just the forest), URP-only
+  scene mutations no longer leak into Built-in/HDRP rebuilds, and demo builds
+  show progress bars.</li>
+<li>Diagnostics: capture, layer, studio and self-test failures now log full
+  exception stacks, corrupt sidecars and unreadable look files warn with the
+  file named, and the WebGL save-sync warning explains its consequence.</li>
+<li>Also: the forest demo's gamepad capture binding is X/Square again, the demo
+  character no longer slides after leaving photo mode, hostile sidecar and
+  look files are clamped and size-capped against swaps, .cube titles strip
+  control characters, the histogram measures every pixel and leak-proofs its
+  readbacks, and docs describe audio, Timeline, scrubbing and platform
+  behavior as shipped.</li>
+</ul>
+<h2 id="117-2026-08-28">[1.1.7] - 2026-08-28<a class="headerlink" href="#117-2026-08-28" title="Permanent link">¶</a></h2>
+<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">¶</a></h3>
 <ul>
 <li>Exiting photo mode can no longer wedge the game: every teardown stage is
   exception-contained and the timeScale, audio, cursor and camera restores run
@@ -95,7 +147,7 @@
 <p>See <code>issues.csv</code> ids 508-609 for the full list of 102 issues found and fixed
 in this pass.</p>
 <h2 id="116-2026-08-28">[1.1.6] - 2026-08-28<a class="headerlink" href="#116-2026-08-28" title="Permanent link">¶</a></h2>
-<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">¶</a></h3>
+<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">¶</a></h3>
 <ul>
 <li>Captures now keep the game's MSAA level at supersample 1, flatten alpha on
   opaque PNGs (no more holes where particles or post effects wrote
@@ -132,7 +184,7 @@ in this pass.</p>
 <p>See <code>issues.csv</code> ids 393-507 for the full list of 115 issues found and fixed
 in this pass.</p>
 <h2 id="115-2026-08-28">[1.1.5] - 2026-08-28<a class="headerlink" href="#115-2026-08-28" title="Permanent link">¶</a></h2>
-<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">¶</a></h3>
+<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">¶</a></h3>
 <ul>
 <li>The package compiles again on Unity 2021.3 and 2022.1 with HDRP 12/13: the
   physical camera now routes aperture, shutter speed, ISO and blade count
@@ -180,7 +232,7 @@ in this pass.</p>
   page describes the current feature set.</li>
 </ul>
 <h2 id="114-2026-08-28">[1.1.4] - 2026-08-28<a class="headerlink" href="#114-2026-08-28" title="Permanent link">¶</a></h2>
-<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">¶</a></h3>
+<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">¶</a></h3>
 <ul>
 <li>A failure while photo mode opens (a throwing custom UI prefab, an effects
   backend that cannot initialize) no longer wedges the game at timeScale 0
@@ -268,7 +320,7 @@ in this pass.</p>
   ellipsis on truncation so long clone names remain distinguishable.</li>
 </ul>
 <h2 id="113-2026-08-28">[1.1.3] - 2026-08-28<a class="headerlink" href="#113-2026-08-28" title="Permanent link">¶</a></h2>
-<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">¶</a></h3>
+<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">¶</a></h3>
 <ul>
 <li>Gallery "go to shot" reproduces physical-lens photos exactly: the saved FOV
   is applied through the lens path instead of being clamped into the roam
@@ -326,7 +378,7 @@ in this pass.</p>
   after the browser releases pointer lock.</li>
 </ul>
 <h2 id="112-2026-08-28">[1.1.2] - 2026-08-28<a class="headerlink" href="#112-2026-08-28" title="Permanent link">¶</a></h2>
-<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">¶</a></h3>
+<h3 id="fixed_6">Fixed<a class="headerlink" href="#fixed_6" title="Permanent link">¶</a></h3>
 <ul>
 <li>An undeclared GameUiTag/PlayerTag no longer wedges the game mid-enter
   (paused, camera off): the tag lookup warns and hides nothing instead.</li>
@@ -435,7 +487,7 @@ in this pass.</p>
   demo scenes, and agrees with itself on the 10-minute integration estimate.</li>
 </ul>
 <h2 id="111-2026-08-26">[1.1.1] - 2026-08-26<a class="headerlink" href="#111-2026-08-26" title="Permanent link">¶</a></h2>
-<h3 id="fixed_6">Fixed<a class="headerlink" href="#fixed_6" title="Permanent link">¶</a></h3>
+<h3 id="fixed_7">Fixed<a class="headerlink" href="#fixed_7" title="Permanent link">¶</a></h3>
 <ul>
 <li>Right panel no longer jumps toward a selected control when you click one -
   scroll-follow now runs only for keyboard/gamepad navigation, never for
@@ -557,7 +609,7 @@ every render pipeline, at runtime and in the editor.</p>
   (quick start, how-tos, integrations, per-pipeline notes, FAQ, troubleshooting,
   API reference) plus an offline quick start in the package root.</li>
 </ul>
-<h3 id="fixed_7">Fixed<a class="headerlink" href="#fixed_7" title="Permanent link">¶</a></h3>
+<h3 id="fixed_8">Fixed<a class="headerlink" href="#fixed_8" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Aperture slider dead zone</strong>: the slider was linear in f-stops while
   depth-of-field blur scales with 1/f-number, so everything visible happened below
@@ -637,7 +689,7 @@ every render pipeline, at runtime and in the editor.</p>
   High) opens photo mode, applies a preset, captures at 2x and verifies the PNG —
   run as part of the release checks.</li>
 </ul>
-<h3 id="fixed_8">Fixed<a class="headerlink" href="#fixed_8" title="Permanent link">¶</a></h3>
+<h3 id="fixed_9">Fixed<a class="headerlink" href="#fixed_9" title="Permanent link">¶</a></h3>
 <ul>
 <li>Arrow/D-pad navigation is live the moment photo mode opens: the first control
   of the active tab is auto-selected (focus ring visible), and pressing a
@@ -672,7 +724,7 @@ every render pipeline, at runtime and in the editor.</p>
   release test suite. No per-frame work besides the toggle poll while closed.</li>
 </ul>
 <h2 id="081-2026-06-12">[0.8.1] - 2026-06-12<a class="headerlink" href="#081-2026-06-12" title="Permanent link">¶</a></h2>
-<h3 id="fixed_9">Fixed<a class="headerlink" href="#fixed_9" title="Permanent link">¶</a></h3>
+<h3 id="fixed_10">Fixed<a class="headerlink" href="#fixed_10" title="Permanent link">¶</a></h3>
 <ul>
 <li>All side-panel pages now live in a shared ScrollRect with a slim scrollbar;
   the mouse wheel scrolls the panel when the pointer is over UI and zooms the
@@ -828,7 +880,7 @@ every render pipeline, at runtime and in the editor.</p>
 </ul>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/troubleshooting/"><span class="dir">Previous</span>Troubleshooting</a><a class="next" href="../../docs/upgrade-guide/"><span class="dir">Next</span>Upgrade Guide</a></nav>
   </main>
-  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#117-2026-08-28">[1.1.7] - 2026-08-28</a></li><li class="h3"><a href="#fixed">Fixed</a></li><li class="h2"><a href="#116-2026-08-28">[1.1.6] - 2026-08-28</a></li><li class="h3"><a href="#fixed_1">Fixed</a></li><li class="h2"><a href="#115-2026-08-28">[1.1.5] - 2026-08-28</a></li><li class="h3"><a href="#fixed_2">Fixed</a></li><li class="h2"><a href="#114-2026-08-28">[1.1.4] - 2026-08-28</a></li><li class="h3"><a href="#fixed_3">Fixed</a></li><li class="h3"><a href="#changed">Changed</a></li><li class="h2"><a href="#113-2026-08-28">[1.1.3] - 2026-08-28</a></li><li class="h3"><a href="#fixed_4">Fixed</a></li><li class="h2"><a href="#112-2026-08-28">[1.1.2] - 2026-08-28</a></li><li class="h3"><a href="#fixed_5">Fixed</a></li><li class="h2"><a href="#111-2026-08-26">[1.1.1] - 2026-08-26</a></li><li class="h3"><a href="#fixed_6">Fixed</a></li><li class="h3"><a href="#changed_1">Changed</a></li><li class="h2"><a href="#110-2026-08-25">[1.1.0] - 2026-08-25</a></li><li class="h3"><a href="#added">Added</a></li><li class="h3"><a href="#changed_2">Changed</a></li><li class="h3"><a href="#known-limitations">Known limitations</a></li><li class="h2"><a href="#100-2026-06-13">[1.0.0] - 2026-06-13</a></li><li class="h3"><a href="#added_1">Added</a></li><li class="h3"><a href="#fixed_7">Fixed</a></li><li class="h3"><a href="#fixed-qa-pass">Fixed (QA pass)</a></li><li class="h3"><a href="#changed_3">Changed</a></li><li class="h2"><a href="#090-2026-06-12">[0.9.0] - 2026-06-12</a></li><li class="h3"><a href="#added_2">Added</a></li><li class="h3"><a href="#fixed_8">Fixed</a></li><li class="h3"><a href="#performance">Performance</a></li><li class="h2"><a href="#081-2026-06-12">[0.8.1] - 2026-06-12</a></li><li class="h3"><a href="#fixed_9">Fixed</a></li><li class="h3"><a href="#added_3">Added</a></li><li class="h2"><a href="#080-2026-06-12">[0.8.0] - 2026-06-12</a></li><li class="h3"><a href="#added_4">Added</a></li><li class="h3"><a href="#changed_4">Changed</a></li><li class="h3"><a href="#known-limitations_1">Known limitations</a></li><li class="h2"><a href="#070-2026-06-11">[0.7.0] - 2026-06-11</a></li><li class="h3"><a href="#added_5">Added</a></li><li class="h3"><a href="#removed">Removed</a></li><li class="h2"><a href="#060-2026-06-11">[0.6.0] - 2026-06-11</a></li><li class="h3"><a href="#added_6">Added</a></li></ul></aside>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#118-2026-08-30">[1.1.8] - 2026-08-30</a></li><li class="h3"><a href="#fixed">Fixed</a></li><li class="h2"><a href="#117-2026-08-28">[1.1.7] - 2026-08-28</a></li><li class="h3"><a href="#fixed_1">Fixed</a></li><li class="h2"><a href="#116-2026-08-28">[1.1.6] - 2026-08-28</a></li><li class="h3"><a href="#fixed_2">Fixed</a></li><li class="h2"><a href="#115-2026-08-28">[1.1.5] - 2026-08-28</a></li><li class="h3"><a href="#fixed_3">Fixed</a></li><li class="h2"><a href="#114-2026-08-28">[1.1.4] - 2026-08-28</a></li><li class="h3"><a href="#fixed_4">Fixed</a></li><li class="h3"><a href="#changed">Changed</a></li><li class="h2"><a href="#113-2026-08-28">[1.1.3] - 2026-08-28</a></li><li class="h3"><a href="#fixed_5">Fixed</a></li><li class="h2"><a href="#112-2026-08-28">[1.1.2] - 2026-08-28</a></li><li class="h3"><a href="#fixed_6">Fixed</a></li><li class="h2"><a href="#111-2026-08-26">[1.1.1] - 2026-08-26</a></li><li class="h3"><a href="#fixed_7">Fixed</a></li><li class="h3"><a href="#changed_1">Changed</a></li><li class="h2"><a href="#110-2026-08-25">[1.1.0] - 2026-08-25</a></li><li class="h3"><a href="#added">Added</a></li><li class="h3"><a href="#changed_2">Changed</a></li><li class="h3"><a href="#known-limitations">Known limitations</a></li><li class="h2"><a href="#100-2026-06-13">[1.0.0] - 2026-06-13</a></li><li class="h3"><a href="#added_1">Added</a></li><li class="h3"><a href="#fixed_8">Fixed</a></li><li class="h3"><a href="#fixed-qa-pass">Fixed (QA pass)</a></li><li class="h3"><a href="#changed_3">Changed</a></li><li class="h2"><a href="#090-2026-06-12">[0.9.0] - 2026-06-12</a></li><li class="h3"><a href="#added_2">Added</a></li><li class="h3"><a href="#fixed_9">Fixed</a></li><li class="h3"><a href="#performance">Performance</a></li><li class="h2"><a href="#081-2026-06-12">[0.8.1] - 2026-06-12</a></li><li class="h3"><a href="#fixed_10">Fixed</a></li><li class="h3"><a href="#added_3">Added</a></li><li class="h2"><a href="#080-2026-06-12">[0.8.0] - 2026-06-12</a></li><li class="h3"><a href="#added_4">Added</a></li><li class="h3"><a href="#changed_4">Changed</a></li><li class="h3"><a href="#known-limitations_1">Known limitations</a></li><li class="h2"><a href="#070-2026-06-11">[0.7.0] - 2026-06-11</a></li><li class="h3"><a href="#added_5">Added</a></li><li class="h3"><a href="#removed">Removed</a></li><li class="h2"><a href="#060-2026-06-11">[0.6.0] - 2026-06-11</a></li><li class="h3"><a href="#added_6">Added</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">

@@ -73,11 +73,14 @@ delete</em>, so the gallery (and your saved looks) survive page reloads.</p>
 <ul>
 <li>The <em>save folder</em> row and the capture toast's <em>reveal in file browser</em>
   action are hidden — there is no file browser to open. Everything else,
-  including render-layer EXR/PNG export and metadata sidecars, works the same
-  (layer files stay in the gallery's storage rather than downloading
-  individually).</li>
-<li>Super-sample and tiled resolutions are limited by the browser's GPU memory;
-  stay at or below 2× super-sampling for a typical WebGL build.</li>
+  including render-layer EXR/PNG export and metadata sidecars, works the
+  same, and the download zip carries them: each selected photo's layer files
+  and metadata sidecar (matched by file name) are packed into the same
+  archive as the photo.</li>
+<li>Super-sample resolutions are limited by the browser's GPU memory and by
+  the build's browser heap; stay at or below 2× super-sampling for a typical
+  WebGL build. Tiled 16K and 32K capture is refused on WebGL (and on
+  mobile); tiled 8K remains available.</li>
 </ul>
 <p>No setup is required — the platform is detected at runtime.</p>
 <h2 id="mobile-touch">Mobile (touch)<a class="headerlink" href="#mobile-touch" title="Permanent link">¶</a></h2>
@@ -95,6 +98,13 @@ a connected gamepad or keyboard keeps working at the same time.</p>
 <p>Android is verified in-engine and in the Android emulator. iOS is expected to
 work through the same touch path but is not yet a supported claim — it is on
 the roadmap.</p>
+<p>One delivery limitation to know about: captures on Android (and iOS) live in
+the app-private <code>Application.persistentDataPath</code>. No gallery app or file
+manager can see them, and they are deleted with the app, so out of the box
+they are viewable only in the in-game gallery; there is no share or download
+button on mobile. Integrators who need one can build it on
+<code>PhotoModeController.OnPhotoCaptured</code>, which hands over each capture's file
+path for a native share plugin.</p>
 <h2 id="2d-orthographic-games">2D / orthographic games<a class="headerlink" href="#2d-orthographic-games" title="Permanent link">¶</a></h2>
 <p>When photo mode opens on an orthographic camera it adapts automatically —
 there is nothing to configure:</p>

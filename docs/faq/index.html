@@ -127,12 +127,22 @@ Setup Wizard includes a Cinemachine check. See
   large selections).</li>
 <li><strong>Android</strong> (v1.1): supported — touch gestures (one-finger look, pinch zoom,
   two-finger pan) and a responsive portrait layout; verified in the Android
-  emulator.</li>
+  emulator. Captures stay inside the app (see the note below).</li>
 <li><strong>iOS</strong>: expected to work through the same touch path, but untested — no
   claim made (on the roadmap).</li>
 <li><strong>Consoles</strong>: untested; the gamepad input layer is console-style, but no
   platform claims are made.</li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Mobile captures stay inside the app</p>
+<p>On Android (and iOS), photos are written to the app-private
+<code>Application.persistentDataPath</code>. No gallery app or file manager can see
+that folder, and uninstalling the app deletes it, so out of the box
+captures are viewable only in the in-game gallery and there is no share
+or download path. If you need one, build it on the public API:
+<code>PhotoModeController.OnPhotoCaptured</code> hands you each capture's file path,
+ready to pass to a native share plugin.</p>
+</div>
 <h2 id="capture">Capture<a class="headerlink" href="#capture" title="Permanent link">¶</a></h2>
 <h3 id="where-are-photos-saved">Where are photos saved?<a class="headerlink" href="#where-are-photos-saved" title="Permanent link">¶</a></h3>
 <p><code>{Application.persistentDataPath}/Photos</code> by default, as timestamped,

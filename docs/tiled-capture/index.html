@@ -104,6 +104,8 @@ to match a single-pass render of the same resolution within tolerance.</p>
 <li>Output is 8-bit RGBA PNG, written by the package's own scanline-streaming
   encoder (pure Unity/BCL — no third-party code) so the full image never
   exists in memory.</li>
+<li>The transparent-background option on output presets does not apply to
+  tiled captures; tiled output is always fully opaque.</li>
 <li>Rendering pauses the game thread for the duration; a 32K capture takes on
   the order of a minute depending on scene and disk.</li>
 <li>Motion-dependent effects (temporal AA) are not part of tile renders.</li>

@@ -144,7 +144,7 @@ on the exit frame. <code>ExitedThisFrame</code> is true only during that single 
 <p>By default photo mode sets <code>AudioListener.pause</code> on enter and restores the prior
 value exactly on exit. If your game drives audio through mixer snapshots, set
 <code>PhotoModeSettings.AudioPauseMode</code> to <code>AudioPauseMode.None</code> (the package then
-never touches audio) and transition in your own handlers:</p>
+leaves audio alone) and transition in your own handlers:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine.Audio</span><span class="p">;</span>
 
@@ -158,7 +158,10 @@ never touches audio) and transition in your own handlers:</p>
 <span class="w">    </span><span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">gameplaySnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>More audio strategies in <a href="../integrations/">Integrations</a>.</p>
+<p>One exception survives <code>None</code>: the scrubber pauses playing <code>PlayableDirector</code>
+components, which silences Timeline <code>AudioTrack</code> output for the session no
+matter which audio mode is selected.</p>
+<p>More audio strategies in <a href="../integrations/#audio">Integrations</a>.</p>
 <h2 id="capability-checks">Capability checks<a class="headerlink" href="#capability-checks" title="Permanent link">¶</a></h2>
 <p><code>ActiveCapabilities</code> returns the <code>EffectCapabilities</code> flags of the active effects
 backend. While photo mode is closed, it returns a cheap, side-effect-free

@@ -130,10 +130,28 @@ axes, which also drive camera movement. See the
 </tr>
 <tr>
 <td><code>None</code></td>
-<td>Photo mode never touches audio. Drive your own transitions from the enter/exit events.</td>
+<td>Photo mode leaves audio alone (one Timeline exception below). Drive your own transitions from the enter/exit events.</td>
 </tr>
 </tbody>
 </table></div>
+<div class="admonition warning">
+<p class="admonition-title">Timeline audio pauses regardless of mode</p>
+<p>The scrubber pauses every playing <code>PlayableDirector</code> for the session, and
+a paused director's <code>AudioTrack</code> output goes silent with it. Sound played
+through a plain <code>AudioSource</code> follows the table above; sound played from
+a Timeline goes quiet in photo mode no matter which <code>AudioPauseMode</code> is
+selected.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Unscaled pause: queued sounds burst out on exit</p>
+<p>With <code>PauseMode = Unscaled</code> the game keeps running while photo mode is
+open. Under <code>AudioListenerPause</code>, every <code>AudioSource.Play</code> that running
+gameplay fires during the session is queued by Unity behind the paused
+listener and released as one overlapping burst the moment photo mode
+exits. For Unscaled games use <code>AudioPauseMode.None</code> and gate audio on the
+host side instead: duck a mixer group from the enter/exit events, or stop
+firing one-shots while <code>IsActive</code>.</p>
+</div>
 <p>The mixer-snapshot pattern with <code>None</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">PhotoModePro</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine.Audio</span><span class="p">;</span>
@@ -150,6 +168,16 @@ axes, which also drive camera movement. See the
 </code></pre></div>
 <p>UI sounds (hover, click, shutter) are separate and can be routed into a mixer
 group of your choice via the theme; see <a href="../theming/">Theming</a>.</p>
+<h3 id="the-listener-rides-the-photo-camera">The listener rides the photo camera<a class="headerlink" href="#the-listener-rides-the-photo-camera" title="Permanent link">¶</a></h3>
+<p>If your main camera carries the <code>AudioListener</code>, photo mode moves listening to
+the free camera: the host listener is disabled on enter and a temporary one is
+added to the photo camera, with the original restored exactly on exit. When
+audio stays audible (<code>None</code>, or an Unscaled game) that has two side effects:
+flying the camera bends the pitch of any 3D source with a non-zero
+<code>dopplerLevel</code>, and <strong>GO TO SHOT</strong> teleports the listener in a single frame,
+which lands as a doppler screech plus a loudness jump-cut near loud sources.
+Set <code>dopplerLevel = 0</code> on sources that will be audible in photo mode; the
+demo's campfire does exactly that.</p>
 <h2 id="pause-menus-and-game-state-machines">Pause menus and game-state machines<a class="headerlink" href="#pause-menus-and-game-state-machines" title="Permanent link">¶</a></h2>
 <p>Treat photo mode as one more state your game can be in, owned by your state
 machine:</p>
@@ -196,7 +224,7 @@ machine:</p>
 <a href="../pipelines/">Pipelines</a> · <a href="../troubleshooting/">Troubleshooting</a></p>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/webgl-mobile-2d/"><span class="dir">Previous</span>WebGL, Mobile &amp; 2D</a><a class="next" href="../../docs/pipelines/"><span class="dir">Next</span>Per-Pipeline Notes</a></nav>
   </main>
-  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#cinemachine">Cinemachine</a></li><li class="h2"><a href="#input-systems">Input systems</a></li><li class="h2"><a href="#audio">Audio</a></li><li class="h2"><a href="#pause-menus-and-game-state-machines">Pause menus and game-state machines</a></li></ul></aside>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#cinemachine">Cinemachine</a></li><li class="h2"><a href="#input-systems">Input systems</a></li><li class="h2"><a href="#audio">Audio</a></li><li class="h3"><a href="#the-listener-rides-the-photo-camera">The listener rides the photo camera</a></li><li class="h2"><a href="#pause-menus-and-game-state-machines">Pause menus and game-state machines</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">

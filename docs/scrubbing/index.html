@@ -61,14 +61,45 @@ a jump, the crack of an impact, the exact blink you want.</p>
 <li>Physics is frozen for the session (rigidbodies go kinematic), so ragdolls
   and props hold still while you work.</li>
 </ul>
-<p>On exit everything restores exactly: animator speeds, update modes and states,
-director times, rigidbody flags and velocities — the same restore contract as
-the camera, audio and time scale.</p>
+<h2 id="what-the-freeze-covers">What the freeze covers<a class="headerlink" href="#what-the-freeze-covers" title="Permanent link">¶</a></h2>
+<p>Animators and directors are the scrubbable targets, but the session freeze
+holds more of the scene still: legacy <code>Animation</code> components, particle
+systems, trail renderers (existing points are held and emission is frozen),
+VFX Graph effects, <code>Cloth</code> simulation and <code>NavMeshAgent</code> movement. Those are
+frozen for the session and released on exit; they cannot be scrubbed.
+Animation events are suppressed while you scrub, so stepping through an event
+frame does not fire footstep sounds or gameplay callbacks.</p>
+<h2 id="what-restores-on-exit">What restores on exit<a class="headerlink" href="#what-restores-on-exit" title="Permanent link">¶</a></h2>
+<p>The scrubber undoes its own writes and nothing else:</p>
+<ul>
+<li><strong>Speeds and pause flags it set are restored:</strong> animator and legacy
+  <code>Animation</code> speeds, director times, rigidbody kinematic flags and
+  velocities, and the paused particle, trail and VFX state.</li>
+<li><strong>Animator update modes are never written</strong>, so they are never restored
+  either; whatever your game set stays in force.</li>
+<li><strong>States replay only on targets you actually scrubbed.</strong> A target you never
+  touched was only slowed, never re-posed, so it resumes from wherever it was
+  instead of snapping back to its session-start state. In <code>Unscaled</code> pause
+  mode this also means mid-session changes your still-running game made to an
+  animator (a ragdoll toggle, a <code>CrossFade</code>) survive exit.</li>
+</ul>
+<h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Base layer only.</strong> Scrubbing samples an Animator's layer 0 state; upper
+  layers keep their frozen pose and do not follow the slider.</li>
+<li><strong>Hand-built PlayableGraphs.</strong> Only <code>PlayableDirector</code> components are
+  discovered. A <code>PlayableGraph</code> your own code creates and plays is neither
+  frozen nor offered as a scrub target.</li>
+<li><strong>Timeline audio goes silent.</strong> Pausing a playing <code>PlayableDirector</code> also
+  silences its Timeline <code>AudioTrack</code> output for the whole session, regardless
+  of the <code>AudioPauseMode</code> setting. See
+  <a href="../integrations/#audio">Integrations</a>.</li>
+</ul>
 <p>From script: <code>PhotoModeController.Instance.Scrubber</code> exposes <code>Targets</code> and
 <code>Scrub(target, normalizedTime)</code>.</p>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/gallery/"><span class="dir">Previous</span>Gallery</a><a class="next" href="../../docs/events-and-api/"><span class="dir">Next</span>Events &amp; Scripting</a></nav>
   </main>
-  
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#what-the-freeze-covers">What the freeze covers</a></li><li class="h2"><a href="#what-restores-on-exit">What restores on exit</a></li><li class="h2"><a href="#limitations">Limitations</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">

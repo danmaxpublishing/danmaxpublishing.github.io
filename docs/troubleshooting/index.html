@@ -103,11 +103,15 @@ snapshots.</p>
 prior value exactly on exit; if your own code also writes
 <code>AudioListener.pause</code>, or your audio runs through snapshot transitions, the
 two systems fight.</p>
-<p><strong>Fix:</strong> Set <code>AudioPauseMode</code> to <code>None</code> (the package then never touches
-audio) and transition your own snapshots from the events:</p>
+<p><strong>Fix:</strong> Set <code>AudioPauseMode</code> to <code>None</code> (the package then leaves audio
+alone) and transition your own snapshots from the events:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">controller</span><span class="p">.</span><span class="n">OnEntered</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pausedSnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
 <span class="n">controller</span><span class="p">.</span><span class="n">OnExited</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">gameplaySnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
 </code></pre></div>
+<p>Timeline audio is the one exception to <code>None</code>: photo mode pauses playing
+<code>PlayableDirector</code> components, so Timeline <code>AudioTrack</code> output goes silent
+for the session in every audio mode. See
+<a href="../integrations/#audio">Integrations</a>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Upgrading from 0.8.x</p>
 <p><code>AudioPauseMode</code> replaced the old <code>pauseAudio</code> bool in 0.9.0. Projects

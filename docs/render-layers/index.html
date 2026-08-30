@@ -130,8 +130,9 @@ beside every shot in the matrix, headless runs included.</p>
 <span class="n">controller</span><span class="p">.</span><span class="n">LayerExportMask</span><span class="w"> </span><span class="o">=</span>
 <span class="w">    </span><span class="n">PhotoModeRenderLayerMask</span><span class="p">.</span><span class="n">Depth</span>
 <span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">PhotoModeRenderLayerMask</span><span class="p">.</span><span class="n">Normal</span>
-<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">PhotoModeRenderLayerMask</span><span class="p">.</span><span class="n">ObjectId</span><span class="p">;</span>
-<span class="n">controller</span><span class="p">.</span><span class="n">MatteTag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Player&quot;</span><span class="p">;</span><span class="w">      </span><span class="c1">// optional Matte layer selection</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">PhotoModeRenderLayerMask</span><span class="p">.</span><span class="n">ObjectId</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">PhotoModeRenderLayerMask</span><span class="p">.</span><span class="n">Matte</span><span class="p">;</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">MatteTag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Player&quot;</span><span class="p">;</span><span class="w">      </span><span class="c1">// what the Matte layer isolates</span>
 <span class="n">controller</span><span class="p">.</span><span class="n">CapturePhoto</span><span class="p">();</span>
 </code></pre></div>
 <p><code>PhotoModeController.ActiveLayerCapabilities</code> reports what the active pipeline
