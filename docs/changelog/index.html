@@ -42,7 +42,7 @@
       <input type="search" placeholder="Search docs…" aria-label="Search documentation">
       <div class="results" role="listbox"></div>
     </div>
-    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/" aria-current="page">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li><li><a href="../../docs/blog/">Blog</a></li></ul></div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/stickers-and-frames/">Stickers &amp; Frames</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/" aria-current="page">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li><li><a href="../../docs/blog/">Blog</a></li></ul></div>
   </aside>
   <main class="docs-article" id="main" tabindex="-1">
     <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Help</p>
@@ -50,6 +50,39 @@
 
 <p>All notable changes to Photo Mode Pro are documented here. The format follows
 <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
+<h2 id="120-2026-09-11">[1.2.0] - 2026-09-11<a class="headerlink" href="#120-2026-09-11" title="Permanent link">¶</a></h2>
+<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">¶</a></h3>
+<ul>
+<li>Decorate: a new seventh category page between PRESETS and CAPTURE for
+  placing stickers and photo frames on the shot before capture. Ships with
+  48 CC0 stickers in five categories (emotes, shapes &amp; badges, speech
+  bubbles, props, misc) and 12 CC0 frames (9-sliced, with tiling film-strip
+  edges), all with recorded provenance in <code>Content/Decor/ATTRIBUTIONS.md</code>.</li>
+<li>Full input parity: mouse drag with on-image scale/rotate/delete handles
+  and scroll-wheel scaling, touch drag with pinch-to-scale and two-finger
+  twist, and a gamepad place mode (left stick moves, right stick scales and
+  spins, bumpers step 15 degrees, Y duplicates, A confirms) with its own
+  hint chips and a floating DONE PLACING pill.</li>
+<li>Per-sticker controls: opacity, tint from a fixed swatch palette, flip,
+  duplicate, layer order (send back / bring forward), plus frame opacity
+  and tint; a live counter (n/24) and a confirm-morphing Clear All.</li>
+<li>Decor composites into the final capture at output resolution on both the
+  GPU path and the tiled CPU path (seam-spanning at 8K-32K), with
+  byte-level GPU/CPU parity enforced by tests. AOV layers and clean-alpha
+  exports stay decor-free.</li>
+<li>One global decor layout persists across sessions (<code>decor.json</code>), captures
+  record their decor in the photo metadata sidecar (schema 2), and GO TO
+  SHOT restores it; looks saved at schema 2 replace the decor wholesale
+  while legacy v1 looks leave it untouched.</li>
+<li>Catalog is a builder-generated ScriptableObject
+  (<code>PhotoModeDecorCatalogBuilder</code>); buyers can add their own stickers and
+  frames by dropping PNGs into the content folders and rebuilding — see the
+  "Stickers &amp; Frames" manual page.</li>
+<li>The panel stays out of the shot's way: it fades while dragging or
+  adjusting, place mode hides it almost fully, a PEEK header chip fades it
+  on demand, and in landscape it auto-drops to a readable half-fade when a
+  placed sticker sits behind it.</li>
+</ul>
 <h2 id="118-2026-08-30">[1.1.8] - 2026-08-30<a class="headerlink" href="#118-2026-08-30" title="Permanent link">¶</a></h2>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">¶</a></h3>
 <ul>
@@ -529,7 +562,7 @@ in this pass.</p>
 <h2 id="110-2026-08-25">[1.1.0] - 2026-08-25<a class="headerlink" href="#110-2026-08-25" title="Permanent link">¶</a></h2>
 <p>Rebuilt around one thesis: HDRP-class and offline-renderer-class capture on
 every render pipeline, at runtime and in the editor.</p>
-<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">¶</a></h3>
+<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Runtime relight rig</strong>: up to six virtual lights (key / fill / rim /
   practical / sun) with photometric units (candela, lux, lumens), orbit and
@@ -584,7 +617,7 @@ every render pipeline, at runtime and in the editor.</p>
   (roadmap); consoles untested.</li>
 </ul>
 <h2 id="100-2026-06-13">[1.0.0] - 2026-06-13<a class="headerlink" href="#100-2026-06-13" title="Permanent link">¶</a></h2>
-<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">¶</a></h3>
+<h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Setup Wizard</strong> (Tools → Photo Mode Pro → Setup Wizard): green/yellow/red
   project checks — render pipeline, effects backend, input handling, Cinemachine,
@@ -660,7 +693,7 @@ every render pipeline, at runtime and in the editor.</p>
   of opening a dead session (no input, frozen cursor logic).</li>
 </ul>
 <h2 id="090-2026-06-12">[0.9.0] - 2026-06-12<a class="headerlink" href="#090-2026-06-12" title="Permanent link">¶</a></h2>
-<h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">¶</a></h3>
+<h3 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Unity 2021.3+ support.</strong> The minimum Unity version drops from 6000.0 to
   2021.3 LTS; the package is verified on 2021.3, 2022.3 and 6000.3, on URP 12/14/17,
@@ -755,7 +788,7 @@ every render pipeline, at runtime and in the editor.</p>
 <li>Sprint (Shift) now multiplies Z/C roll speed by the same <code>SprintMultiplier</code>
   as movement.</li>
 </ul>
-<h3 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">¶</a></h3>
+<h3 id="added_4">Added<a class="headerlink" href="#added_4" title="Permanent link">¶</a></h3>
 <ul>
 <li>Clickable capture toast: opens the file browser with the new photo selected
   (Windows Explorer reveal; folder open elsewhere). The save-path row on the
@@ -769,7 +802,7 @@ every render pipeline, at runtime and in the editor.</p>
   prefab hint chips (editor dialog).</li>
 </ul>
 <h2 id="080-2026-06-12">[0.8.0] - 2026-06-12<a class="headerlink" href="#080-2026-06-12" title="Permanent link">¶</a></h2>
-<h3 id="added_4">Added<a class="headerlink" href="#added_4" title="Permanent link">¶</a></h3>
+<h3 id="added_5">Added<a class="headerlink" href="#added_5" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Built-in Render Pipeline support</strong>: a Post Processing Stack v2 backend (own
   PostProcessVolume + profile + layer on the photo camera, full adjustment set)
@@ -818,7 +851,7 @@ every render pipeline, at runtime and in the editor.</p>
   controls are hidden.</li>
 </ul>
 <h2 id="070-2026-06-11">[0.7.0] - 2026-06-11<a class="headerlink" href="#070-2026-06-11" title="Permanent link">¶</a></h2>
-<h3 id="added_5">Added<a class="headerlink" href="#added_5" title="Permanent link">¶</a></h3>
+<h3 id="added_6">Added<a class="headerlink" href="#added_6" title="Permanent link">¶</a></h3>
 <ul>
 <li>Demo upgrade: the primitive corridor is replaced by a stylized forest-clearing
   showcase scene (CC0 third-party assets, provenance in
@@ -847,7 +880,7 @@ every render pipeline, at runtime and in the editor.</p>
 <li><code>SimplePlayerMovement</code> (superseded by <code>ThirdPersonCharacter</code>).</li>
 </ul>
 <h2 id="060-2026-06-11">[0.6.0] - 2026-06-11<a class="headerlink" href="#060-2026-06-11" title="Permanent link">¶</a></h2>
-<h3 id="added_6">Added<a class="headerlink" href="#added_6" title="Permanent link">¶</a></h3>
+<h3 id="added_7">Added<a class="headerlink" href="#added_7" title="Permanent link">¶</a></h3>
 <ul>
 <li>Photo mode controller with <code>EnterPhotoMode()</code> / <code>ExitPhotoMode()</code> public API,
   static <code>PhotoModeController.Instance</code> accessor, C# events and UnityEvent mirrors
@@ -880,7 +913,7 @@ every render pipeline, at runtime and in the editor.</p>
 </ul>
 <nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/troubleshooting/"><span class="dir">Previous</span>Troubleshooting</a><a class="next" href="../../docs/upgrade-guide/"><span class="dir">Next</span>Upgrade Guide</a></nav>
   </main>
-  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#118-2026-08-30">[1.1.8] - 2026-08-30</a></li><li class="h3"><a href="#fixed">Fixed</a></li><li class="h2"><a href="#117-2026-08-28">[1.1.7] - 2026-08-28</a></li><li class="h3"><a href="#fixed_1">Fixed</a></li><li class="h2"><a href="#116-2026-08-28">[1.1.6] - 2026-08-28</a></li><li class="h3"><a href="#fixed_2">Fixed</a></li><li class="h2"><a href="#115-2026-08-28">[1.1.5] - 2026-08-28</a></li><li class="h3"><a href="#fixed_3">Fixed</a></li><li class="h2"><a href="#114-2026-08-28">[1.1.4] - 2026-08-28</a></li><li class="h3"><a href="#fixed_4">Fixed</a></li><li class="h3"><a href="#changed">Changed</a></li><li class="h2"><a href="#113-2026-08-28">[1.1.3] - 2026-08-28</a></li><li class="h3"><a href="#fixed_5">Fixed</a></li><li class="h2"><a href="#112-2026-08-28">[1.1.2] - 2026-08-28</a></li><li class="h3"><a href="#fixed_6">Fixed</a></li><li class="h2"><a href="#111-2026-08-26">[1.1.1] - 2026-08-26</a></li><li class="h3"><a href="#fixed_7">Fixed</a></li><li class="h3"><a href="#changed_1">Changed</a></li><li class="h2"><a href="#110-2026-08-25">[1.1.0] - 2026-08-25</a></li><li class="h3"><a href="#added">Added</a></li><li class="h3"><a href="#changed_2">Changed</a></li><li class="h3"><a href="#known-limitations">Known limitations</a></li><li class="h2"><a href="#100-2026-06-13">[1.0.0] - 2026-06-13</a></li><li class="h3"><a href="#added_1">Added</a></li><li class="h3"><a href="#fixed_8">Fixed</a></li><li class="h3"><a href="#fixed-qa-pass">Fixed (QA pass)</a></li><li class="h3"><a href="#changed_3">Changed</a></li><li class="h2"><a href="#090-2026-06-12">[0.9.0] - 2026-06-12</a></li><li class="h3"><a href="#added_2">Added</a></li><li class="h3"><a href="#fixed_9">Fixed</a></li><li class="h3"><a href="#performance">Performance</a></li><li class="h2"><a href="#081-2026-06-12">[0.8.1] - 2026-06-12</a></li><li class="h3"><a href="#fixed_10">Fixed</a></li><li class="h3"><a href="#added_3">Added</a></li><li class="h2"><a href="#080-2026-06-12">[0.8.0] - 2026-06-12</a></li><li class="h3"><a href="#added_4">Added</a></li><li class="h3"><a href="#changed_4">Changed</a></li><li class="h3"><a href="#known-limitations_1">Known limitations</a></li><li class="h2"><a href="#070-2026-06-11">[0.7.0] - 2026-06-11</a></li><li class="h3"><a href="#added_5">Added</a></li><li class="h3"><a href="#removed">Removed</a></li><li class="h2"><a href="#060-2026-06-11">[0.6.0] - 2026-06-11</a></li><li class="h3"><a href="#added_6">Added</a></li></ul></aside>
+  <aside class="docs-toc" aria-label="On this page"><span class="grp">On this page</span><ul><li class="h2"><a href="#120-2026-09-11">[1.2.0] - 2026-09-11</a></li><li class="h3"><a href="#added">Added</a></li><li class="h2"><a href="#118-2026-08-30">[1.1.8] - 2026-08-30</a></li><li class="h3"><a href="#fixed">Fixed</a></li><li class="h2"><a href="#117-2026-08-28">[1.1.7] - 2026-08-28</a></li><li class="h3"><a href="#fixed_1">Fixed</a></li><li class="h2"><a href="#116-2026-08-28">[1.1.6] - 2026-08-28</a></li><li class="h3"><a href="#fixed_2">Fixed</a></li><li class="h2"><a href="#115-2026-08-28">[1.1.5] - 2026-08-28</a></li><li class="h3"><a href="#fixed_3">Fixed</a></li><li class="h2"><a href="#114-2026-08-28">[1.1.4] - 2026-08-28</a></li><li class="h3"><a href="#fixed_4">Fixed</a></li><li class="h3"><a href="#changed">Changed</a></li><li class="h2"><a href="#113-2026-08-28">[1.1.3] - 2026-08-28</a></li><li class="h3"><a href="#fixed_5">Fixed</a></li><li class="h2"><a href="#112-2026-08-28">[1.1.2] - 2026-08-28</a></li><li class="h3"><a href="#fixed_6">Fixed</a></li><li class="h2"><a href="#111-2026-08-26">[1.1.1] - 2026-08-26</a></li><li class="h3"><a href="#fixed_7">Fixed</a></li><li class="h3"><a href="#changed_1">Changed</a></li><li class="h2"><a href="#110-2026-08-25">[1.1.0] - 2026-08-25</a></li><li class="h3"><a href="#added_1">Added</a></li><li class="h3"><a href="#changed_2">Changed</a></li><li class="h3"><a href="#known-limitations">Known limitations</a></li><li class="h2"><a href="#100-2026-06-13">[1.0.0] - 2026-06-13</a></li><li class="h3"><a href="#added_2">Added</a></li><li class="h3"><a href="#fixed_8">Fixed</a></li><li class="h3"><a href="#fixed-qa-pass">Fixed (QA pass)</a></li><li class="h3"><a href="#changed_3">Changed</a></li><li class="h2"><a href="#090-2026-06-12">[0.9.0] - 2026-06-12</a></li><li class="h3"><a href="#added_3">Added</a></li><li class="h3"><a href="#fixed_9">Fixed</a></li><li class="h3"><a href="#performance">Performance</a></li><li class="h2"><a href="#081-2026-06-12">[0.8.1] - 2026-06-12</a></li><li class="h3"><a href="#fixed_10">Fixed</a></li><li class="h3"><a href="#added_4">Added</a></li><li class="h2"><a href="#080-2026-06-12">[0.8.0] - 2026-06-12</a></li><li class="h3"><a href="#added_5">Added</a></li><li class="h3"><a href="#changed_4">Changed</a></li><li class="h3"><a href="#known-limitations_1">Known limitations</a></li><li class="h2"><a href="#070-2026-06-11">[0.7.0] - 2026-06-11</a></li><li class="h3"><a href="#added_6">Added</a></li><li class="h3"><a href="#removed">Removed</a></li><li class="h2"><a href="#060-2026-06-11">[0.6.0] - 2026-06-11</a></li><li class="h3"><a href="#added_7">Added</a></li></ul></aside>
 </div>
 <footer class="site-footer">
   <div class="wrap">

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; form-action https://buttondown.com; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Stickers &amp; Frames — Photo Mode Pro Documentation</title>
+<meta name="description" content="The Decorate tab places CC0 stickers and photo frames on the live viewfinder and bakes them into the capture at the output&#x27;s full resolution — including…">
+<link rel="canonical" href="https://danmaxpublishing.github.io/docs/stickers-and-frames/">
+<meta property="og:title" content="Stickers &amp; Frames — Photo Mode Pro Documentation">
+<meta property="og:description" content="The Decorate tab places CC0 stickers and photo frames on the live viewfinder and bakes them into the capture at the output&#x27;s full resolution — including…">
+<meta property="og:url" content="https://danmaxpublishing.github.io/docs/stickers-and-frames/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DanMaxPublishing">
+<meta property="og:image" content="https://danmaxpublishing.github.io/assets/img/og-share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#060b14">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body data-root="../../">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Main">
+  <div class="bar">
+    <a class="brand" href="../../"><img src="../../assets/img/logo-mark.png" alt="" width="30" height="30">DanMax<span class="pub">Publishing</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-menu">☰</button>
+    <ul class="nav-links" id="site-menu">
+      <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+      <li><a href="../../docs/" aria-current="true">Docs</a></li>
+      <li><a href="../../roadmap/">Roadmap</a></li>
+      <li><a href="../../support/">Support</a></li>
+      <li><a href="../../about/">About</a></li>
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href="../../photo-mode-pro/#get" data-store-link>Get Photo Mode Pro</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="docs-shell">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <div class="docs-search">
+      <svg class="mag" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="results" role="listbox"></div>
+    </div>
+    <div class="group"><span class="grp">Getting started</span><ul><li><a href="../../docs/">Overview</a></li><li><a href="../../docs/quick-start/">Quick Start</a></li><li><a href="../../docs/core-concepts/">Core Concepts</a></li></ul></div><div class="group"><span class="grp">Guides</span><ul><li><a href="../../docs/camera/">Camera</a></li><li><a href="../../docs/physical-camera/">Physical Camera</a></li><li><a href="../../docs/relighting/">Runtime Relighting</a></li><li><a href="../../docs/effects/">Effects &amp; Depth of Field</a></li><li><a href="../../docs/presets/">Presets</a></li><li><a href="../../docs/luts-and-looks/">LUT Filters &amp; Looks</a></li><li><a href="../../docs/capture/">Capture</a></li><li><a href="../../docs/capture-studio/">Capture Studio &amp; Shot Lists</a></li><li><a href="../../docs/render-layers/">Render Layers (AOV)</a></li><li><a href="../../docs/tiled-capture/">Tiled Capture</a></li><li><a href="../../docs/stickers-and-frames/" aria-current="page">Stickers &amp; Frames</a></li><li><a href="../../docs/gallery/">Gallery</a></li><li><a href="../../docs/scrubbing/">Animation Scrubbing</a></li><li><a href="../../docs/events-and-api/">Events &amp; Scripting</a></li><li><a href="../../docs/theming/">Theming the UI</a></li><li><a href="../../docs/webgl-mobile-2d/">WebGL, Mobile &amp; 2D</a></li></ul></div><div class="group"><span class="grp">Reference</span><ul><li><a href="../../docs/integrations/">Integrations</a></li><li><a href="../../docs/pipelines/">Per-Pipeline Notes</a></li><li><a href="../../docs/support-matrix/">Platform &amp; Pipeline Support</a></li><li><a href="../../docs/performance/">Performance</a></li></ul></div><div class="group"><span class="grp">Help</span><ul><li><a href="../../docs/faq/">FAQ</a></li><li><a href="../../docs/troubleshooting/">Troubleshooting</a></li><li><a href="../../docs/changelog/">Changelog</a></li><li><a href="../../docs/upgrade-guide/">Upgrade Guide</a></li><li><a href="../../docs/blog/">Blog</a></li></ul></div>
+  </aside>
+  <main class="docs-article" id="main" tabindex="-1">
+    <p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Guides</p>
+    <h1>Stickers &amp; Frames</h1>
+
+<p>The <strong>Decorate</strong> tab places CC0 stickers and photo frames on the live
+viewfinder and bakes them into the capture at the output's full resolution —
+including supersampled shots and tiled 8K–32K exports, where the compositor
+draws into the streamed tile scanlines so a sticker straddling a tile seam
+stays seamless. The shipped pack holds <strong>48 stickers</strong> in five categories
+(emotes, shapes &amp; badges, speech bubbles, photo-booth props, seasonal) and
+<strong>12 frames</strong> (clean borders, film &amp; instant looks, ornate, textured).</p>
+<ul>
+<li><strong>Place</strong> — click a sticker in the browser to drop it at image center,
+  already selected; drag it anywhere on the image, including partly off-edge.
+  The layout allows up to 24 sticker instances (the counter shows n/24) plus
+  one frame.</li>
+<li><strong>Manipulate</strong> — with a sticker selected: drag the body to move, the corner
+  handle to scale, the top handle to rotate; the × affordance (or the Delete
+  key) removes it; the scroll wheel scales the sticker under the cursor;
+  Esc deselects. FLIP mirrors it, DUPLICATE (or Ctrl+D) clones it slightly
+  offset, and SEND BACK / BRING FWD move it through the layer order (the last
+  added renders on top).</li>
+<li><strong>Tint &amp; opacity</strong> — a fixed swatch palette (white first = untinted)
+  multiplies the sticker's colors, and an opacity slider fades it. The
+  applied frame gets the same two controls; light and white art recolors
+  cleanly, dark art stays dark by design.</li>
+<li><strong>Frames</strong> — click a frame to apply it, click it again (or NO FRAME) to
+  clear. Frames are 9-sliced: corners never stretch and edges adapt to any
+  output aspect and resolution, from thumbnails to 32K tiled exports and 2D
+  scenes. The frame always renders above the stickers.</li>
+<li><strong>Gamepad</strong> — the sticks normally keep driving the camera (the AAA split);
+  PLACE MODE hands them to the selected sticker instead: left stick moves,
+  right stick scales (Y) and spins (X), the shoulders step-rotate 15°,
+  Y duplicates, A confirms and B cancels. The hint bar swaps to the scheme
+  while the mode is active.</li>
+<li><strong>Touch</strong> — drag to move; with a sticker selected, pinch scales and a
+  two-finger twist rotates it. The handles work as a fallback, and the
+  portrait layout keeps working.</li>
+<li><strong>Clear All</strong> — removes every sticker and the frame in one two-step
+  confirm (same 3.5-second arm-and-confirm as every destructive control).</li>
+</ul>
+<p>The decor layout is <strong>one global session layout</strong>: it auto-saves to
+<code>decor.json</code> beside your photos and reloads on the next photo-mode entry, on
+every platform including WebGL. Captures record the layout in the photo's
+metadata sidecar, so the gallery's <strong>Go To Shot</strong> restores the decoration
+together with the camera. Saving a <strong>look</strong> snapshots the decor too: applying
+a look replaces the current decoration wholesale (an empty layout is a
+deliberate "clean" look), while looks saved before 1.2.0 leave your current
+decoration untouched.</p>
+<p>Decor bakes into the beauty image only — render-layer (AOV) exports, the
+clean-alpha pass and Capture Studio's watermark system are never touched by
+it, so mattes stay usable for compositing.</p>
+<h2 id="add-your-own-stickers-and-frames">Add your own stickers and frames<a class="headerlink" href="#add-your-own-stickers-and-frames" title="Permanent link">¶</a></h2>
+<p>The Decorate content is an ordinary catalog asset
+(<code>Content/Decor/PhotoModeDecorCatalog.asset</code>) referencing plain PNG textures,
+and the browser builds itself from whatever the catalog holds — extending it
+needs no UI work:</p>
+<ol>
+<li><strong>Drop PNGs in the content folders</strong> — straight-alpha PNGs under
+   <code>Content/Decor/Stickers/&lt;Category&gt;/</code> (Emotes, ShapesAndBadges,
+   SpeechBubbles, Props, Misc) or <code>Content/Decor/Frames/</code>. Stickers read best
+   at 512 px or larger on the long side; frame sources should be at least
+   1024 px for clean 9-slicing.</li>
+<li><strong>Run the builder</strong> — <em>Tools ▸ Photo Mode Pro ▸ Build Decor Catalog</em>
+   rescans the folders, enforces the import settings (mipmaps, compression,
+   non-readable, clamp, alpha-is-transparency) and rewrites the catalog.
+   Frame 9-slice insets and display names come from
+   <code>Content/Decor/decor_manifest.json</code>; a frame without a manifest entry gets
+   a safe default inset (a quarter of its smaller dimension).</li>
+<li><strong>Or edit the catalog directly</strong> — the asset's inspector exposes the entry
+   list (id, display name, category, texture, frame insets, edge mode) for
+   one-off additions. Ids must stay unique and stable: saved layouts, looks
+   and photo sidecars reference them, and an id that disappears is skipped
+   with a logged notice rather than an error.</li>
+</ol>
+<p>A different catalog (or none) can be assigned per project on
+<code>PhotoModeSettings.DecorCatalog</code>; with no catalog assigned the Decorate tab
+hides entirely and captures are unaffected.</p>
+<nav class="docs-pager" aria-label="Docs pages"><a class="prev" href="../../docs/tiled-capture/"><span class="dir">Previous</span>Tiled Capture</a><a class="next" href="../../docs/gallery/"><span class="dir">Next</span>Gallery</a></nav>
+  </main>
+  
+</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>DanMaxPublishing</h2>
+        <p>Unity tools from a solo developer with 10+ years of shipped
+        commercial projects. Built, documented and supported to hold up in
+        real production.</p>
+      </div>
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../../photo-mode-pro/">Photo Mode Pro</a></li>
+          <li><a href="../../demo/">WebGL demo</a></li>
+          <li><a href="../../photo-mode-pro/#gallery">Screenshots</a></li>
+          <li><a href="../../docs/changelog/">Changelog</a></li>
+          <li><a href="../../roadmap/">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Documentation</h2>
+        <ul>
+          <li><a href="../../docs/quick-start/">Quick Start</a></li>
+          <li><a href="../../docs/faq/">FAQ</a></li>
+          <li><a href="../../docs/troubleshooting/">Troubleshooting</a></li>
+          <li><a href="../../docs/support-matrix/">Support Matrix</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href="mailto:support.dan.max@gmail.com">Email support</a></li>
+          <li><a href="https://github.com/danmaxpublishing/danmaxpublishing.github.io/issues" rel="noopener">GitHub Issues</a></li>
+          <li><a href="../../support/">How to get help</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fineprint">© <span data-year>2026</span> Dan Max · DanMaxPublishing.
+    Demo scene art and audio are CC0 (Quaternius, Kenney, Poly Haven, ambientCG,
+    OpenGameArt); full attributions ship in the package. This site loads no
+    external resources and sets no cookies.</p>
+  </div>
+</footer>
+<script src="../../assets/js/site.js"></script>
+</body>
+</html>

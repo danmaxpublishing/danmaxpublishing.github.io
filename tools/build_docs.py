@@ -43,6 +43,7 @@ NAV = [
     ("how-to/capture-studio.md", "capture-studio", "Capture Studio & Shot Lists", "Guides"),
     ("how-to/render-layers.md", "render-layers", "Render Layers (AOV)", "Guides"),
     ("how-to/tiled-capture.md", "tiled-capture", "Tiled Capture", "Guides"),
+    ("how-to/stickers-and-frames.md", "stickers-and-frames", "Stickers & Frames", "Guides"),
     ("how-to/gallery.md", "gallery", "Gallery", "Guides"),
     ("how-to/scrubbing.md", "scrubbing", "Animation Scrubbing", "Guides"),
     ("how-to/events-and-api.md", "events-and-api", "Events & Scripting", "Guides"),
